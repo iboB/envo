@@ -6,6 +6,8 @@ module Envy
   autoload :VERSION,    "envy/version"
   autoload :Platform,   "envy/platform"
   autoload :System,     "envy/system"
+  autoload :RelPath,    "envy/rel_path"
+  autoload :List,       "envy/list"
   autoload :HostSystem, "envy/host_system"
   autoload :Builder,    "envy/builder"
 end
