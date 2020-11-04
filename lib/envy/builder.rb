@@ -12,10 +12,10 @@ module Envy
     end
 
     def set(var, val)
-      @work_env[var] = val
+      @work_env[var] = val.to_s
     end
 
-    def get(var, val)
+    def get(var)
       @work_env[var]
     end
 
@@ -45,7 +45,7 @@ module Envy
         r = @real_env[v]
         w = @work_env[v]
 
-        r == w.envy_to_s(@sys) ? nil : [v, w]
+        r == w ? nil : [v, w]
       }.compact.to_h
 
       added = added_vars.map { |v| [v, @work_env[v]] }.to_h

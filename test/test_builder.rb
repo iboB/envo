@@ -18,7 +18,7 @@ class TestBuilder < Test::Unit::TestCase
     patch = b.diff
 
     assert_equal patch.removed, ['del']
-    assert_equal patch.changed, {'foo' => 666}
+    assert_equal patch.changed, {'foo' => '666'}
     assert_equal patch.added, {'bar' => 'baz'}
   end
 
