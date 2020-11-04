@@ -1,6 +1,6 @@
 module Envy
   module Platform
-    def initial_env
+    def env
       ENV
     end
     def a_to_v(a)
@@ -63,7 +63,7 @@ module Envy
       return false if val =~ /\:0.0$/
 
       # match something:number
-      val =~ /.*\:\d+$/
+      !(val =~ /.*\:\d+$/)
     end
   end
 end
