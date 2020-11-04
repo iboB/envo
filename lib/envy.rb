@@ -5,6 +5,7 @@ require "envy/envy_to_s"
 module Envy
   autoload :VERSION,    "envy/version"
   autoload :Platform,   "envy/platform"
+  autoload :System,     "envy/system"
   autoload :HostSystem, "envy/host_system"
   autoload :Builder,    "envy/builder"
 end

@@ -1,8 +1,8 @@
 module Envy
   class Builder
-    def initialize(platform)
-      @p = platform
-      @real_env = @p.env
+    def initialize(system)
+      @sys = system
+      @real_env = @sys.env
 
       # if @real_env is ENV, we can use to_h to clone it into the work env
       # however it can be an actual hash in which case to_h will return the same one
@@ -23,7 +23,7 @@ module Envy
       @work_env.delete(var)
     end
 
-    class Diff
+    class Patch
       def initialize(removed, changed, added)
         @removed = removed
         @changed = changed
@@ -43,14 +43,14 @@ module Envy
 
       changed = preserved_vars.map { |v|
         r = @real_env[v]
-        w = @work_env[v].envy_to_s
+        w = @work_env[v]
 
-        r == w ? nil : [v, w]
+        r == w.envy_to_s(@sys) ? nil : [v, w]
       }.compact.to_h
 
       added = added_vars.map { |v| [v, @work_env[v]] }.to_h
 
-      Diff.new(removed_vars, changed, added)
+      Patch.new(removed_vars, changed, added)
     end
 
     attr_reader :real_env, :work_env
