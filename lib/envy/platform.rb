@@ -30,6 +30,9 @@ module Envy
       def self.likely_absolute_path?(val)
         val =~ /^[a-zA-Z]\:\\/
       end
+      def self.fix_path(path)
+        path.gsub('/', '\\')
+      end
       def self.likely_list?(val)
         val.include?(LIST_SEP)
       end
@@ -53,6 +56,9 @@ module Envy
       def self.likely_absolute_path?(val)
         !val.empty? && val[0] == '/'
       end
+      def self.fix_path(path)
+        path
+      end
       def self.likely_list?(val)
         # we have more work
         # if the value includes our list separtor ":", we need to make sure whether a url:port combination is not a better fit
@@ -66,10 +72,10 @@ module Envy
 
         return true if sep_cnt == 2 # everything else with 2 separators is a list
 
-        # match diplay type strings address:0.0
+        # match display type strings address:0.0
         return false if val =~ /\:0.0$/
 
-        # match something:number
+        # match something:number to be interpreted as addr:port
         !(val =~ /.*\:\d+$/)
       end
     end

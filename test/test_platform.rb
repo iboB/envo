@@ -30,6 +30,9 @@ class TestPlatformWindows < Test::Unit::TestCase
     assert !P.likely_absolute_path?('x\y')
     assert !P.likely_absolute_path?('\x\y')
     assert !P.likely_absolute_path?('/root/asd')
+
+    assert_equal P.fix_path('foo/bar'), 'foo\bar'
+    assert_equal P.fix_path('c:/foo\bar/baz'), 'c:\foo\bar\baz'
   end
 end
 
@@ -63,5 +66,8 @@ class TestPlatformUnixLike < Test::Unit::TestCase
     assert !P.likely_absolute_path?('x\y')
     assert !P.likely_absolute_path?('\x\y')
     assert !P.likely_absolute_path?('root/asd')
+
+    assert_equal P.fix_path('foo/bar'), 'foo/bar'
+    assert_equal P.fix_path('/x\y/z'), '/x\y/z'
   end
 end
