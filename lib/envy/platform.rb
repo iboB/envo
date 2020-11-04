@@ -27,7 +27,7 @@ module Envy
       def self.cmd_unset(var)
         "set #{var}="
       end
-      def self.likely_path?(val)
+      def self.likely_absolute_path?(val)
         val =~ /^[a-zA-Z]\:\\/
       end
       def self.likely_list?(val)
@@ -50,7 +50,7 @@ module Envy
       def self.cmd_unset(var)
         "unset -v #{var}"
       end
-      def self.likely_path?(val)
+      def self.likely_absolute_path?(val)
         !val.empty? && val[0] == '/'
       end
       def self.likely_list?(val)
