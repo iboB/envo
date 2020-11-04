@@ -72,8 +72,8 @@ module Envy
 
         return true if sep_cnt == 2 # everything else with 2 separators is a list
 
-        # match display type strings address:0.0
-        return false if val =~ /\:0.0$/
+        # match display type strings address:digit.digit
+        return false if val =~ /\:\d.\d$/
 
         # match something:number to be interpreted as addr:port
         !(val =~ /.*\:\d+$/)
