@@ -6,6 +6,10 @@ include Envy
 class TestPlatformWindows < Test::Unit::TestCase
   P = Platform::Windows
 
+  def test_name
+    assert_equal P.name, 'Windows'
+  end
+
   def test_lists
     assert_equal P.list_sep, ';'
     assert_equal P.a_to_v([1, 2, 3]), '1;2;3'
@@ -31,6 +35,10 @@ end
 
 class TestPlatformUnixLike < Test::Unit::TestCase
   P = Platform::UnixLike
+
+  def test_name
+    assert_equal P.name, 'UnixLike'
+  end
 
   def test_lists
     assert_equal P.list_sep, ':'

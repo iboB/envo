@@ -1,9 +1,10 @@
 $LOAD_PATH.unshift __dir__ # For use/testing when no gem is installed
 
-require "envy/envy_to_s.rb"
-require "envy/platform.rb"
+require "envy/envy_to_s"
 
 module Envy
-  autoload :VERSION, "envy/version"
-  autoload :Builder, "envy/builder.rb"
+  autoload :VERSION,    "envy/version"
+  autoload :Platform,   "envy/platform"
+  autoload :HostSystem, "envy/host_system"
+  autoload :Builder,    "envy/builder"
 end

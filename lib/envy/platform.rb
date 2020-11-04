@@ -14,6 +14,9 @@ module Envy
 
     class Windows
       extend PCommon
+      def self.name
+        'Windows'
+      end
       LIST_SEP = ';'
       def self.list_sep
         LIST_SEP
@@ -34,6 +37,9 @@ module Envy
 
     class UnixLike
       extend PCommon
+      def self.name
+        'UnixLike'
+      end
       LIST_SEP = ':'
       def self.list_sep
         LIST_SEP
