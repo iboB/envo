@@ -3,8 +3,8 @@ require 'test/unit'
 
 include Envy
 
-class TestPlatformWin < Test::Unit::TestCase
-  P = PlatformWin
+class TestPlatformWindows < Test::Unit::TestCase
+  P = Platform::Windows
 
   def test_lists
     assert_equal P.list_sep, ';'
@@ -30,7 +30,7 @@ class TestPlatformWin < Test::Unit::TestCase
 end
 
 class TestPlatformUnixLike < Test::Unit::TestCase
-  P = PlatformUnixLike
+  P = Platform::UnixLike
 
   def test_lists
     assert_equal P.list_sep, ':'
