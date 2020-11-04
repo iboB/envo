@@ -1,6 +1,12 @@
+module Base
+  def a_to_v(a)
+    a.join(list_sep)
+  end
+end
 
 
 class Win
+  extend Base
   def self.list_sep
     ';'
   end
@@ -13,6 +19,7 @@ class Win
 end
 
 class Unix
+  extend Base
   def self.list_sep
     ':'
   end
@@ -24,4 +31,4 @@ class Unix
   end
 end
 
-puts Unix.set('a', 'b')
+puts Unix.a_to_v(['a', 'b'])
