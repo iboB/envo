@@ -3,8 +3,6 @@
 
 ## Commands
 
-* `show var` - pretty print a value
-* `rshow var` - raw print string value
 * `set var val` - set var, warn if overwriting
 * `list add var val` - add item to list
 * `list remove var val` - remove item from list

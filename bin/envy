@@ -63,6 +63,7 @@ CMD_NAME_TO_SYM = {
   'rshow' => :raw_show,
   'p' => :path_show,
   'path' => :path_show,
+  'set' => :raw_set,
 }
 
 cmd_sym = CMD_NAME_TO_SYM[cmd]
@@ -110,26 +111,49 @@ module Envy
   end
 end
 
-def show(vars)
-  vars.each do |var|
-    Builder.smart_get(var).pretty_print
+def show(names)
+  names.each do |name|
+    Builder.smart_get(name).pretty_print
   end
 end
 
-def raw_show(vars)
-  vars = Builder.work_env.keys if vars.empty?
-  vars.each do |var|
-    val = Builder.get(var)
+def raw_show(names)
+  names = Builder.work_env.keys if names.empty?
+  names.each do |name|
+    val = Builder.get(name)
     if !val
-      puts "No environment variable `#{var}`"
+      puts "No environment variable `#{name}`"
     else
-      puts "#{var}=#{val}"
+      puts "#{name}=#{val}"
     end
   end
 end
 
-{
-  :show => -> { show(cmd_args) },
-  :raw_show => -> { raw_show(cmd_args) },
-  :path_show => -> { show([System.path_var_name]) }
-}[cmd_sym].()
+def raw_set(name, val)
+  old_val = Builder.get(name)
+  if old_val
+    print "#{name} already has a value. Overwrite? (y/n) "
+    response = STDIN.gets.chomp
+    if response != 'y'
+      puts "set cancelled"
+      return
+    end
+  end
+  # Builder.set name, val
+  puts "#{name}=#{val}"
+end
+
+begin
+  {
+    :show => -> { show(cmd_args) },
+    :raw_show => -> { raw_show(cmd_args) },
+    :path_show => -> { show([System.path_var_name]) },
+    :raw_set => -> {
+      raise Envy::Error.new "set requires more arguments. Use `set <var> <value>`" if cmd_args.size < 2
+      raw_set(cmd_args[0], cmd_args[1..].join(' '))
+    },
+  }[cmd_sym].()
+rescue Envy::Error => e
+  eputs e.message
+  exit 1
+end
