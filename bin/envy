@@ -4,6 +4,30 @@ $LOAD_PATH.unshift File.expand_path("../lib", __dir__) # For use/testing when no
 
 require "envy"
 
+System = Envy::HostSystem
+
+class Object
+  def pretty_show
+    puts self
+  end
+end
+
+module Envy
+  class ValueWrapper
+    def pretty_show
+      @value.pretty_show
+    end
+  end
+  class ListValue
+    def pretty_show
+      @ar.each do |v|
+        v.pretty_show
+      end
+      nil
+    end
+  end
+end
+
 # cmd_index = 0
 # cmd = ARGV[cmd_index..-1]
 
@@ -12,9 +36,9 @@ PATH_VAR = Envy::HostSystem.path_var_name
 Builder = Envy::Builder.new(Envy::HostSystem)
 
 def show(var)
-    val = Builder.get(var)
-    raise "#{var} is not defined" if !val
-    puts val
+  val = Builder.smart_get(var)
+  raise "#{var} is not defined" if !val
+  val.pretty_show
 end
 
 show(PATH_VAR)

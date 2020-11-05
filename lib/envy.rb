@@ -5,6 +5,7 @@ module Envy
   autoload :Platform,       "envy/platform"
   autoload :System,         "envy/system"
   autoload :ListValue,      "envy/list_value"
+  autoload :ValueWrapper,   "envy/value_wrapper"
   # autoload :AbsPathValue,   "envy/abs_path_value"
   autoload :HostSystem,     "envy/host_system"
   autoload :Builder,        "envy/builder"

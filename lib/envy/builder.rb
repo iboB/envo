@@ -9,16 +9,20 @@ module Envy
       # and we would have to use clone
       # so to make this work in all cases we preform a manual shallow copy
       @work_env = @real_env.map { |k, v| [k, v] }.to_h
-
-      p @work_env['PATH']
     end
 
     def set(var, val)
       @work_env[var] = val.to_s
     end
 
-    def get(var)
+    def raw_get(var)
       @work_env[var]
+    end
+
+    def smart_get(var)
+      str = raw_get(var)
+      return nil if !str
+      ValueWrapper.from_env_value(@sys, str)
     end
 
     def unset(var)
