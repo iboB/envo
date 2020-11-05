@@ -132,15 +132,17 @@ end
 def raw_set(name, val)
   old_val = Builder.get(name)
   if old_val
+    puts "#{name}=#{val}"
     print "#{name} already has a value. Overwrite? (y/n) "
     response = STDIN.gets.chomp
     if response != 'y'
-      puts "set cancelled"
+      puts "cancelled"
       return
     end
   end
-  # Builder.set name, val
-  puts "#{name}=#{val}"
+  Builder.set name, val
+  Builder.apply_system
+  puts "done" if old_val
 end
 
 begin
