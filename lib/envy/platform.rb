@@ -21,11 +21,11 @@ module Envy
       def self.list_sep
         LIST_SEP
       end
-      def self.cmd_set(var, value)
-        "set #{var}=#{value}"
+      def self.cmd_set(name, value)
+        "set #{name}=#{value}"
       end
-      def self.cmd_unset(var)
-        "set #{var}="
+      def self.cmd_unset(name)
+        "set #{name}="
       end
       def self.likely_abs_path?(val)
         val =~ /^[a-zA-Z]\:\\/
@@ -47,11 +47,11 @@ module Envy
       def self.list_sep
         LIST_SEP
       end
-      def self.cmd_set(var, value)
-        "export #{var}=#{value.to_s.inspect}"
+      def self.cmd_set(name, value)
+        "export #{name}=#{value.to_s.inspect}"
       end
-      def self.cmd_unset(var)
-        "unset -v #{var}"
+      def self.cmd_unset(name)
+        "unset -v #{name}"
       end
       def self.likely_abs_path?(val)
         !val.empty? && val[0] == '/'

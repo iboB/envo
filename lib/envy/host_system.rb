@@ -15,7 +15,7 @@ module Envy
     include HostSystemBase
     Platform = Platform::Windows
     def initialize
-      @path_var_name = ENV.keys.find { |var| var.upcase == 'PATH' }
+      @path_var_name = ENV.keys.find { |name| name.upcase == 'PATH' }
       @path_var_name = 'Path' if !@path_var_name
     end
     attr_reader :path_var_name

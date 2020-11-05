@@ -11,21 +11,21 @@ module Envy
       @work_env = @real_env.map { |k, v| [k, v] }.to_h
     end
 
-    def set(var, val)
-      @work_env[var] = val.to_s
+    def set(name, val)
+      @work_env[name] = val.to_s
     end
 
-    def raw_get(var)
-      @work_env[var]
+    def raw_get(name)
+      @work_env[name]
     end
 
-    def smart_get(var)
-      str = raw_get(var)
-      VarBuilder.build(@sys, var, str)
+    def smart_get(name)
+      str = raw_get(name)
+      VarBuilder.build(@sys, name, str)
     end
 
-    def unset(var)
-      @work_env.delete(var)
+    def unset(name)
+      @work_env.delete(name)
     end
 
     class Patch
@@ -39,23 +39,23 @@ module Envy
     end
 
     def diff
-      real_vars = @real_env.keys
-      work_vars = @work_env.keys
+      real_names = @real_env.keys
+      work_names = @work_env.keys
 
-      removed_vars = real_vars - work_vars
-      added_vars = work_vars - real_vars
-      preserved_vars = real_vars - removed_vars
+      removed_names = real_names - work_names
+      added_names = work_names - real_names
+      preserved_names = real_names - removed_names
 
-      changed = preserved_vars.map { |v|
+      changed = preserved_names.map { |v|
         r = @real_env[v]
         w = @work_env[v]
 
         r == w ? nil : [v, w]
       }.compact.to_h
 
-      added = added_vars.map { |v| [v, @work_env[v]] }.to_h
+      added = added_names.map { |v| [v, @work_env[v]] }.to_h
 
-      Patch.new(removed_vars, changed, added)
+      Patch.new(removed_names, changed, added)
     end
 
     attr_reader :real_env, :work_env
