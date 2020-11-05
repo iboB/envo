@@ -61,6 +61,8 @@ CMD_NAME_TO_SYM = {
   's' => :show,
   'show' => :show,
   'rshow' => :raw_show,
+  'p' => :path_show,
+  'path' => :path_show,
 }
 
 cmd_sym = CMD_NAME_TO_SYM[cmd]
@@ -75,7 +77,6 @@ end
 
 # constants
 System = Envy::HostSystem
-PATH_VAR = System.path_var_name
 Builder = Envy::Builder.new(System)
 
 # extend types
@@ -129,5 +130,6 @@ end
 
 {
   :show => -> { show(cmd_args) },
-  :raw_show => -> { raw_show(cmd_args) }
+  :raw_show => -> { raw_show(cmd_args) },
+  :path_show => -> { show([System.path_var_name]) }
 }[cmd_sym].()
