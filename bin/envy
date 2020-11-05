@@ -99,9 +99,10 @@ module Envy
   class ListVar
     def pretty_print
       puts "#{name}=["
-      @ar.each do |v|
-        print '    '
-        v.pretty_print
+      @ar.each_with_index do |v, i|
+        print @ar.count(v) > 1 ? 'D ' : '  '
+        print "#{i}:".ljust(4)
+        puts v
       end
       puts ']'
     end
