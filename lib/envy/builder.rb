@@ -19,12 +19,12 @@ module Envy
       end
     end
 
-    def raw_get(name)
+    def get(name)
       @work_env[name]
     end
 
     def smart_get(name)
-      str = raw_get(name)
+      str = get(name)
       VarBuilder.build(@sys, name, str)
     end
 

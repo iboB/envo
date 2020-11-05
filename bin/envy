@@ -117,7 +117,7 @@ end
 def raw_show(vars)
   vars = Builder.work_env.keys if vars.empty?
   vars.each do |var|
-    val = Builder.raw_get(var)
+    val = Builder.get(var)
     if !val
       puts "No environment variable `#{var}`"
     else
