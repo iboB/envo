@@ -6,7 +6,7 @@ include Envy
 class TestBuilder < Test::Unit::TestCase
   def test_basic
     sys = System.new(Platform::UnixLike)
-    sys.merge_env({'foo' => '123', 'del' => 'xxx', 'path' => 'something'})
+    sys.merge_env({'foo' => '123', 'del' => 'xxx', 'del2' => 'yyy', 'path' => 'something'})
 
     b = Builder.new(sys)
     assert_equal b.real_env['foo'], '123'
@@ -14,10 +14,12 @@ class TestBuilder < Test::Unit::TestCase
     b.set('foo', 666)
     b.set('bar', 'baz')
     b.unset('del')
+    b.set('del2', nil)
+    b.unset('no_exist') # should cause problems
 
     patch = b.diff
 
-    assert_equal patch.removed, ['del']
+    assert_equal patch.removed, ['del', 'del2']
     assert_equal patch.changed, {'foo' => '666'}
     assert_equal patch.added, {'bar' => 'baz'}
   end

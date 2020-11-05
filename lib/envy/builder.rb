@@ -12,7 +12,11 @@ module Envy
     end
 
     def set(name, val)
-      @work_env[name] = val.to_s
+      if val == nil
+        unset(name)
+      else
+        @work_env[name] = val.to_s
+      end
     end
 
     def raw_get(name)
