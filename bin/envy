@@ -4,41 +4,130 @@ $LOAD_PATH.unshift File.expand_path("../lib", __dir__) # For use/testing when no
 
 require "envy"
 
-System = Envy::HostSystem
+argv = ARGV.clone
 
+VERSION_TEXT = "envy v#{Envy::VERSION}"
+
+USAGE = <<ENDUSAGE
+usage: envy <command> [<args>]
+ENDUSAGE
+
+HELP = <<ENDHELP
+HELP HELP
+ENDHELP
+
+OPTS = {}
+cmd = ''
+
+while !argv.empty? do
+  arg = argv.shift
+  case arg
+    when '-h', '--help', 'help' then OPTS[:help] = true
+    when '-v', '--version'      then OPTS[:ver] = true
+    else break cmd = arg
+  end
+end
+
+OPTS[:help] = true if cmd.empty?
+
+if OPTS[:ver]
+  puts VERSION_TEXT
+  exit
+end
+
+if OPTS[:help]
+  puts VERSION_TEXT
+  puts USAGE
+  puts HELP
+  exit
+end
+
+def eputs(text)
+  STDERR.puts(text)
+end
+
+if cmd[0] == '-'
+  eputs "unkown option: #{cmd}"
+  eputs USAGE
+  exit 1
+end
+
+cmd_args = argv
+
+################################
+# commands
+
+CMD_NAME_TO_SYM = {
+  's' => :show,
+  'show' => :show,
+  'rshow' => :raw_show,
+}
+
+cmd_sym = CMD_NAME_TO_SYM[cmd]
+
+if !cmd_sym
+  eputs "envy: `#{cmd}` is not an envy command. See `envy --help`"
+  exit 1
+end
+
+################################
+# we might actually have something to do
+
+# constants
+System = Envy::HostSystem
+PATH_VAR = System.path_var_name
+Builder = Envy::Builder.new(System)
+
+# extend types
 class Object
-  def pretty_show
+  def pretty_print
     puts self
   end
 end
 
 module Envy
   class ValueWrapper
-    def pretty_show
-      @value.pretty_show
+    def pretty_print
+      @value.pretty_print
     end
   end
   class ListValue
-    def pretty_show
+    def pretty_print
+      puts '['
       @ar.each do |v|
-        v.pretty_show
+        print '    '
+        v.pretty_print
       end
-      nil
+      puts ']'
     end
   end
 end
 
-# cmd_index = 0
-# cmd = ARGV[cmd_index..-1]
-
-PATH_VAR = Envy::HostSystem.path_var_name
-
-Builder = Envy::Builder.new(Envy::HostSystem)
-
-def show(var)
-  val = Builder.smart_get(var)
-  raise "#{var} is not defined" if !val
-  val.pretty_show
+def show(vars)
+  vars.each do |var|
+    val = Builder.smart_get(var)
+    if !val
+      puts "No environment variable `#{var}`"
+    else
+      print "#{var}="
+      val.pretty_print
+    end
+  end
 end
 
-show(PATH_VAR)
+def raw_show(vars)
+  vars = Builder.work_env.keys if vars.empty?
+  vars.each do |var|
+    val = Builder.raw_get(var)
+    if !val
+      puts "No environment variable `#{var}`"
+    else
+      puts "#{var}=#{val}"
+    end
+  end
+end
+
+{
+  :show => -> { show(cmd_args) },
+  :raw_show => -> { raw_show(cmd_args) }
+}[cmd_sym].()
