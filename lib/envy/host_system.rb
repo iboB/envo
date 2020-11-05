@@ -9,10 +9,6 @@ module Envy
     def env
       ENV
     end
-
-    def pwd
-      Dir.pwd
-    end
   end
 
   class HostSystemWin
