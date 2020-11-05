@@ -22,14 +22,14 @@ class TestPlatformWindows < Test::Unit::TestCase
   end
 
   def test_paths
-    assert P.likely_absolute_path?('c:\x')
-    assert P.likely_absolute_path?('x:\foo')
-    assert !P.likely_absolute_path?('c:')
-    assert !P.likely_absolute_path?('c:/foo')
-    assert !P.likely_absolute_path?('cc:/foo')
-    assert !P.likely_absolute_path?('x\y')
-    assert !P.likely_absolute_path?('\x\y')
-    assert !P.likely_absolute_path?('/root/asd')
+    assert P.likely_abs_path?('c:\x')
+    assert P.likely_abs_path?('x:\foo')
+    assert !P.likely_abs_path?('c:')
+    assert !P.likely_abs_path?('c:/foo')
+    assert !P.likely_abs_path?('cc:/foo')
+    assert !P.likely_abs_path?('x\y')
+    assert !P.likely_abs_path?('\x\y')
+    assert !P.likely_abs_path?('/root/asd')
 
     assert_equal P.fix_path('foo/bar'), 'foo\bar'
     assert_equal P.fix_path('c:/foo\bar/baz'), 'c:\foo\bar\baz'
@@ -59,13 +59,13 @@ class TestPlatformUnixLike < Test::Unit::TestCase
   end
 
   def test_paths
-    assert P.likely_absolute_path?('/home/xxx')
-    assert P.likely_absolute_path?('/usr/bin')
-    assert !P.likely_absolute_path?('c:\foo')
-    assert !P.likely_absolute_path?('c:/foo')
-    assert !P.likely_absolute_path?('x\y')
-    assert !P.likely_absolute_path?('\x\y')
-    assert !P.likely_absolute_path?('root/asd')
+    assert P.likely_abs_path?('/home/xxx')
+    assert P.likely_abs_path?('/usr/bin')
+    assert !P.likely_abs_path?('c:\foo')
+    assert !P.likely_abs_path?('c:/foo')
+    assert !P.likely_abs_path?('x\y')
+    assert !P.likely_abs_path?('\x\y')
+    assert !P.likely_abs_path?('root/asd')
 
     assert_equal P.fix_path('foo/bar'), 'foo/bar'
     assert_equal P.fix_path('/x\y/z'), '/x\y/z'
