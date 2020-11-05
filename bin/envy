@@ -86,14 +86,19 @@ class Object
 end
 
 module Envy
-  class ValueWrapper
+  class NoVar
     def pretty_print
-      @value.pretty_print
+      puts "No environment variable `#{name}`"
     end
   end
-  class ListValue
+  class StringVar
     def pretty_print
-      puts '['
+      puts "#{name}=#{value}"
+    end
+  end
+  class ListVar
+    def pretty_print
+      puts "#{name}=["
       @ar.each do |v|
         print '    '
         v.pretty_print
@@ -105,13 +110,7 @@ end
 
 def show(vars)
   vars.each do |var|
-    val = Builder.smart_get(var)
-    if !val
-      puts "No environment variable `#{var}`"
-    else
-      print "#{var}="
-      val.pretty_print
-    end
+    Builder.smart_get(var).pretty_print
   end
 end
 

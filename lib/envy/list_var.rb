@@ -1,8 +1,12 @@
 module Envy
-  class ListValue
-    def initialize(ar)
+  class ListVar
+    def initialize(name, plat, ar)
+      @name = name
       @ar = ar.uniq
     end
+
+    attr_accessor :name
+
     def insert(elem, pos = nil)
       # assume unique elements
       old_index = @ar.index(elem)

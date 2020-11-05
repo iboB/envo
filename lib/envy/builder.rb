@@ -21,8 +21,7 @@ module Envy
 
     def smart_get(var)
       str = raw_get(var)
-      return nil if !str
-      ValueWrapper.from_env_value(@sys, str)
+      VarBuilder.build(@sys, var, str)
     end
 
     def unset(var)

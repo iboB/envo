@@ -1,18 +1,17 @@
 module Envy
-  class ValueWrapper
-    def initialize(value)
-      @value = value
-    end
-    def self.from_env_value(sys, str)
+  class VarBuilder
+    def self.build(sys, name, str)
+      return NoVar.new(name) if !str
+
       plat = sys.platform
       is_list = plat.likely_list?(str)
       is_path = plat.likely_abs_path?(str)
 
       if is_list
         ar = plat.v_to_a(str)
-        return ValueWrapper.new(ListValue.new(ar))
+        return ListVar.new(name, plat, ar)
       else
-        return ValueWrapper.new(str)
+        return StringVar.new(name, str)
       end
     end
   end

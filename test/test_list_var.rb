@@ -1,11 +1,11 @@
-require_relative '../lib/envy/list_value.rb'
+require_relative '../lib/envy/list_var.rb'
 require 'test/unit'
 
 include Envy
 
-class TestListValue < Test::Unit::TestCase
+class TestListVar < Test::Unit::TestCase
   def test_basic
-    l = ListValue.new([1, 5, 2, 3, 3, 2])
+    l = ListVar.new(nil, nil, [1, 5, 2, 3, 3, 2])
 
     assert_equal l.ar, [1, 5, 2, 3]
     l.insert(8)
