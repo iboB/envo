@@ -7,6 +7,8 @@ class TestListVar < Test::Unit::TestCase
   def test_basic
     l = ListVar.new(nil, nil, [1, 5, 2, 3, 3, 2])
 
+    assert_equal l.ar, [1, 5, 2, 3, 3, 2]
+    l.uniq!
     assert_equal l.ar, [1, 5, 2, 3]
     l.insert(8)
     assert_equal l.ar, [1, 5, 2, 3, 8]

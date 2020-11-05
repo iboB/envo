@@ -28,6 +28,10 @@ module Envy
       VarBuilder.build(@sys, name, str)
     end
 
+    def smart_set(var)
+      set(var.name, var.to_env_val)
+    end
+
     def unset(name)
       @work_env.delete(name)
     end

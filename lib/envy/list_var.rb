@@ -2,11 +2,14 @@ module Envy
   class ListVar
     def initialize(name, plat, ar)
       @name = name
-      @ar = ar.uniq
+      @platform = plat
+      @ar = ar
     end
-
     attr_accessor :name
-
+    def to_env_val
+      return nil if @ar.empty
+      @platform.a_to_v(@ar)
+    end
     def insert(elem, pos = nil)
       # assume unique elements
       old_index = @ar.index(elem)
@@ -29,6 +32,10 @@ module Envy
     end
     def ar
       @ar.clone
+    end
+    def uniq!
+      @ar.uniq!
+      return self
     end
   end
 end
