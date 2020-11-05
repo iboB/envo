@@ -6,8 +6,8 @@ include Envy
 class TestPlatformWindows < Test::Unit::TestCase
   P = Platform::Windows
 
-  def test_name
-    assert_equal P.name, 'Windows'
+  def test_type
+    assert_equal P.type, :Windows
   end
 
   def test_lists
@@ -39,8 +39,8 @@ end
 class TestPlatformUnixLike < Test::Unit::TestCase
   P = Platform::UnixLike
 
-  def test_name
-    assert_equal P.name, 'UnixLike'
+  def test_type
+    assert_equal P.type, :UnixLike
   end
 
   def test_lists
