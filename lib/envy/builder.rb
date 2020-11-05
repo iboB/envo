@@ -9,6 +9,8 @@ module Envy
       # and we would have to use clone
       # so to make this work in all cases we preform a manual shallow copy
       @work_env = @real_env.map { |k, v| [k, v] }.to_h
+
+      p @work_env['PATH']
     end
 
     def set(var, val)

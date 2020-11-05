@@ -14,5 +14,9 @@ module Envy
     def platform
       @p
     end
+
+    def path_var_name
+      'PATH'
+    end
   end
 end
