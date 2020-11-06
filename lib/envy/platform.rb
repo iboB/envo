@@ -11,6 +11,18 @@ module Envy
         v.split(list_sep)
       end
     end
+    module IOCommon
+      def initialize
+        @output = []
+      end
+      def log_and_exec(cmd)
+        puts(cmd)
+        @output << cmd
+      end
+      def output
+        @output.join("\n")
+      end
+    end
 
     class Windows
       extend PCommon
@@ -32,9 +44,8 @@ module Envy
       end
 
       class Batch
-        def initialize
-          @output = []
-        end
+        include IOCommon
+
         def puts(str)
           @output += str.lines.map { |l| "echo #{l.chomp}" }
         end
@@ -42,14 +53,10 @@ module Envy
           @output += str.lines.map { |l| "echo #{l.chomp} 1>&2"}
         end
         def set_env_var(name, value)
-          @output << "set #{name}=#{value}"
+          log_and_exec("set #{name}=#{value}")
         end
         def unset_env_var(name)
-          @output << "set #{name}="
-        end
-
-        def output
-          @output.join("\n")
+          log_and_exec("set #{name}=")
         end
       end
       def self.make_io
@@ -93,9 +100,8 @@ module Envy
       end
 
       class Sh
-        def initialize
-          @output = []
-        end
+        include IOCommon
+
         def puts(str)
           @output << "echo \"#{str}\""
         end
@@ -103,14 +109,10 @@ module Envy
           @output << ">&2 echo \"#{str}\""
         end
         def set_env_var(name, value)
-          @output << "export #{name}=#{value.to_s.inspect}"
+          log_and_exec("export #{name}=#{value.to_s.inspect}")
         end
         def unset_env_var(name)
-          @output << "unset -v #{name}"
-        end
-
-        def output
-          @output.join("\n")
+          log_and_exec("unset -v #{name}")
         end
       end
       def self.make_io
