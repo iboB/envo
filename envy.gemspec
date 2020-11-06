@@ -15,5 +15,5 @@ all platforms.
   DESC
 
   s.files = Dir['lib/**/*.rb'] + Dir['bin/*']
-  s.executables = ['envy']
+  s.executables = ['envy_build']
 end
