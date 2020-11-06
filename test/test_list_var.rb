@@ -1,4 +1,4 @@
-require_relative '../lib/envy/list_var.rb'
+require_relative '../lib/envy/list_var'
 require 'test/unit'
 
 include Envy

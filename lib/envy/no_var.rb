@@ -7,5 +7,8 @@ module Envy
     def to_env_val
       nil
     end
+    def value
+      nil
+    end
   end
 end
