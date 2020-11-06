@@ -129,10 +129,22 @@ def raw_show(names)
   end
 end
 
+def apply_builder_state
+  patch = Builder.diff
+  plat = Builder.platform
+  commands = patch.removed.map { |name| plat.cmd_unset(name) }
+  commands += patch.changed.map { |name, val| plat.cmd_set(name, val) }
+  commands += patch.added.map { |name, val| plat.cmd_set(name, val) }
+
+  commands.each do |cmd|
+    puts cmd
+  end
+end
+
 def raw_set(name, val)
   old_val = Builder.get(name)
   if old_val
-    puts "#{name}=#{val}"
+    puts "About to set `#{name}` to `#{val}`"
     print "#{name} already has a value. Overwrite? (y/n) "
     response = STDIN.gets.chomp
     if response != 'y'
@@ -141,8 +153,7 @@ def raw_set(name, val)
     end
   end
   Builder.set name, val
-  Builder.apply_system
-  puts "done" if old_val
+  apply_builder_state
 end
 
 begin

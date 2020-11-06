@@ -11,6 +11,14 @@ module Envy
       @work_env = @real_env.map { |k, v| [k, v] }.to_h
     end
 
+    def system
+      @sys
+    end
+
+    def platform
+      @sys.platform
+    end
+
     def set(name, val)
       if val == nil
         unset(name)
@@ -64,23 +72,6 @@ module Envy
       added = added_names.map { |v| [v, @work_env[v]] }.to_h
 
       Patch.new(removed_names, changed, added)
-    end
-
-    def apply_patch_system(patch)
-      patch.removed.each do |name|
-        puts @sys.platform.cmd_unset(name)
-      end
-      patch.changed.each do |name, val|
-        puts @sys.platform.cmd_set(name, val)
-      end
-      patch.added.each do |name, val|
-        puts @sys.platform.cmd_set(name, val)
-      end
-    end
-
-    def apply_system
-      patch = diff
-      apply_patch_system patch
     end
 
     attr_reader :real_env, :work_env
