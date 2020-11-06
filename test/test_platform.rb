@@ -34,6 +34,9 @@ class TestPlatformWindows < Test::Unit::TestCase
     assert_equal P.fix_path('foo/bar'), 'foo\bar'
     assert_equal P.fix_path('c:/foo\bar/baz'), 'c:\foo\bar\baz'
   end
+
+  def test_batch
+  end
 end
 
 class TestPlatformUnixLike < Test::Unit::TestCase
