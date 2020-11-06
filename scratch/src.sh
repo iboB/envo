@@ -1,4 +1,4 @@
 envy() {
-  local output=$(ruby scratch.rb $@)
+  local output=$(ruby bin/envy_run fwd "$@")
   eval "${output}"
 }
