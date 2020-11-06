@@ -13,7 +13,11 @@ io.set_env_var("z00", "A>5")
 
 STDERR.puts('error')
 
+USAGE = <<ENDUSAGE
+usage: envy <command> [<args>]
+foo "asd"
+ENDUSAGE
+
+io.puts USAGE
+
 puts io.output
-
-exit 3
-

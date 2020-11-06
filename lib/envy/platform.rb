@@ -103,10 +103,10 @@ module Envy
         include IOCommon
 
         def puts(str)
-          @output << "echo \"#{str}\""
+          @output += str.lines.map { |l| "echo #{l.chomp.inspect}" }
         end
         def error(str)
-          @output << ">&2 echo \"#{str}\""
+          @output += str.lines.map { |l| ">&2 echo #{l.chomp.inspect}" }
         end
         def set_env_var(name, value)
           log_and_exec("export #{name}=#{value.to_s.inspect}")
