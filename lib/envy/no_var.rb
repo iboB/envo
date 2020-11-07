@@ -10,5 +10,8 @@ module Envy
     def value
       nil
     end
+    def pretty_print(io)
+      io.puts "No environment variable '#{name}'"
+    end
   end
 end

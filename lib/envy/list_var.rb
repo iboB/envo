@@ -37,5 +37,16 @@ module Envy
       @ar.uniq!
       return self
     end
+
+    def pretty_print(io)
+      io.puts "#{name}=["
+      @ar.each_with_index do |v, i|
+        str = @ar.count(v) > 1 ? 'D ' : '  '
+        str += "#{i}:".ljust(4)
+        str += v
+        io.puts(str)
+      end
+      io.puts ']'
+    end
   end
 end

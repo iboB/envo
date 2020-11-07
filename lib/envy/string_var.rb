@@ -8,5 +8,8 @@ module Envy
     def to_env_val
       @value
     end
+    def pretty_print(io)
+      io.puts "#{name}=#{value}"
+    end
   end
 end

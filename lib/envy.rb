@@ -11,4 +11,6 @@ module Envy
   autoload :HostSystem,   "envy/host_system"
   autoload :Error,        "envy/error"
   autoload :Builder,      "envy/builder"
+
+  autoload :Runner,       "envy/cli/runner"
 end

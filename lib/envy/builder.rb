@@ -1,7 +1,7 @@
 module Envy
   class Builder
-    def initialize(system)
-      @sys = system
+    def initialize(sys)
+      @sys = sys
       @real_env = @sys.env
 
       # if @real_env is ENV, we can use to_h to clone it into the work env

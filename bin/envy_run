@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-if ARGV[0] != 'fwd'
+argv = ARGV.dup
+
+if argv.shift != 'fwd'
   STDERR.puts <<~ERR
     envy_build needs to be called from envy
     if you don't have the command 'envy', run 'envy-install'
@@ -9,158 +11,15 @@ if ARGV[0] != 'fwd'
 end
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__) # For use/testing when no gem is installed
-
 require "envy"
 
-VERSION_TEXT = "envy v#{Envy::VERSION}"
-
-USAGE = <<ENDUSAGE
-usage: envy <command> [<args>]
-ENDUSAGE
-
-HELP = <<ENDHELP
-HELP HELP
-ENDHELP
-
-System = Envy::HostSystem
-Pio = System.platform.make_io
-
 # extensions
-class Object
-  def pretty_print
-    Pio.puts self
-  end
-end
-
-module Envy
-  class NoVar
-    def pretty_print
-      Pio.puts "No environment variable `#{name}`"
-    end
-  end
-  class StringVar
-    def pretty_print
-      Pio.puts "#{name}=#{value}"
-    end
-  end
-  class ListVar
-    def pretty_print
-      Pio.puts "#{name}=["
-      @ar.each_with_index do |v, i|
-        str = @ar.count(v) > 1 ? 'D ' : '  '
-        str += "#{i}:".ljust(4)
-        str += v
-        Pio.puts(str)
-      end
-      Pio.puts ']'
-    end
-  end
-end
-
-class Runner
-  CMD_NAME_TO_SYM = {
-    's' => :show,
-    'show' => :show,
-    'rshow' => :raw_show,
-    'p' => :path_show,
-    'path' => :path_show,
-    'set' => :raw_set,
-  }
-
-  def show(names)
-    env = System.env
-    names.each do |name|
-      Envy::VarBuilder.build(System, name, env[name]).pretty_print
-    end
-  end
-
-  def raw_show(names)
-    env = System.env
-    names = env.keys if names.empty?
-    names.each do |name|
-      val = env[name]
-      if !val
-        Pio.puts "No environment variable `#{name}`"
-      else
-        Pio.puts "#{name}=#{val}"
-      end
-    end
-  end
-
-  # def apply_builder_state
-  #   patch = @builder.diff
-  #   patch.removed.each { |name| Pio.unset_env_var(name) }
-  #   patch.changed.each { |name, val| Pio.set_env_var(name, val) }
-  #   patch.added.each { |name, val| Pio.set_env_var(name, val) }
-  # end
-
-  def raw_set(name, val)
-    Pio.set_env_var(name, val)
-  end
-
-  def do_run(argv)
-    opts = {}
-    cmd = ''
-
-    while !argv.empty? do
-      arg = argv.shift
-      case arg
-        when '-h', '--help', 'help' then opts[:help] = true
-        when '-v', '--version'      then opts[:ver] = true
-        else break cmd = arg
-      end
-    end
-
-    opts[:help] = true if cmd.empty?
-
-    if opts[:ver]
-      Pio.puts VERSION_TEXT
-      return 0
-    end
-
-    if opts[:help]
-      Pio.puts VERSION_TEXT
-      Pio.puts USAGE
-      Pio.puts HELP
-      return 0
-    end
-
-    if cmd[0] == '-'
-      Pio.error "unkown option: #{cmd}"
-      Pio.error USAGE
-      return 1
-    end
-
-    cmd_args = argv
-
-    ################################
-    # commands
-    cmd_sym = CMD_NAME_TO_SYM[cmd]
-
-    if !cmd_sym
-      Pio.error "envy: `#{cmd}` is not an envy command. See `envy --help`"
-      return 1
-    end
-
-    ################################
-    # we might actually have something to do
-    {
-      :show => -> { show(cmd_args) },
-      :raw_show => -> { raw_show(cmd_args) },
-      :path_show => -> { show([System.path_var_name]) },
-      :raw_set => -> {
-        raise Envy::Error.new "set requires more arguments. Use `set <var> <value>`" if cmd_args.size < 2
-        raw_set(cmd_args[0], cmd_args[1..].join(' '))
-      },
-    }[cmd_sym].()
-  end
-end
 
 begin
-  argv = ARGV.dup
-  argv.shift
-  Runner.new.do_run(argv)
-  puts Pio.output
+  sys = Envy::HostSystem
+  runner = Envy::Runner.new(sys)
+  runner.do_run(argv)
+  puts runner.output
 rescue Envy::Error => e
   STDERR.puts e.message
   exit 1
