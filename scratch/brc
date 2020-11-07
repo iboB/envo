@@ -1,0 +1,18 @@
+#
+# ~/.bashrc
+#
+asda
+# stuff
+
+dsfds
+
+# more stuff
+
+#### BEGIN envy installation (don't remove line)
+envy() {
+  local output=$(ruby bin/envy_run fwd "$@")
+  eval "${output}"
+}
+#### END envy installation (don't remove line)
+fsdgfd
+

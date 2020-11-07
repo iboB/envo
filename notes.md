@@ -10,3 +10,9 @@
 * `list remove-at i`
 * `run` - run script in dsl
 * `path cmd` - equrivalend to `list cmd PATH`
+
+## Installer
+
+* W: `i [--help] [--version] [--dotfile <path>]`
+* U: `i [--help] [--version] [--dir <dir>]`
+
