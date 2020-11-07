@@ -68,15 +68,17 @@ class Runner
   }
 
   def show(names)
+    env = System.env
     names.each do |name|
-      @builder.smart_get(name).pretty_print
+      Envy::VarBuilder.build(System, name, env[name]).pretty_print
     end
   end
 
   def raw_show(names)
-    names = @builder.work_env.keys if names.empty?
+    env = System.env
+    names = env.keys if names.empty?
     names.each do |name|
-      val = @builder.get(name)
+      val = env[name]
       if !val
         Pio.puts "No environment variable `#{name}`"
       else
@@ -85,18 +87,15 @@ class Runner
     end
   end
 
-  def apply_builder_state
-    patch = @builder.diff
-    plat = @builder.platform
-    patch.removed.each { |name| Pio.unset_env_var(name) }
-    patch.changed.each { |name, val| Pio.set_env_var(name, val) }
-    patch.added.each { |name, val| Pio.set_env_var(name, val) }
-  end
+  # def apply_builder_state
+  #   patch = @builder.diff
+  #   patch.removed.each { |name| Pio.unset_env_var(name) }
+  #   patch.changed.each { |name, val| Pio.set_env_var(name, val) }
+  #   patch.added.each { |name, val| Pio.set_env_var(name, val) }
+  # end
 
   def raw_set(name, val)
-    old_val = @builder.get(name)
-    @builder.set name, val
-    apply_builder_state
+    Pio.set_env_var(name, val)
   end
 
   def do_run(argv)
@@ -145,17 +144,12 @@ class Runner
 
     ################################
     # we might actually have something to do
-
-    # constants
-    @builder = Envy::Builder.new(System)
-
     {
       :show => -> { show(cmd_args) },
       :raw_show => -> { raw_show(cmd_args) },
       :path_show => -> { show([System.path_var_name]) },
       :raw_set => -> {
         raise Envy::Error.new "set requires more arguments. Use `set <var> <value>`" if cmd_args.size < 2
-        STDERR.puts cmd_args
         raw_set(cmd_args[0], cmd_args[1..].join(' '))
       },
     }[cmd_sym].()
