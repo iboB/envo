@@ -21,23 +21,22 @@ module InstallerCommon
       !case arg
         when '-h', '--help', 'help' then opts[:help] = true
         when '-v', '--version'      then opts[:ver] = true
+        when '--uninstall'          then opts[:uninstall] = true
         else false
       end
     end
 
     if opts[:ver]
       puts VERSION_TEXT
-      return 0
     end
 
     if opts[:help]
       puts VERSION_TEXT
       puts usage_text
       puts help_text
-      return 0
     end
 
-    return do_run(argv)
+    do_run(argv, !opts[:uninstall])
   end
 end
 
@@ -52,7 +51,7 @@ class Installer
   end
   def usage_text
     <<~EOF
-      envy-install [--help] [--version] [--dotfile <path>]
+      usage: envy-install [--help] [--version] [--uninstall] [--dotfile <path>]
     EOF
   end
   def help_text
@@ -60,57 +59,89 @@ class Installer
       HELP HELP
     EOF
   end
-  SOURCE = 'envy.sh'
   ENVY_INSTALLATION_BEGIN = '#### BEGIN envy installation (don\'t remove line)'
   ENVY_INSTALLATION_END = '#### END envy installation (don\'t remove line)'
+
+  def find_existing_installation_data(dotfile)
+    return nil if !File.exist?(dotfile)
+
+    raise Envy::Error.new "'#{dotfile}' exists but is not a file. You need to choose a file." if !File.file?(dotfile)
+
+    lines = File.readlines(dotfile)
+    first = nil
+    last = nil
+    lines.each_with_index do |l, i|
+      lc = l.chomp
+      if lc == ENVY_INSTALLATION_BEGIN
+        first = i
+      elsif lc == ENVY_INSTALLATION_END
+        last = i
+      end
+    end
+
+    return nil if !first && !last
+
+    if !first || !last
+      raise Envy::Error.new <<~EOF
+        #{dotfile}' contains a broken confy insallation.
+        You need to remove it manually
+      EOF
+    end
+
+    num = last - first + 1
+    return {first: first, num: num, lines: lines}
+  end
+
+  def try_uninstall(dotfile)
+    found = find_existing_installation_data(dotfile)
+    if !found || found[:num] == 0
+      raise Envy::Error.new "'#{dotfile}' doesn't seem to contain an envy installation"
+    end
+
+    lines = found[:lines]
+    lines[found[:first], found[:num]] = []
+    File.open(dotfile, 'w') { |f| f.puts lines }
+    puts "Suncessfully uninstalled confy from '#{dotfile}'"
+  end
+
+  SOURCE_FILE = 'envy.sh'
   def try_install(dotfile)
     install_lines = [
       ENVY_INSTALLATION_BEGIN,
-      File.read(File.join(__dir__, SOURCE)),
+      File.read(File.join(__dir__, SOURCE_FILE)),
       ENVY_INSTALLATION_END
     ]
 
-    if File.exist?(dotfile)
-      if !File.file?(dotfile)
-        STDERR.puts "'#{dotfile}' exists but is not a file. You need to choose a file."
-        return 1
-      end
+    found = find_existing_installation_data(dotfile)
 
-      # file exists
-      # first try to identify if an envy installation is present
-      lines = File.readlines(dotfile)
-      first = lines.length
-      num = 0
-      lines.each_with_index do |l, i|
-        lc = l.chomp
-        if lc == ENVY_INSTALLATION_BEGIN
-          first = i
-        elsif lc == ENVY_INSTALLATION_END
-          num = i - first + 1
-        end
-      end
-
-      lines[first, num] = install_lines
+    openmode = 'a'
+    if found
+      lines = found[:lines]
+      lines[found[:first], found[:num]] = install_lines
       install_lines = lines
+      openmode = 'w'
     end
 
-    File.open(dotfile, 'w') do |file|
-      file.puts install_lines
-    end
-    return 0
+    File.open(dotfile, openmode) { |f| f.puts install_lines }
+    puts <<~EOF
+      Sucessfully installed confy to '#{dotfile}'
+      Source the file, or restart the bash session if the file is auto-sourced.
+    EOF
   end
-  DEFAULT_DOTFILE = 'brc-test'
-  def do_run(argv)
-    return try_install(File.join(Dir.home, DEFAULT_DOTFILE)) if argv.empty?
 
-    if argv.shift != '--dotfile' || argv.length != 1
-      puts usage_text
-      return 1
+  DEFAULT_DOTFILE = '.bashrc'
+  def do_run(argv, installing)
+    dotfile = nil
+
+    if !argv.empty?
+      raise Envy::Error.new usage_text if argv.shift != '--dotfile' || argv.length != 1
+      dotfile = argv[0]
+      dotfile = File.join(Dir.pwd, dotfile) if !@sys.platform.likely_abs_path?(dotfile)
     end
 
-    dotfile = argv[0]
-    dotfile = File.join(Dir.pwd, dotfile) if !@sys.platform.likely_abs_path?(dotfile)
-    return try_install(dotfile)
+    dotfile ||= File.join(Dir.home, DEFAULT_DOTFILE)
+
+    installing ? try_install(dotfile) : try_uninstall(dotfile)
   end
 end
 
@@ -121,4 +152,9 @@ if installer.detect_installed_envy?
   puts "Do you want to reinstall it? (y,n)"
 end
 
-exit installer.run(ARGV.dup)
+begin
+  installer.run(ARGV.dup)
+rescue Envy::Error => e
+  STDERR.puts e.message
+  exit 1
+end
