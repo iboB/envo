@@ -9,6 +9,10 @@ module Envy
     def env
       ENV
     end
+
+    def path_exists?(path)
+      File.exist?(path)
+    end
   end
 
   class HostSystemWin

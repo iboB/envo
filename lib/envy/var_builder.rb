@@ -9,7 +9,13 @@ module Envy
 
       if is_list
         ar = plat.v_to_a(str)
-        return ListVar.new(name, plat, ar)
+        if is_path
+          return AbsPathListVar.new(sys, name, ar)
+        else
+          return ListVar.new(name, plat, ar)
+        end
+      elsif is_path
+        return AbsPathVar.new(sys, name, str)
       else
         return StringVar.new(name, str)
       end
