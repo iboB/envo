@@ -25,6 +25,8 @@ module Envy
       'list-add' => :list_add,
       'ld' => :list_del,
       'list-del' => :list_del,
+      'c' => :clean,
+      'clean' => :clean,
     }
 
     def show(names)
@@ -87,6 +89,17 @@ module Envy
         @io.set_env_var(list.name, list.to_env_val)
       else
         @io.puts "No item '#{elem}' in #{name}"
+      end
+    end
+
+    def clean(names)
+      names.each do |name|
+        raw_val = @sys.env[name]
+        var = Envy::VarBuilder.build(@sys, name, raw_val)
+        var.clean!
+
+        new_val = var.to_env_val
+        @io.set_env_var(name, new_val) if new_val != raw_val
       end
     end
 
@@ -154,6 +167,9 @@ module Envy
         :list_del => -> {
           raise Envy::Error.new "list-del requires two arguments. Use 'list-del <var> <value|index>'" if cmd_args.size != 2
           list_del(cmd_args[0], cmd_args[1])
+        },
+        :clean => -> {
+          clean(cmd_args)
         },
       }[cmd_sym].()
     end

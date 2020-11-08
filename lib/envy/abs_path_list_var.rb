@@ -11,5 +11,9 @@ module Envy
       end
       super
     end
+    def clean!
+      super
+      @ar.select! { |elem| @sys.path_exists?(elem) }
+    end
   end
 end

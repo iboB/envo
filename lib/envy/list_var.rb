@@ -40,6 +40,9 @@ module Envy
       @ar.uniq!
       return self
     end
+    def clean!
+      uniq!
+    end
 
     def attribs(elem)
       @ar.count(elem) > 1 ? 'D' : ' '

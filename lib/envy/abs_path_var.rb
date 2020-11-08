@@ -17,6 +17,9 @@ module Envy
     def exist?
       @exist
     end
+    def clean!
+      @value = nil if !@exist
+    end
 
     def interactive_to_list(io)
       io.puts "Converting to list"

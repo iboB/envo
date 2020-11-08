@@ -12,6 +12,8 @@ module Envy
     def pretty_print(io)
       io.puts "#{name}=#{value}"
     end
+    def clean!
+    end
 
     def interactive_to_list(io)
       io.puts "Converting to list"

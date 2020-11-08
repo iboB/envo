@@ -11,6 +11,8 @@ module Envy
     def value
       nil
     end
+    def clean!
+    end
 
     def pretty_print(io)
       io.puts "No environment variable '#{name}'"
