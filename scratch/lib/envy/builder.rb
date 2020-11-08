@@ -51,6 +51,10 @@ module Envy
         @added = added
       end
 
+      def empty?
+        @removed.empty? && @changed.empty? && @added.empty?
+      end
+
       attr_reader :removed, :changed, :added
     end
 

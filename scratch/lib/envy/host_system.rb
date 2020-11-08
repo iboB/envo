@@ -13,6 +13,10 @@ module Envy
     def path_exists?(path)
       File.exist?(path)
     end
+
+    def home_dir
+      Dir.home
+    end
   end
 
   class HostSystemWin
