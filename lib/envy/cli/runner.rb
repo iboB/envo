@@ -17,8 +17,6 @@ module Envy
       's' => :show,
       'show' => :show,
       'rshow' => :raw_show,
-      'p' => :path_show,
-      'path' => :path_show,
       'set' => :raw_set,
       'unset' => :raw_unset,
       'la' => :list_add,
@@ -27,6 +25,14 @@ module Envy
       'list-del' => :list_del,
       'c' => :clean,
       'clean' => :clean,
+      'p' => :path_show,
+      'path' => :path_show,
+      'pa' => :path_add,
+      'path-add' => :path_add,
+      'pc' => :path_clean,
+      'path-clean' => :path_clean,
+      'pd' => :path_del,
+      'path-del' => :path_del,
     }
 
     def show(names)
@@ -152,14 +158,11 @@ module Envy
       {
         :show => -> { show(cmd_args) },
         :raw_show => -> { raw_show(cmd_args) },
-        :path_show => -> { show([@sys.path_var_name]) },
         :raw_set => -> {
           raise Envy::Error.new "set requires more arguments. Use 'set <var> <value>'" if cmd_args.size < 2
           raw_set(cmd_args[0], cmd_args[1..].join(' '))
         },
-        :raw_unset => -> {
-          raw_unset(cmd_args)
-        },
+        :raw_unset => -> { raw_unset(cmd_args) },
         :list_add => -> {
           raise Envy::Error.new "list-add requires more arguments. Use 'list-add <var> <value> [<value>...]'" if cmd_args.size < 2
           list_add(cmd_args[0], cmd_args[1..])
@@ -168,9 +171,11 @@ module Envy
           raise Envy::Error.new "list-del requires two arguments. Use 'list-del <var> <value|index>'" if cmd_args.size != 2
           list_del(cmd_args[0], cmd_args[1])
         },
-        :clean => -> {
-          clean(cmd_args)
-        },
+        :clean => -> { clean(cmd_args) },
+        :path_show => -> { show([@sys.path_var_name]) },
+        :path_add => -> { list_add(@sys.path_var_name, cmd_args) },
+        :path_clean => -> { clean([@sys.path_var_name]) },
+        :path_del => -> { list_del(@sys.path_var_name, cmd_args[0]) },
       }[cmd_sym].()
     end
 
