@@ -20,6 +20,7 @@ module Envy
       'p' => :path_show,
       'path' => :path_show,
       'set' => :raw_set,
+      'unset' => :raw_unset,
       'la' => :list_add,
       'list-add' => :list_add,
       'ld' => :list_del,
@@ -48,6 +49,12 @@ module Envy
 
     def raw_set(name, val)
       @io.set_env_var(name, val)
+    end
+
+    def raw_unset(vals)
+      vals.each do |val|
+        @io.unset_env_var(val)
+      end
     end
 
     def list_add(name, vals)
@@ -136,6 +143,9 @@ module Envy
         :raw_set => -> {
           raise Envy::Error.new "set requires more arguments. Use 'set <var> <value>'" if cmd_args.size < 2
           raw_set(cmd_args[0], cmd_args[1..].join(' '))
+        },
+        :raw_unset => -> {
+          raw_unset(cmd_args)
         },
         :list_add => -> {
           raise Envy::Error.new "list-add requires more arguments. Use 'list-add <var> <value> [<value>...]'" if cmd_args.size < 2
