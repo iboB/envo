@@ -30,6 +30,9 @@ module Envy
     def delete(elem)
       @ar.delete(elem)
     end
+    def delete_at(index)
+      @ar.delete_at(index)
+    end
     def ar
       @ar.clone
     end

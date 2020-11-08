@@ -22,6 +22,8 @@ module Envy
       'set' => :raw_set,
       'la' => :list_add,
       'list-add' => :list_add,
+      'ld' => :list_del,
+      'list-del' => :list_del,
     }
 
     def show(names)
@@ -44,13 +46,6 @@ module Envy
       end
     end
 
-    # def apply_builder_state
-    #   patch = @builder.diff
-    #   patch.removed.each { |name| @io.unset_env_var(name) }
-    #   patch.changed.each { |name, val| @io.set_env_var(name, val) }
-    #   patch.added.each { |name, val| @io.set_env_var(name, val) }
-    # end
-
     def raw_set(name, val)
       @io.set_env_var(name, val)
     end
@@ -66,7 +61,25 @@ module Envy
       if raw_list != ev
         @io.set_env_var(list.name, list.to_env_val)
       else
-        @io.puts("No changes")
+        @io.puts "No changes"
+      end
+    end
+
+    def list_del(name, elem)
+      raw_list = @sys.env[name]
+      list = Envy::VarBuilder.build(@sys, name, raw_list).interactive_to_list(@io)
+
+      index = elem.to_i
+      deleted = if index.to_s == elem
+        list.delete_at(index)
+      else
+        list.delete(elem)
+      end
+
+      if deleted
+        @io.set_env_var(list.name, list.to_env_val)
+      else
+        @io.puts "No item '#{elem}' in #{name}"
       end
     end
 
@@ -127,7 +140,11 @@ module Envy
         :list_add => -> {
           raise Envy::Error.new "list-add requires more arguments. Use 'list-add <var> <value> [<value>...]'" if cmd_args.size < 2
           list_add(cmd_args[0], cmd_args[1..])
-        }
+        },
+        :list_del => -> {
+          raise Envy::Error.new "list-del requires two arguments. Use 'list-del <var> <value|index>'" if cmd_args.size != 2
+          list_del(cmd_args[0], cmd_args[1])
+        },
       }[cmd_sym].()
     end
 
