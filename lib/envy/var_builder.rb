@@ -12,7 +12,7 @@ module Envy
         if is_path
           return AbsPathListVar.new(sys, name, ar)
         else
-          return ListVar.new(name, plat, ar)
+          return ListVar.new(plat, name, ar)
         end
       elsif is_path
         return AbsPathVar.new(sys, name, str)

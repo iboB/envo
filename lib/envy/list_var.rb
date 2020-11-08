@@ -1,8 +1,8 @@
 module Envy
   class ListVar
-    def initialize(name, plat, ar)
-      @name = name
+    def initialize(plat, name, ar)
       @platform = plat
+      @name = name
       @ar = ar
     end
     attr_accessor :name
@@ -38,10 +38,13 @@ module Envy
       return self
     end
 
+    def attribs(elem)
+      @ar.count(elem) > 1 ? 'D' : ' '
+    end
     def pretty_print(io)
       io.puts "#{name}=["
       @ar.each_with_index do |v, i|
-        str = @ar.count(v) > 1 ? 'D ' : '  '
+        str = attribs(v) + ' '
         str += "#{i}:".ljust(4)
         str += v
         io.puts(str)
