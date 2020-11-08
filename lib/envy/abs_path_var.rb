@@ -1,6 +1,7 @@
 module Envy
   class AbsPathVar
     def initialize(sys, name, value)
+      @sys = sys
       @name = name
       @value = value
       @exist = sys.path_exists?(value)
@@ -16,11 +17,10 @@ module Envy
     def exist?
       @exist
     end
-    def <=>(other)
-      self.value <=> other.value
-    end
-    def ==(other)
-      self.value == other.value
+
+    def interactive_to_list(io)
+      io.puts "Converting to list"
+      return AbsPathListVar.new(@sys, @name, [@value])
     end
   end
 end

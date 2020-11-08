@@ -37,7 +37,7 @@ module Envy
         val =~ /^[a-zA-Z]\:\\/
       end
       def self.fix_path(path)
-        path.gsub('/', '\\')
+        path.gsub('/', '\\').delete_suffix('\\')
       end
       def self.likely_list?(val)
         val.include?(LIST_SEP)
@@ -77,7 +77,7 @@ module Envy
         !val.empty? && val[0] == '/'
       end
       def self.fix_path(path)
-        path
+        path.delete_suffix('/')
       end
       def self.likely_list?(val)
         # we have more work

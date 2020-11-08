@@ -20,6 +20,8 @@ module Envy
       'p' => :path_show,
       'path' => :path_show,
       'set' => :raw_set,
+      'la' => :list_add,
+      'list-add' => :list_add,
     }
 
     def show(names)
@@ -51,6 +53,21 @@ module Envy
 
     def raw_set(name, val)
       @io.set_env_var(name, val)
+    end
+
+    def list_add(name, vals)
+      raw_list = @sys.env[name]
+      list = Envy::VarBuilder.build(@sys, name, raw_list).interactive_to_list(@io)
+      vals.each do |val|
+        list.insert(val)
+      end
+
+      ev = list.to_env_val
+      if raw_list != ev
+        @io.set_env_var(list.name, list.to_env_val)
+      else
+        @io.puts("No changes")
+      end
     end
 
     def do_run(argv)
@@ -107,6 +124,10 @@ module Envy
           raise Envy::Error.new "set requires more arguments. Use 'set <var> <value>'" if cmd_args.size < 2
           raw_set(cmd_args[0], cmd_args[1..].join(' '))
         },
+        :list_add => -> {
+          raise Envy::Error.new "list-add requires more arguments. Use 'list-add <var> <value> [<value>...]'" if cmd_args.size < 2
+          list_add(cmd_args[0], cmd_args[1..])
+        }
       }[cmd_sym].()
     end
 

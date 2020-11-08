@@ -1,14 +1,14 @@
 module Envy
   class ListVar
-    def initialize(plat, name, ar)
-      @platform = plat
+    def initialize(sys, name, ar)
+      @sys = sys
       @name = name
       @ar = ar
     end
     attr_accessor :name
     def to_env_val
-      return nil if @ar.empty
-      @platform.a_to_v(@ar)
+      return nil if @ar.empty?
+      @sys.platform.a_to_v(@ar)
     end
     def insert(elem, pos = nil)
       # assume unique elements
@@ -50,6 +50,9 @@ module Envy
         io.puts(str)
       end
       io.puts ']'
+    end
+    def interactive_to_list(io)
+      return self
     end
   end
 end
