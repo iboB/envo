@@ -7,7 +7,7 @@ module Envy
       plat = @sys.platform
       elem = plat.fix_path(elem)
       if !plat.likely_abs_path?(elem)
-        elem = File.join(plat.fix_path(Dir.pwd), elem)
+        elem = plat.fix_path(File.join(Dir.pwd, elem))
       end
       super
     end
