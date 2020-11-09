@@ -4,6 +4,28 @@ require 'test/unit'
 include Envy
 
 class TestCliParser < Test::Unit::TestCase
+  def test_utils
+    assert CliParser.opt?('--foo')
+    assert CliParser.opt?('-bar')
+    assert !CliParser.opt?('fo-o')
+    assert !CliParser.opt?('bar--')
+
+    a = ['a', 'b', 'c']
+    assert_equal CliParser.filter_opts(a), []
+    assert_equal a, ['a', 'b', 'c']
+
+    a = ['-x', '--y', 'a', 'b', 'c']
+    assert_equal CliParser.filter_opts(a), ['-x', '--y']
+    assert_equal a, ['a', 'b', 'c']
+
+    a = ['a', 'b', 'c', '-z', '--w']
+    assert_equal CliParser.filter_opts(a), ['-z', '--w']
+    assert_equal a, ['a', 'b', 'c']
+
+    a = ['-x', '--y', 'a', 'b', 'c', '-z', '--w']
+    assert_equal CliParser.filter_opts(a), ['-x', '--y', '-z', '--w']
+    assert_equal a, ['a', 'b', 'c']
+  end
   def test_basic
     parser = CliParser.new
 
