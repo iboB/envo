@@ -49,6 +49,12 @@
     * `--only[-dedup][-nexist]` - only does these things
 * `swap <name> <other>` - swap values of two vars. does nothing if any doesn't exist
     * `--force` - no error any of them doesn't exist
+* `cp <name> <other>` - copy value of name to other
+    * `--force` - overwrite
+    * `--no-force` - error if other exists
+* `mv <name> <other>` - move value of name to other
+    * `--force` - overwrite
+    * `--no-force` - error if other exists
 * `path add <val>` - `list @path add <val>`
 * `path del <val>` - `list @path del <val>`
 * `path shift <val>` - `list @path shift <val>`
