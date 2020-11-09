@@ -15,18 +15,16 @@ class TestCliParser < Test::Unit::TestCase
     parser.add_cmd('bar', ->(cmd, args) {
       assert_equal cmd, 'bar'
       assert_equal args, ['cmdbar', 'things']
-      567
+      ParsedCmd.new(567, ['--opt3'])
     })
 
     res = parser.parse(['foo', 'stuff', '--for', 'cmd foo'])
-    assert_equal res.size, 2
-    assert_equal res[:cmd], 123
-    assert_equal res[:opts], {}
+    assert_equal res.cmd, 123
+    assert_equal res.opts, []
 
     res = parser.parse(['--opt1', '-opt2', 'bar', 'cmdbar', 'things'])
-    assert_equal res.size, 2
-    assert_equal res[:cmd], 567
-    assert_equal res[:opts], {'--opt1' => true, '-opt2' => true}
+    assert_equal res.cmd, 567
+    assert_equal res.opts, ['--opt1', '-opt2', '--opt3']
 
     assert_raise(Envy::Error.new 'missing command') do
       parser.parse(['--opt1', '-opt2'])
