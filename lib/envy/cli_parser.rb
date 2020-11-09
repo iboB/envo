@@ -1,5 +1,15 @@
 module Envy
   class CliParser
+    def self.opt?(opt)
+      opt =~ /^-/
+    end
+    def self.filter_opts(args)
+      front_opts = args.take_while { |a| opt?(a) }
+      args.shift(front_opts.size)
+      back_opts = args.reverse.take_while { |a| opt?(a) }.reverse
+      args.pop(back_opts.size)
+      front_opts + back_opts
+    end
     def initialize
       @cmds = {}
     end
@@ -11,9 +21,10 @@ module Envy
       cmd = nil
       while !argv.empty?
         arg = argv.shift
-        case arg
-          when /^-/ then opts << arg
-          else break cmd = arg
+        if CliParser.opt?(arg)
+          opts << arg
+        else
+          break cmd = arg
         end
       end
 
