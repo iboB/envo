@@ -28,9 +28,9 @@ module Envy
     def execute(ctx)
       @names.each do |name|
         ename = ctx.expand_name(name)
-        raw_old_val = ctx.state.get(ename)
+        raw_old_val = ctx.raw_get(ename)
         raise Envy::Error.new "unset: no such var '#{ename}'" if !raw_old_val && !ctx.opts[:force]
-        ctx.state.unset(ename)
+        ctx.unset(ename)
       end
     end
   end

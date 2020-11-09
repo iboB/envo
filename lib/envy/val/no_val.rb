@@ -6,5 +6,11 @@ module Envy
     def value
       nil
     end
+
+    # casts
+    def accept_assign?(other)
+      true
+    end
+
   end
 end
