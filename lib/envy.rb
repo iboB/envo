@@ -11,4 +11,10 @@ module Envy
   # autoload :Context, "envy/context"
   autoload :ParsedCmd, "envy/parsed_cmd"
   autoload :CliParser, "envy/cli_parser"
+  autoload :HostShell, "envy/host_shell"
+
+  module Shell
+    autoload :Bash,   'envy/shell/bash'
+    autoload :WinCmd, 'envy/shell/win_cmd'
+  end
 end
