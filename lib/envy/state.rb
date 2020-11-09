@@ -3,7 +3,29 @@ module Envy
     def initialize(sys)
       @sys = sys
       @real_env = sys.env
+      @work_env = nil
+    end
 
+    attr_reader :sys, :real_env
+
+    def set(name, val)
+      if val == nil
+        unset(name)
+      else
+        work_env[name] = val.to_s
+      end
+    end
+
+    def unset(name)
+      work_env.delete(name)
+    end
+
+    def get(name)
+      work_env[name]
+    end
+
+    def work_env
+      return @work_env if @work_env
       # if @real_env is ENV, we can use to_h to clone it into the work env
       # however it can be an actual hash in which case to_h will return the same one
       # and we would have to use clone
@@ -11,26 +33,8 @@ module Envy
       @work_env = @real_env.map { |k, v| [k, v] }.to_h
     end
 
-    attr_reader :sys, :real_env, :work_env
-
-    def set(name, val)
-      if val == nil
-        unset(name)
-      else
-        @work_env[name] = val.to_s
-      end
-    end
-
-    def unset(name)
-      @work_env.delete(name)
-    end
-
-    def get(name)
-      @work_env[name]
-    end
-
     class Patch
-      def initialize(removed, changed, added)
+      def initialize(removed = [], changed = {}, added = {})
         @removed = removed
         @changed = changed
         @added = added
@@ -44,6 +48,8 @@ module Envy
     end
 
     def diff
+      return Patch.new if !@work_env
+
       real_names = @real_env.keys
       work_names = @work_env.keys
 
