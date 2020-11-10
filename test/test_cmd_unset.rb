@@ -32,7 +32,7 @@ class TestCmdUnset < Test::Unit::TestCase
     assert_equal parsed.cmds[0].opts, {bar: true, baz: true}
   end
 
-  class MinCtx
+  class MockCtx
     attr_accessor :env, :force, :unsets
     def initialize()
       @unsets = []
@@ -52,7 +52,7 @@ class TestCmdUnset < Test::Unit::TestCase
   end
 
   def test_execute
-    ctx = MinCtx.new
+    ctx = MockCtx.new
     ctx.env = {'foo' => '1', 'bar' => 2, 'baz' => 3}
     ctx.force = true
 

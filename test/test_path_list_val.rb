@@ -4,14 +4,14 @@ require 'test/unit'
 include Envy
 
 class TestPathListVal < Test::Unit::TestCase
-  class MinSys
+  class MockSys
     def self.path_exists?(path)
       path == '/foo/bar'
     end
   end
 
   def test_casts
-    pl = PathListVal.new(MinSys, ['/foo/bar'])
+    pl = PathListVal.new(MockSys, ['/foo/bar'])
 
     assert_equal pl.type, :"path list"
     assert pl.list?
@@ -22,7 +22,7 @@ class TestPathListVal < Test::Unit::TestCase
     other = ListVal.new(['xx'])
     assert !pl.accept_assign?(other)
 
-    other = PathListVal.new(MinSys, ['/bar/baz'])
+    other = PathListVal.new(MockSys, ['/bar/baz'])
     assert pl.accept_assign?(other)
 
     other.ar.clear
@@ -31,7 +31,7 @@ class TestPathListVal < Test::Unit::TestCase
     item = StringVal.new('xx')
     assert !pl.accept_item?(item)
 
-    item = PathVal.new(MinSys, '/xx')
+    item = PathVal.new(MockSys, '/xx')
     assert pl.accept_item?(item)
   end
 end
