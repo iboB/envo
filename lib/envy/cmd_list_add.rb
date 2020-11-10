@@ -36,11 +36,11 @@ module Envy
         val = ctx.expand_value(val)
 
         error = list.accept_item?(val.type)
-        error &&= ctx.ask("Add #{val.type} to #{list.type}?")
+        error &&= !ctx.ask("Add #{val.type} to #{list.type}?")
         raise Envy::Error.new "list-set: adding #{val.type} to #{list.type}" if error
 
         error = val.invalid_description
-        error &&= ctx.ask("Add #{error} to #{ename}?")
+        error &&= !ctx.ask("Add #{error} to #{ename}?")
         raise Envy::Error.new "list-add: adding #{error} to #{ename}" if error
 
         list.insert(val.to_s, @pos)

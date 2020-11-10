@@ -32,6 +32,8 @@ module Envy
       i = args.index('=')
       raise Envy::Error.new "set: bad name '#{args[0...i].join(' ')}'. Use 'set <name> = <val>'" if i != 1
 
+      return ParsedCmd.new(CmdUnset.new([args[0]]), opts) if args.size == 2
+
       ParsedCmd.new(CmdSet.new(args[0], args[2..]), opts)
     end
 
@@ -52,14 +54,15 @@ module Envy
 
       old_val = ctx.smart_get(ename)
 
-      error = new_val.type != new_val.type
-      error &&= !new_val.accept_assign?(new_val)
-      error &&= ctx.ask("Assign #{new_val.type} to #{new_val.type}?")
-      raise Envy::Error.new "set: assignment of #{new_val.type} to #{@val.type}" if error
+      error = old_val.type != new_val.type
+      error &&= !old_val.accept_assign?(new_val)
+      error &&= !ctx.ask("Assign #{new_val.type} to #{old_val.type}?")
+      raise Envy::Error.new "set: assignment of #{new_val.type} to #{old_val.type}" if error
 
-      error = new_val.invalid_description
-      error &&= ctx.ask("Assign #{error} to #{ename}?")
-      raise Envy::Error.new "set: assigniment of #{error} to #{ename}" if error
+      idesc = new_val.invalid_description
+      error = idesc
+      error &&= !ctx.ask("Assign #{idesc} to #{ename}?")
+      raise Envy::Error.new "set: assignment of #{idesc} to #{ename}" if error
 
       ctx.smart_set(ename, new_val)
     end
