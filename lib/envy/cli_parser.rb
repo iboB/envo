@@ -10,28 +10,39 @@ module Envy
       args.pop(back_opts.size)
       front_opts + back_opts
     end
-    def initialize
-      @cmds = {}
+    def initialize(opts)
+      @known_cmds = {}
+      @known_opts = opts
     end
     def add_cmd(name, parse_func)
-      @cmds[name] = parse_func
+      @known_cmds[name] = parse_func
     end
     def parse(argv)
-      opts = []
+      result = ParseResult.new
       cmd = nil
       while !argv.empty?
         arg = argv.shift
         if CliParser.opt?(arg)
-          opts << arg
+          result.add_opt(*@known_opts.parse_cli(arg))
         else
           break cmd = arg
         end
       end
 
       raise Envy::Error.new 'missing command' if !cmd
-      raise Envy::Error.new "unknown command '#{cmd}'" if !@cmds[cmd]
+      raise Envy::Error.new "unknown command '#{cmd}'" if !@known_cmds[cmd]
 
-      return ParsedCmd.new(@cmds[cmd].(cmd, argv), opts)
+      parsed_cmd = @known_cmds[cmd].(cmd, argv)
+
+      cmd_opts = {}
+      parsed_cmd.opts.each do |opt|
+        k, v = @known_opts.parse_cli(opt)
+        cmd_opts[k] = v
+      end
+      parsed_cmd.opts = cmd_opts
+
+      result.cmds << parsed_cmd
+      result
     end
   end
 end

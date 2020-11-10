@@ -1,4 +1,5 @@
 require_relative '../lib/envy'
+require_relative 'helper_opts'
 require 'test/unit'
 
 include Envy
@@ -27,33 +28,41 @@ class TestCliParser < Test::Unit::TestCase
     assert_equal a, ['a', 'b', 'c']
   end
   def test_basic
-    parser = CliParser.new
+    parser = CliParser.new(HelperOpts)
 
     parser.add_cmd('foo', ->(cmd, args) {
       assert_equal cmd, 'foo'
       assert_equal args, ['stuff', '--for', 'cmd foo']
-      123
+      ParsedCmd.new(123, [])
     })
     parser.add_cmd('bar', ->(cmd, args) {
       assert_equal cmd, 'bar'
       assert_equal args, ['cmdbar', 'things']
-      ParsedCmd.new(567, ['--opt3'])
+      ParsedCmd.new(567, ['--bar'])
     })
 
     res = parser.parse(['foo', 'stuff', '--for', 'cmd foo'])
-    assert_equal res.cmd, 123
-    assert_equal res.opts, []
+    assert_equal res.opts, {}
+    assert_equal res.cmds.size, 1
+    assert_equal res.cmds[0].cmd, 123
+    assert_equal res.cmds[0].opts, {}
 
-    res = parser.parse(['--opt1', '-opt2', 'bar', 'cmdbar', 'things'])
-    assert_equal res.cmd, 567
-    assert_equal res.opts, ['--opt1', '-opt2', '--opt3']
+    res = parser.parse(['--foo', '-z', 'bar', 'cmdbar', 'things'])
+    assert_equal res.opts, {foo: true, baz: true}
+    assert_equal res.cmds.size, 1
+    assert_equal res.cmds[0].cmd, 567
+    assert_equal res.cmds[0].opts, {bar: true}
 
-    assert_raise(Envy::Error.new 'missing command') do
+    assert_raise(Envy::Error.new '--opt1') do
       parser.parse(['--opt1', '-opt2'])
     end
 
+    assert_raise(Envy::Error.new 'missing command') do
+      parser.parse(['--foo', '-b'])
+    end
+
     assert_raise(Envy::Error.new "unknown command 'baz'") do
-      parser.parse(['--opt1', 'baz', '-opt2'])
+      parser.parse(['-f', 'baz', '-z'])
     end
   end
 end

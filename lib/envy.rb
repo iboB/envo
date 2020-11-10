@@ -13,6 +13,7 @@ module Envy
   autoload :CliParser, "envy/cli_parser"
   autoload :HostShell, "envy/host_shell"
   autoload :HostSystem, "envy/host_system"
+  autoload :ParseResult, "envy/parse_result"
 
   module Shell
     autoload :Bash,   'envy/shell/bash'
