@@ -15,6 +15,7 @@ module Envy
       @known_opts = opts
     end
     def add_cmd(name, parse_func)
+      raise Envy::Error "cmd #{name} is already added to parser" if @known_cmds[name]
       @known_cmds[name] = parse_func
     end
     def parse(argv)
