@@ -24,22 +24,11 @@ module Envy
     def execute(ctx)
       ename = ctx.expand_name(@name)
 
-      list = ctx.smart_get(ename)
-      if !list.list?
-        if ctx.ask("#{ename} is not a list, but a #{list.type}. Convert?")
-          list = list.to_list
-        else
-          raise Envy::Error.new "Adding list item to a non-list"
-        end
-      end
+      list = ctx.smart_get(ename).interactive_to_list(ctx)
 
       @values.each do |val|
         evalue = ctx.expand_value(val)
-        if list.interative_accept_item?(ctx, evalue)
-          list.insert(evalue, @pos)
-        else
-          raise Envy::Error.new "Can't add #{evalue.type} to #{list.type}?"
-        end
+        list.interative_insert_item(ctx, evalue, @pos)
       end
 
       ctx.set(ename, list)
