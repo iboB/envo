@@ -25,19 +25,11 @@ module Envy
       ename = ctx.expand_name(@name)
       evalue = ctx.expand_value(@value)
 
-      if opts[:force]
+      old_val = ctx.smart_get(ename)
+      if old_val.ineractive_accept_assign?(ctx, evalue)
         ctx.set(ename, evalue)
       else
-        old_val = ctx.smart_get(ename)
-        if old_val.accept_assign?(evalue)
-          ctx.set(ename, evalue)
-        else
-          if ctx.ask("Assign #{evalue.type} to #{old_val.type}?")
-            ctx.set(ename, evalue)
-          else
-            raise Envy::Error.new "Assignment of #{evalue.type} to #{old_val.type}"
-          end
-        end
+        raise Envy::Error.new "Assignment of #{evalue.type} to #{old_val.type}"
       end
     end
   end

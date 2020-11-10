@@ -8,9 +8,10 @@ module Envy
     end
 
     # casts
-    def accept_assign?(other)
+    def interactive_accept_assign?(ctx, other)
       true
     end
-
+    def to_list
+    end
   end
 end

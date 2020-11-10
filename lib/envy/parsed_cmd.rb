@@ -1,14 +1,10 @@
 module Envy
   class ParsedCmd
     def initialize(cmd, opts)
-      if cmd.class == ParsedCmd
-        @cmd = cmd.cmd
-        @opts = opts + cmd.opts
-      else
-        @cmd = cmd
-        @opts = opts
-      end
+      @cmd = cmd
+      @opts = opts
     end
-    attr_reader :cmd, :opts
+    attr_reader :cmd
+    attr_accessor :opts
   end
 end

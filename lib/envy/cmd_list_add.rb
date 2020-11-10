@@ -23,26 +23,22 @@ module Envy
 
     def execute(ctx)
       ename = ctx.expand_name(@name)
-      evalues = @values.map { |val| ctx.expand_value(@val) }
 
       list = ctx.smart_get(ename)
       if !list.list?
         if ctx.ask("#{ename} is not a list, but a #{list.type}. Convert?")
-          list = list.to_envy_list
+          list = list.to_list
         else
           raise Envy::Error.new "Adding list item to a non-list"
         end
       end
 
-      evalues.each do |val|
-        if !list.accept_item?(val)
-          if ctx.ask("Add #{val.type} to #{list.type}?")
-            list.insert(val, @pos)
-          else
-            raise Envy::Error.new "Can't add #{val.type} to #{list.type}?"
-          end
+      @values.each do |val|
+        evalue = ctx.expand_value(val)
+        if list.interative_accept_item?(ctx, evalue)
+          list.insert(evalue, @pos)
         else
-          list.insert(val, @pos)
+          raise Envy::Error.new "Can't add #{evalue.type} to #{list.type}?"
         end
       end
 
