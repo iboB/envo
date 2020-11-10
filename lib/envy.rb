@@ -5,6 +5,7 @@ module Envy
   autoload :Error, "envy/error"
   autoload :NoVal, "envy/val/no_val"
   autoload :StringVal, "envy/val/string_val"
+  autoload :ListVal, "envy/val/list_val"
   autoload :CmdSet, "envy/cmd_set"
   autoload :CmdUnset, "envy/cmd_unset"
   autoload :State, "envy/state"

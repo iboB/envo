@@ -40,8 +40,6 @@
     * `--down` - always ignore if already last
     * `--front`
     * `--back`
-    * `+<n>` - always ignore if beyond end
-    * `-<n>` - always ignore if beyond begin
     * `--raw` - val is string
     * `--force` - no error if not list, or val or index is not of list
 * `clean <name>` - cleans name (removes list duplicates, removes non-existing paths)
