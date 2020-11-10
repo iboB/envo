@@ -23,7 +23,7 @@ module Envy
       while !argv.empty?
         arg = argv.shift
         if CliParser.opt?(arg)
-          result.add_opt(*@known_opts.parse_cli(arg))
+          result.opts.merge! @known_opts.parse_cli(arg)
         else
           break cmd = arg
         end
@@ -36,8 +36,7 @@ module Envy
 
       cmd_opts = {}
       parsed_cmd.opts.each do |opt|
-        k, v = @known_opts.parse_cli(opt)
-        cmd_opts[k] = v
+        cmd_opts.merge! @known_opts.parse_cli(opt)
       end
       parsed_cmd.opts = cmd_opts
 
