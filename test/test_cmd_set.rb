@@ -1,6 +1,5 @@
 require_relative '../lib/envy'
 require_relative 'helper_opts'
-require_relative 'helper_ctx'
 require 'test/unit'
 
 include Envy

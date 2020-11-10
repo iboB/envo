@@ -29,8 +29,12 @@ module Envy
       @names.each do |name|
         ename = ctx.expand_name(name)
         raw_old_val = ctx.raw_get(ename)
-        raise Envy::Error.new "unset: no such var '#{ename}'" if !raw_old_val && !ctx.force?
-        ctx.unset(ename)
+
+        if raw_old_val
+          ctx.unset(ename)
+        else
+          raise Envy::Error.new "unset: no such var '#{ename}'" if !ctx.force?
+        end
       end
     end
   end
