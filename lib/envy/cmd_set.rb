@@ -48,14 +48,20 @@ module Envy
 
     def execute(ctx)
       ename = ctx.expand_name(@name)
-      evalue = ctx.expand_value(@value)
+      new_val = ctx.expand_value(@value)
 
       old_val = ctx.smart_get(ename)
-      if old_val.ineractive_accept_assign?(ctx, evalue)
-        ctx.set(ename, evalue)
-      else
-        raise Envy::Error.new "Assignment of #{evalue.type} to #{old_val.type}"
-      end
+
+      error = new_val.type != new_val.type
+      error &&= !new_val.accept_assign?(new_val)
+      error &&= ctx.ask("Assign #{new_val.type} to #{new_val.type}?")
+      raise Envy::Error.new "set: assignment of #{new_val.type} to #{@val.type}" if error
+
+      error = new_val.invalid_description
+      error &&= ctx.ask("Assign #{error} to #{ename}?")
+      raise Envy::Error.new "set: assigniment of #{error} to #{ename}" if error
+
+      ctx.smart_set(ename, new_val)
     end
   end
 end

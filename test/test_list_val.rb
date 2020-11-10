@@ -3,8 +3,30 @@ require 'test/unit'
 
 include Envy
 
-class TestListVar < Test::Unit::TestCase
-  def test_basic
+class TestListVal < Test::Unit::TestCase
+  def test_casts
+    l = ListVal.new([1, 5, 3, 2, 1])
+
+    assert_equal l.type, :list
+    assert l.list?
+    assert_same l.to_list, l
+
+    other = ListVal.new([1, 2, 3])
+    assert l.accept_assign?(other)
+
+    other = NoVal.new
+    assert !l.accept_assign?(other)
+
+    other = StringVal.new('')
+    assert !l.accept_assign?(other)
+
+    assert !l.invalid_description
+
+    l.ar.clear
+    assert_equal l.invalid_description, "empty list"
+  end
+
+  def test_ops
     l = ListVal.new([1, 5, 2, 3, 3, 2])
 
     assert_equal l.ar, [1, 5, 2, 3, 3, 2]

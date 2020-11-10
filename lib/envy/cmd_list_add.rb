@@ -24,14 +24,29 @@ module Envy
     def execute(ctx)
       ename = ctx.expand_name(@name)
 
-      list = ctx.smart_get(ename).interactive_to_list(ctx)
+      list = ctx.smart_get(ename)
+
+      error = list.list?
+      error &&= ctx.ask("#{@name} is not a list, but a #{list.type}. Convert?")
+      raise Envy::Error.new "list-add: adding list item to a non-list" if error
+
+      list = list.to_list
 
       @values.each do |val|
-        evalue = ctx.expand_value(val)
-        list.interative_insert_item(ctx, evalue, @pos)
+        val = ctx.expand_value(val)
+
+        error = list.accept_item?(val.type)
+        error &&= ctx.ask("Add #{val.type} to #{list.type}?")
+        raise Envy::Error.new "list-set: adding #{val.type} to #{list.type}" if error
+
+        error = val.invalid_description
+        error &&= ctx.ask("Add #{error} to #{ename}?")
+        raise Envy::Error.new "list-add: adding #{error} to #{ename}" if error
+
+        list.insert(val.to_s, @pos)
       end
 
-      ctx.set(ename, list)
+      ctx.smart_set(ename, list)
     end
   end
 end

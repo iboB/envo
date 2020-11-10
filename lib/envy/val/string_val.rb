@@ -1,18 +1,24 @@
 module Envy
   class StringVal
-    def initialize(sys, str)
-      @sys = sys
+    def initialize(str)
       @value = str
     end
-
-    attr_reader :sys
-    attr_accessor :value
-
+    attr_reader :value
     # casts
-    def interactive_accept_assign?(ctx, other)
+    def type
+      :string
+    end
+    def accept_assign?(other)
       true
     end
+    def invalid_description
+      @value.empty? ? "empty string" : nil
+    end
+    def list?
+      false
+    end
     def to_list
+      return ListVal.new([@value])
     end
   end
 end
