@@ -14,11 +14,11 @@ class TestCmdUnset < Test::Unit::TestCase
     assert_equal parsed.cmd.names, ['foo', 'bar']
 
     assert_raise(Envy::Error.new 'unset: no names provided') do
-        CmdUnset.parse_cli []
+      CmdUnset.parse_cli []
     end
 
     assert_raise(Envy::Error.new 'unset: no names provided') do
-        CmdUnset.parse_cli ['--a', '-b']
+      CmdUnset.parse_cli ['--a', '-b']
     end
   end
 
@@ -46,7 +46,7 @@ class TestCmdUnset < Test::Unit::TestCase
     ctx.fake_env = env.dup
     ctx.interactivity = :no_force
     assert_raise(Envy::Error.new "unset: no such var 'faa'") do
-        cmd.execute(ctx)
+      cmd.execute(ctx)
     end
   end
 end
