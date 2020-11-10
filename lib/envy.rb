@@ -6,6 +6,8 @@ module Envy
   autoload :NoVal, "envy/val/no_val"
   autoload :StringVal, "envy/val/string_val"
   autoload :ListVal, "envy/val/list_val"
+  autoload :PathVal, "envy/val/path_val"
+  autoload :PathListVal, "envy/val/path_list_val"
   autoload :CmdSet, "envy/cmd_set"
   autoload :CmdUnset, "envy/cmd_unset"
   autoload :State, "envy/state"
