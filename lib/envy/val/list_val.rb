@@ -100,5 +100,8 @@ module Envy
     def to_list
       return self
     end
+    def accept_item?(item)
+      true
+    end
   end
 end

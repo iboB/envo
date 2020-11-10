@@ -22,6 +22,8 @@ class TestListVal < Test::Unit::TestCase
 
     assert !l.invalid_description
 
+    assert l.accept_item?(42)
+
     l.ar.clear
     assert_equal l.invalid_description, "empty list"
   end

@@ -3,7 +3,7 @@ module Envy
     def initialize(str)
       @value = str
     end
-    attr_reader :value
+    attr_accessor :value
     # casts
     def type
       :string
