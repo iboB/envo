@@ -51,21 +51,29 @@ module Envy
       list = ctx.smart_get(ename)
 
       ok = list.list?
-      ok ||= ctx.ask("#{@name} is not a list, but a #{list.type}. Convert?")
+      if !ok
+        if list.type == :empty
+          ok ||= ctx.ask("#{@name} doesn't exist. Create?")
+        else
+          ok ||= ctx.ask("#{@name} is not a list, but a #{list.type}. Convert?")
+        end
+      end
       raise Envy::Error.new "list-add: adding list item to a non-list" if !ok
 
       list = list.to_list
 
-      @values.each do |val|
+      ordered = @pos == :front ? values.reverse : values
+      ordered.each do |val|
         val = ctx.expand_value(val)
 
-        ok = list.accept_item?(val.type)
+        ok = list.accept_item?(val)
         ok ||= ctx.ask("Add #{val.type} to #{list.type}?")
-        raise Envy::Error.new "list-set: adding #{val.type} to #{list.type}" if !ok
+        raise Envy::Error.new "list-add: adding #{val.type} to #{list.type}" if !ok
 
-        ok = !val.invalid_description
-        ok ||= ctx.ask("Add #{ok} to #{ename}?")
-        raise Envy::Error.new "list-add: adding #{ok} to #{ename}" if !ok
+        idesc = val.invalid_description
+        ok = !idesc
+        ok ||= ctx.ask("Add #{idesc} to #{ename}?")
+        raise Envy::Error.new "list-add: adding #{idesc} to #{ename}" if !ok
 
         list.insert(val.to_s, @pos)
       end

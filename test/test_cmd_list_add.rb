@@ -54,8 +54,52 @@ class TestCmdListAdd < Test::Unit::TestCase
     ctx = MockCtx.new
     cmd = CmdListAdd.new('list123', [StringVal.new('boo')], nil)
     cmd.execute(ctx)
-
     assert_equal ctx.sets.keys, ['list123']
     assert_equal ctx.sets.values[0].ar, ['val', 'list123', 'boo']
+
+    ctx.reset
+    cmd.name = 'str123'
+    ctx.answers = [true]
+    cmd.pos = :front
+    cmd.execute(ctx)
+    assert_equal ctx.sets.keys, ['str123']
+    assert_equal ctx.sets.values[0].ar, ['boo', 'str123']
+    assert_equal ctx.questions, ['str123 is not a list, but a string. Convert?']
+
+    ctx.reset
+    ctx.answers = [false]
+    assert_raise(Envy::Error.new "list-add: adding list item to a non-list") do
+      cmd.execute(ctx)
+    end
+
+    ctx.reset
+    ctx.answers = [true, true]
+    cmd.values = [StringVal.new('a'), StringVal.new(''), StringVal.new('b')]
+    cmd.execute(ctx)
+    assert_equal ctx.sets.keys, ['str123']
+    assert_equal ctx.sets.values[0].ar, ['a', '', 'b', 'str123']
+    assert_equal ctx.questions, ['str123 is not a list, but a string. Convert?', 'Add empty string to str123?']
+
+    ctx.reset
+    ctx.answers = [true, false]
+    assert_raise(Envy::Error.new "list-add: adding empty string to str123") do
+      cmd.execute(ctx)
+    end
+
+    ctx.reset
+    ctx.answers = [true, true]
+    cmd.name = 'plist2'
+    cmd.values = [PathVal.new(ctx.sys, '/zz/ww'), StringVal.new('hoho')]
+    cmd.pos = :back
+    cmd.execute(ctx)
+    assert_equal ctx.sets.keys, ['plist2']
+    assert_equal ctx.sets.values[0].ar, ['/aa/bb/plist2', '/zz/ww', 'hoho']
+    assert_equal ctx.questions, ['Add non-existing path to plist2?', 'Add string to path list?']
+
+    ctx.reset
+    ctx.answers = [true, false]
+    assert_raise(Envy::Error.new "list-add: adding string to path list") do
+      cmd.execute(ctx)
+    end
   end
 end
