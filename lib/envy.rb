@@ -16,6 +16,7 @@ module Envy
   autoload :CmdShow, "envy/cmd_show"
   autoload :CmdSwap, "envy/cmd_swap"
   autoload :State, "envy/state"
+  autoload :ValBuilder, "envy/val/val_builder"
   # autoload :Context, "envy/context"
   autoload :ParsedCmd, "envy/parsed_cmd"
   autoload :CliParser, "envy/cli_parser"
