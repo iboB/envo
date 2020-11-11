@@ -21,7 +21,7 @@ module Envy
   autoload :ParsedCmd, "envy/parsed_cmd"
   autoload :CliParser, "envy/cli_parser"
   autoload :HostShell, "envy/host_shell"
-  autoload :HostSystem, "envy/host_system"
+  autoload :Host, "envy/host"
   autoload :ParseResult, "envy/parse_result"
 
   module Shell

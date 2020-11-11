@@ -89,7 +89,7 @@ class TestCmdListAdd < Test::Unit::TestCase
     ctx.reset
     ctx.answers = [true, true]
     cmd.name = 'plist2'
-    cmd.values = [PathVal.new(ctx.sys, '/zz/ww'), StringVal.new('hoho')]
+    cmd.values = [PathVal.new(ctx.host, '/zz/ww'), StringVal.new('hoho')]
     cmd.pos = :back
     cmd.execute(ctx)
     assert_equal ctx.sets.keys, ['plist2']

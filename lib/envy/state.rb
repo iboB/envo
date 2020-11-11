@@ -1,12 +1,11 @@
 module Envy
   class State
-    def initialize(sys)
-      @sys = sys
-      @real_env = sys.env
+    def initialize(env)
+      @real_env = env
       @work_env = nil
     end
 
-    attr_reader :sys, :real_env
+    attr_reader :real_env
 
     def set(name, val)
       if val == nil

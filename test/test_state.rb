@@ -3,21 +3,10 @@ require 'test/unit'
 
 include Envy
 
-class TestSystem
-  def initialize
-    @env = {}
-  end
-  attr_reader :env
-  def merge_env(h)
-    env.merge!(h)
-  end
-end
-
 class TestState < Test::Unit::TestCase
   def test_basic
-    sys = TestSystem.new
-    sys.merge_env({'foo' => '123', 'del' => 'xxx', 'del2' => 'yyy', 'path' => 'something'})
-    state = State.new(sys)
+    env = {'foo' => '123', 'del' => 'xxx', 'del2' => 'yyy', 'path' => 'something'}
+    state = State.new(env)
     assert_equal state.real_env['foo'], '123'
 
     patch = state.diff

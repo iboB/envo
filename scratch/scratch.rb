@@ -12,16 +12,9 @@ COMMANDS.each { |cmd| cmd.register_cli_parser(parser) }
 
 parsed = parser.parse(ARGV)
 
-class TestSystem
-  def initialize
-    @env = {'foo' => '123', 'del' => 'xxx', 'del2' => 'yyy', 'path' => 'something'}
-  end
-  attr :env
-end
-
 class Context
   def initialize
-    @state = State.new(TestSystem.new)
+    @state = State.new({'foo' => '123', 'del' => 'xxx', 'del2' => 'yyy', 'path' => 'something'})
   end
   attr :state
   def expand_name(str)

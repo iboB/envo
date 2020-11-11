@@ -26,13 +26,13 @@ class MockCtx
 
   def raw?; @raw; end
 
-  class MockSys
+  class MockHost
     def self.path_exists?(path)
       false
     end
   end
-  def sys
-    MockSys
+  def host
+    MockHost
   end
 
   def expand_name(name)
@@ -46,8 +46,8 @@ class MockCtx
     case name
     when /^str/ then StringVal.new(name)
     when /^list/ then ListVal.new(['val', name])
-    when /^path/ then PathVal.new(MockSys, '/xx/yy/' + name)
-    when /^plist/ then PathListVal.new(MockSys, ['/zz/ww', '/aa/bb/' + name])
+    when /^path/ then PathVal.new(MockHost, '/xx/yy/' + name)
+    when /^plist/ then PathListVal.new(MockHost, ['/zz/ww', '/aa/bb/' + name])
     else NoVal.new
     end
   end

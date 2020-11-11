@@ -4,14 +4,14 @@ require 'test/unit'
 include Envy
 
 class TestPathVal < Test::Unit::TestCase
-  class MockSys
+  class MockHost
     def self.path_exists?(path)
       path == '/foo/bar'
     end
   end
 
   def test_casts
-    pv = PathVal.new(MockSys, '/foo/bar')
+    pv = PathVal.new(MockHost, '/foo/bar')
 
     assert_equal pv.type, :path
     assert !pv.list?
@@ -21,7 +21,7 @@ class TestPathVal < Test::Unit::TestCase
     other = StringVal.new('xx')
     assert !pv.accept_assign?(other)
 
-    other = PathVal.new(MockSys, '/bar/baz')
+    other = PathVal.new(MockHost, '/bar/baz')
     assert pv.accept_assign?(other)
     assert_equal other.invalid_description, 'non-existing path'
 

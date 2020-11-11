@@ -106,7 +106,7 @@ class TestCmdSet < Test::Unit::TestCase
 
     ctx.reset
     cmd.name = 'path32'
-    cmd.value = PathVal.new(ctx.sys, '/foo/bar')
+    cmd.value = PathVal.new(ctx.host, '/foo/bar')
     ctx.answers = [true]
     cmd.execute(ctx)
     assert_equal ctx.sets.keys, ['path32']
