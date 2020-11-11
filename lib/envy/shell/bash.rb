@@ -3,15 +3,15 @@ module Envy
     module Bash
       extend self
 
-      def self.likely_abs_path?(val)
+      def likely_abs_path?(val)
         !val.empty? && val[0] == '/'
       end
-      def self.fix_path(path)
+      def fix_path(path)
         path
       end
 
       LIST_SEP = ':'
-      def self.likely_list?(val)
+      def likely_list?(val)
         # we have some work
         # if the value includes our list separtor ":", we need to make sure whether a url:port combination is not a better fit
         return false if !val.include?(LIST_SEP)

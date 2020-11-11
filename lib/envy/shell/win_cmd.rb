@@ -3,15 +3,15 @@ module Envy
     module WinCmd
       extend self
 
-      def self.likely_abs_path?(val)
+      def likely_abs_path?(val)
         val =~ /^[a-zA-Z]\:\\/
       end
-      def self.fix_path(path)
+      def fix_path(path)
         path.gsub('/', '\\')
       end
 
       LIST_SEP = ';'
-      def self.likely_list?(val)
+      def likely_list?(val)
         val.include?(LIST_SEP)
       end
       def list_to_ar(list)
