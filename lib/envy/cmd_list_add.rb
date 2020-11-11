@@ -50,22 +50,22 @@ module Envy
 
       list = ctx.smart_get(ename)
 
-      error = !list.list?
-      error &&= !ctx.ask("#{@name} is not a list, but a #{list.type}. Convert?")
-      raise Envy::Error.new "list-add: adding list item to a non-list" if error
+      ok = list.list?
+      ok ||= ctx.ask("#{@name} is not a list, but a #{list.type}. Convert?")
+      raise Envy::Error.new "list-add: adding list item to a non-list" if !ok
 
       list = list.to_list
 
       @values.each do |val|
         val = ctx.expand_value(val)
 
-        error = !list.accept_item?(val.type)
-        error &&= !ctx.ask("Add #{val.type} to #{list.type}?")
-        raise Envy::Error.new "list-set: adding #{val.type} to #{list.type}" if error
+        ok = list.accept_item?(val.type)
+        ok ||= ctx.ask("Add #{val.type} to #{list.type}?")
+        raise Envy::Error.new "list-set: adding #{val.type} to #{list.type}" if !ok
 
-        error = val.invalid_description
-        error &&= !ctx.ask("Add #{error} to #{ename}?")
-        raise Envy::Error.new "list-add: adding #{error} to #{ename}" if error
+        ok = !val.invalid_description
+        ok ||= ctx.ask("Add #{ok} to #{ename}?")
+        raise Envy::Error.new "list-add: adding #{ok} to #{ename}" if !ok
 
         list.insert(val.to_s, @pos)
       end

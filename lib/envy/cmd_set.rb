@@ -54,15 +54,15 @@ module Envy
 
       old_val = ctx.smart_get(ename)
 
-      error = old_val.type != new_val.type
-      error &&= !old_val.accept_assign?(new_val)
-      error &&= !ctx.ask("Assign #{new_val.type} to #{old_val.type}?")
-      raise Envy::Error.new "set: assignment of #{new_val.type} to #{old_val.type}" if error
+      ok = old_val.type == new_val.type
+      ok ||= old_val.accept_assign?(new_val)
+      ok ||= ctx.ask("Assign #{new_val.type} to #{old_val.type}?")
+      raise Envy::Error.new "set: assignment of #{new_val.type} to #{old_val.type}" if !ok
 
       idesc = new_val.invalid_description
-      error = idesc
-      error &&= !ctx.ask("Assign #{idesc} to #{ename}?")
-      raise Envy::Error.new "set: assignment of #{idesc} to #{ename}" if error
+      ok = !idesc
+      ok ||= ctx.ask("Assign #{idesc} to #{ename}?")
+      raise Envy::Error.new "set: assignment of #{idesc} to #{ename}" if !ok
 
       ctx.smart_set(ename, new_val)
     end
