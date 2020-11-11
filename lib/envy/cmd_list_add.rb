@@ -53,9 +53,9 @@ module Envy
       ok = list.list?
       if !ok
         if list.type == :empty
-          ok ||= ctx.ask("#{@name} doesn't exist. Create?")
+          ok ||= ctx.ask("#{ename} doesn't exist. Create?")
         else
-          ok ||= ctx.ask("#{@name} is not a list, but a #{list.type}. Convert?")
+          ok ||= ctx.ask("#{ename} is not a list, but a #{list.type}. Convert?")
         end
       end
       raise Envy::Error.new "list-add: adding list item to a non-list" if !ok

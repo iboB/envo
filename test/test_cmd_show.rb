@@ -5,7 +5,7 @@ require 'test/unit'
 
 include Envy
 
-class TestCmdUnset < Test::Unit::TestCase
+class TestCmdShow < Test::Unit::TestCase
   def test_cli_parse
     parsed = CmdShow.parse_cli ['--x', 'foo', 'bar', '--y']
     assert_equal parsed.opts, ['--x', '--y']
