@@ -20,5 +20,8 @@ module Envy
     def to_list
       return ListVal.new([])
     end
+    def to_s
+      ''
+    end
   end
 end

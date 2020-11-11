@@ -22,5 +22,8 @@ module Envy
     def to_list
       return PathListVal.new(@sys, [@path])
     end
+    def to_s
+      @path
+    end
   end
 end

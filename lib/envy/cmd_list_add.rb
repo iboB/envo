@@ -43,15 +43,15 @@ module Envy
       @pos = pos
     end
 
-    attr_reader :name, :values, :pos
+    attr_accessor :name, :values, :pos
 
     def execute(ctx)
       ename = ctx.expand_name(@name)
 
       list = ctx.smart_get(ename)
 
-      error = list.list?
-      error &&= ctx.ask("#{@name} is not a list, but a #{list.type}. Convert?")
+      error = !list.list?
+      error &&= !ctx.ask("#{@name} is not a list, but a #{list.type}. Convert?")
       raise Envy::Error.new "list-add: adding list item to a non-list" if error
 
       list = list.to_list
@@ -59,7 +59,7 @@ module Envy
       @values.each do |val|
         val = ctx.expand_value(val)
 
-        error = list.accept_item?(val.type)
+        error = !list.accept_item?(val.type)
         error &&= !ctx.ask("Add #{val.type} to #{list.type}?")
         raise Envy::Error.new "list-set: adding #{val.type} to #{list.type}" if error
 

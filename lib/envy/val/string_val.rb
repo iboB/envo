@@ -4,6 +4,7 @@ module Envy
       @value = str
     end
     attr_accessor :value
+
     # casts
     def type
       :string
@@ -19,6 +20,9 @@ module Envy
     end
     def to_list
       return ListVal.new([@value])
+    end
+    def to_s
+      @value
     end
   end
 end

@@ -1,5 +1,6 @@
 require_relative '../lib/envy'
 require_relative 'mock_opts'
+require_relative 'mock_ctx'
 require 'test/unit'
 
 include Envy
@@ -50,5 +51,11 @@ class TestCmdListAdd < Test::Unit::TestCase
   end
 
   def test_execute
+    ctx = MockCtx.new
+    cmd = CmdListAdd.new('list123', [StringVal.new('boo')], nil)
+    cmd.execute(ctx)
+
+    assert_equal ctx.sets.keys, ['list123']
+    assert_equal ctx.sets.values[0].ar, ['val', 'list123', 'boo']
   end
 end

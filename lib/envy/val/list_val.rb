@@ -103,5 +103,8 @@ module Envy
     def accept_item?(item)
       true
     end
+    def to_s
+      raise StandardError.new "list can't be converted to String"
+    end
   end
 end
