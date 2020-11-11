@@ -14,6 +14,7 @@ module Envy
   autoload :CmdListAdd, "envy/cmd_list_add"
   autoload :CmdListDel, "envy/cmd_list_del"
   autoload :CmdShow, "envy/cmd_show"
+  autoload :CmdSwap, "envy/cmd_swap"
   autoload :State, "envy/state"
   # autoload :Context, "envy/context"
   autoload :ParsedCmd, "envy/parsed_cmd"

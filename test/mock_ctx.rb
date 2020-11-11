@@ -63,6 +63,9 @@ class MockCtx
     else nil
     end
   end
+  def raw_set(name, val)
+    @sets[name] = val
+  end
   def unset(name)
     @unsets << name
   end
