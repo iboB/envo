@@ -9,7 +9,7 @@
     * `--name` - show `name=<val>`
 * `rshow <name>` - shorcut to `show --raw`
     * `--name` - show `name=<val>`
-* `name <var>` - show name of var
+* `name <name>` - show name of var
 * `@<var>` - shorcut to name of var
 * `path` - show path `show @path`
 * `p` - `path`

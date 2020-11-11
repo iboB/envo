@@ -12,6 +12,7 @@ module Envy
   autoload :CmdReset, "envy/cmd_reset"
   autoload :CmdUnset, "envy/cmd_unset"
   autoload :CmdListAdd, "envy/cmd_list_add"
+  autoload :CmdShow, "envy/cmd_show"
   autoload :State, "envy/state"
   # autoload :Context, "envy/context"
   autoload :ParsedCmd, "envy/parsed_cmd"

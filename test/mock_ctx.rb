@@ -9,10 +9,22 @@ class MockCtx
     @interactivity = :interactive
     @questions = []
     @answers = nil
+    @log = []
+    @raw = false
   end
+
+  def error(text); @log << 'e:' + text; end
+  def warn(text);  @log << 'w:' + text; end
+  def print(text); @log << 'p:' + text; end
+  def puts(text);  @log << 'i:' + text; end
+  def debug(text); @log << 'd:' + text; end
 
   attr_accessor :sets, :unsets
   attr_accessor :interactivity, :questions, :answers
+  attr_accessor :raw
+  attr_accessor :log
+
+  def raw?; @raw; end
 
   class MockSys
     def self.path_exists?(path)
@@ -44,7 +56,7 @@ class MockCtx
   end
   def raw_get(name)
     case name
-    when /^str/ then 'name'
+    when /^str/ then name
     when /^list/ then 'val:' + name
     when /^path/ then '/xx/yy/' + name
     when /^plist/ then '/zz/ww:/aa/bb/' + name
