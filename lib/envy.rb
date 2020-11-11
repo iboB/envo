@@ -9,6 +9,7 @@ module Envy
   autoload :PathVal, "envy/val/path_val"
   autoload :PathListVal, "envy/val/path_list_val"
   autoload :CmdSet, "envy/cmd_set"
+  autoload :CmdReset, "envy/cmd_reset"
   autoload :CmdUnset, "envy/cmd_unset"
   autoload :CmdListAdd, "envy/cmd_list_add"
   autoload :State, "envy/state"
