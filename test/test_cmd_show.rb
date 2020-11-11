@@ -9,13 +9,13 @@ class TestCmdShow < Test::Unit::TestCase
   def test_cli_parse
     parsed = CmdShow.parse_cli ['--x', 'foo', 'bar', '--y']
     assert_equal parsed.opts, ['--x', '--y']
-    assert_equal parsed.cmd.class, CmdShow
+    assert_instance_of CmdShow, parsed.cmd
     assert_equal parsed.cmd.names, ['foo', 'bar']
     assert !parsed.cmd.show_names
 
     parsed = CmdShow.parse_cli ['--x', 'foo', 'bar', '--name']
     assert_equal parsed.opts, ['--x']
-    assert_equal parsed.cmd.class, CmdShow
+    assert_instance_of CmdShow, parsed.cmd
     assert_equal parsed.cmd.names, ['foo', 'bar']
     assert parsed.cmd.show_names
 
@@ -34,7 +34,7 @@ class TestCmdShow < Test::Unit::TestCase
     parsed = parser.parse(['--foo', 'show', '--bar', 'name', '-z'])
     assert_equal parsed.opts, {foo: true}
     assert_equal parsed.cmds.size, 1
-    assert_equal parsed.cmds[0].cmd.class, CmdShow
+    assert_instance_of CmdShow, parsed.cmds[0].cmd
     assert_equal parsed.cmds[0].cmd.names, ['name']
     assert !parsed.cmds[0].cmd.show_names
     assert_equal parsed.cmds[0].opts, {bar: true, baz: true}
@@ -42,7 +42,7 @@ class TestCmdShow < Test::Unit::TestCase
     parsed = parser.parse(['s', '--name', 'name'])
     assert_equal parsed.opts, {}
     assert_equal parsed.cmds.size, 1
-    assert_equal parsed.cmds[0].cmd.class, CmdShow
+    assert_instance_of CmdShow, parsed.cmds[0].cmd
     assert_equal parsed.cmds[0].cmd.names, ['name']
     assert parsed.cmds[0].cmd.show_names
     assert_equal parsed.cmds[0].opts, {}
@@ -50,7 +50,7 @@ class TestCmdShow < Test::Unit::TestCase
     parsed = parser.parse(['rshow', 'name'])
     assert_equal parsed.opts, {}
     assert_equal parsed.cmds.size, 1
-    assert_equal parsed.cmds[0].cmd.class, CmdShow
+    assert_instance_of CmdShow, parsed.cmds[0].cmd
     assert_equal parsed.cmds[0].cmd.names, ['name']
     assert !parsed.cmds[0].cmd.show_names
     assert_equal parsed.cmds[0].opts, {raw: true}

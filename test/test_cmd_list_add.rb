@@ -9,21 +9,21 @@ class TestCmdListAdd < Test::Unit::TestCase
   def test_cli_parse
     parsed = CmdListAdd.parse_cli_all ['--x', 'foo', '--z', 'bar', '--y']
     assert_equal parsed.opts, ['--x', '--z', '--y']
-    assert_equal parsed.cmd.class, CmdListAdd
+    assert_instance_of CmdListAdd, parsed.cmd
     assert_equal parsed.cmd.name, 'foo'
     assert_equal parsed.cmd.values, ['bar']
     assert_nil parsed.cmd.pos
 
     parsed = CmdListAdd.parse_cli_all ['--top', 'foo', '--back', 'bar', 'baz', '--y']
     assert_equal parsed.opts, ['--y']
-    assert_equal parsed.cmd.class, CmdListAdd
+    assert_instance_of CmdListAdd, parsed.cmd
     assert_equal parsed.cmd.name, 'foo'
     assert_equal parsed.cmd.values, ['bar', 'baz']
     assert_equal parsed.cmd.pos, :back
 
     parsed = CmdListAdd.parse_cli_all ['foo', '--bottom', 'bar', '--front']
     assert_equal parsed.opts, []
-    assert_equal parsed.cmd.class, CmdListAdd
+    assert_instance_of CmdListAdd, parsed.cmd
     assert_equal parsed.cmd.name, 'foo'
     assert_equal parsed.cmd.values, ['bar']
     assert_equal parsed.cmd.pos, :front
@@ -43,7 +43,7 @@ class TestCmdListAdd < Test::Unit::TestCase
     parsed = parser.parse(['-f', 'la', '-b', '--top', 'name', 'v1', 'v2'])
     assert_equal parsed.opts, {foo: true}
     assert_equal parsed.cmds.size, 1
-    assert_equal parsed.cmds[0].cmd.class, CmdListAdd
+    assert_instance_of CmdListAdd, parsed.cmds[0].cmd
     assert_equal parsed.cmds[0].cmd.name, 'name'
     assert_equal parsed.cmds[0].cmd.values, ['v1', 'v2']
     assert_equal parsed.cmds[0].cmd.pos, :front

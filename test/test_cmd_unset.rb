@@ -9,7 +9,7 @@ class TestCmdUnset < Test::Unit::TestCase
   def test_cli_parse
     parsed = CmdUnset.parse_cli ['--x', 'foo', 'bar', '--y']
     assert_equal parsed.opts, ['--x', '--y']
-    assert_equal parsed.cmd.class, CmdUnset
+    assert_instance_of CmdUnset, parsed.cmd
     assert_equal parsed.cmd.names, ['foo', 'bar']
 
     assert_raise(Envy::Error.new 'unset: no names provided') do
@@ -27,7 +27,7 @@ class TestCmdUnset < Test::Unit::TestCase
     parsed = parser.parse(['--foo', 'unset', '--bar', 'name', '-z'])
     assert_equal parsed.opts, {foo: true}
     assert_equal parsed.cmds.size, 1
-    assert_equal parsed.cmds[0].cmd.class, CmdUnset
+    assert_instance_of CmdUnset, parsed.cmds[0].cmd
     assert_equal parsed.cmds[0].cmd.names, ['name']
     assert_equal parsed.cmds[0].opts, {bar: true, baz: true}
   end

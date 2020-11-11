@@ -9,7 +9,7 @@ class TestCmdListDel < Test::Unit::TestCase
   def test_cli_parse
     parsed = CmdListDel.parse_cli_all ['--x', 'foo', '--z', 'bar', '--y']
     assert_equal parsed.opts, ['--x', '--z', '--y']
-    assert_equal parsed.cmd.class, CmdListDel
+    assert_instance_of CmdListDel, parsed.cmd
     assert_equal parsed.cmd.name, 'foo'
     assert_equal parsed.cmd.value, 'bar'
 
@@ -28,7 +28,7 @@ class TestCmdListDel < Test::Unit::TestCase
     parsed = parser.parse(['-f', 'ld', '-b', 'name', 'v1'])
     assert_equal parsed.opts, {foo: true}
     assert_equal parsed.cmds.size, 1
-    assert_equal parsed.cmds[0].cmd.class, CmdListDel
+    assert_instance_of CmdListDel, parsed.cmds[0].cmd
     assert_equal parsed.cmds[0].cmd.name, 'name'
     assert_equal parsed.cmds[0].cmd.value, 'v1'
     assert_equal parsed.cmds[0].opts, {bar: true}

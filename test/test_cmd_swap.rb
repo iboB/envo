@@ -9,7 +9,7 @@ class TestCmdSwap < Test::Unit::TestCase
   def test_cli_parse
     parsed = CmdSwap.parse_cli ['--x', 'foo', 'bar', '--y']
     assert_equal parsed.opts, ['--x', '--y']
-    assert_equal parsed.cmd.class, CmdSwap
+    assert_instance_of CmdSwap, parsed.cmd
     assert_equal parsed.cmd.name_a, 'foo'
     assert_equal parsed.cmd.name_b, 'bar'
 
@@ -33,7 +33,7 @@ class TestCmdSwap < Test::Unit::TestCase
     parsed = parser.parse(['--foo', 'swap', '--bar', 'name', 'name2', '-z'])
     assert_equal parsed.opts, {foo: true}
     assert_equal parsed.cmds.size, 1
-    assert_equal parsed.cmds[0].cmd.class, CmdSwap
+    assert_instance_of CmdSwap, parsed.cmds[0].cmd
     assert_equal parsed.cmds[0].cmd.name_a, 'name'
     assert_equal parsed.cmds[0].cmd.name_b, 'name2'
     assert_equal parsed.cmds[0].opts, {bar: true, baz: true}
