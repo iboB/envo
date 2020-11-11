@@ -1,5 +1,5 @@
 require_relative '../lib/envy'
-require_relative 'helper_opts'
+require_relative 'mock_opts'
 require 'test/unit'
 
 include Envy
@@ -28,7 +28,7 @@ class TestCliParser < Test::Unit::TestCase
     assert_equal a, ['a', 'b', 'c']
   end
   def test_basic
-    parser = CliParser.new(HelperOpts)
+    parser = CliParser.new(MockOpts)
 
     parser.add_cmd('foo', ->(cmd, args) {
       assert_equal cmd, 'foo'

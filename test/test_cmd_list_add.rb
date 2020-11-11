@@ -1,5 +1,5 @@
 require_relative '../lib/envy'
-require_relative 'helper_opts'
+require_relative 'mock_opts'
 require 'test/unit'
 
 include Envy
@@ -37,7 +37,7 @@ class TestCmdListAdd < Test::Unit::TestCase
   end
 
   def test_cli_parser
-    parser = CliParser.new(HelperOpts)
+    parser = CliParser.new(MockOpts)
     CmdListAdd.register_cli_parser(parser)
     parsed = parser.parse(['-f', 'la', '-b', '--top', 'name', 'v1', 'v2'])
     assert_equal parsed.opts, {foo: true}

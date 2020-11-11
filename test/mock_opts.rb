@@ -1,4 +1,4 @@
-module HelperOpts
+module MockOpts
   extend self
   def parse_cli(opt)
     case opt
