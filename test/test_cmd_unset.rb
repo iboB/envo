@@ -1,5 +1,6 @@
 require_relative '../lib/envy'
 require_relative 'helper_opts'
+require_relative 'mock_ctx'
 require 'test/unit'
 
 include Envy
@@ -31,37 +32,17 @@ class TestCmdUnset < Test::Unit::TestCase
     assert_equal parsed.cmds[0].opts, {bar: true, baz: true}
   end
 
-  class MockCtx
-    attr_accessor :env, :force, :unsets
-    def initialize()
-      @unsets = []
-    end
-    def expand_name(name)
-      name
-    end
-    def raw_get(name)
-      @env[name]
-    end
-    def unset(name)
-      @unsets << name
-    end
-    def force?
-      @force
-    end
-  end
-
   def test_execute
     ctx = MockCtx.new
-    ctx.env = {'foo' => '1', 'bar' => 2, 'baz' => 3}
-    ctx.force = true
+    ctx.interactivity = :force
 
-    cmd = CmdUnset.new(['foo', 'faa'])
+    cmd = CmdUnset.new(['str', 'foo'])
     cmd.execute(ctx)
 
-    assert_equal ctx.unsets, ['foo']
+    assert_equal ctx.unsets, ['str']
 
-    ctx.force = false
-    assert_raise(Envy::Error.new "unset: no such var 'faa'") do
+    ctx.reset
+    assert_raise(Envy::Error.new "unset: no such var 'foo'") do
       cmd.execute(ctx)
     end
   end
