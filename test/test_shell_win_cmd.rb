@@ -24,6 +24,12 @@ class TestPlatformWinCmd < Test::Unit::TestCase
     assert !S.likely_abs_path?('\x\y')
     assert !S.likely_abs_path?('/root/asd')
 
+    assert S.likely_rel_path?('./foo')
+    assert S.likely_rel_path?('..\foo')
+    assert S.likely_rel_path?('..')
+    assert !S.likely_rel_path?('D:\foo')
+    assert !S.likely_rel_path?('foo')
+
     assert_equal S.fix_path('foo/bar'), 'foo\bar'
     assert_equal S.fix_path('c:/foo\bar/baz'), 'c:\foo\bar\baz'
   end

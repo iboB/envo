@@ -27,6 +27,12 @@ class TestPlatformUnixLike < Test::Unit::TestCase
     assert !S.likely_abs_path?('\x\y')
     assert !S.likely_abs_path?('root/asd')
 
+    assert S.likely_rel_path?('./foo')
+    assert S.likely_rel_path?('../foo')
+    assert S.likely_rel_path?('..')
+    assert !S.likely_rel_path?('/foo')
+    assert !S.likely_rel_path?('foo')
+
     assert_equal S.fix_path('foo/bar'), 'foo/bar'
     assert_equal S.fix_path('/x\y/z'), '/x\y/z'
   end

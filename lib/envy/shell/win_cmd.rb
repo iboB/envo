@@ -6,6 +6,9 @@ module Envy
       def likely_abs_path?(val)
         val =~ /^[a-zA-Z]\:\\/
       end
+      def likely_rel_path?(val)
+        return !val.empty? && val[0] == '.'
+      end
       def fix_path(path)
         path.gsub('/', '\\')
       end
