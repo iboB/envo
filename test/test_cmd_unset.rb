@@ -7,7 +7,6 @@ include Envy
 class TestCmdUnset < Test::Unit::TestCase
   def test_cli_parse
     parsed = CmdUnset.parse_cli ['--x', 'foo', 'bar', '--y']
-
     assert_equal parsed.opts, ['--x', '--y']
     assert_equal parsed.cmd.class, CmdUnset
     assert_equal parsed.cmd.names, ['foo', 'bar']

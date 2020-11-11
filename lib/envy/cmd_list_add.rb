@@ -1,15 +1,39 @@
 module Envy
   class CmdListAdd
-    def self.register_help(ctx)
+    def self.register_help(help)
+      help.add_cmd(Name, "adas")
     end
 
     def self.register_cli_parser(parser)
+      parser.add_cmd('la', ->(cmd, args) { parse_cli_all(args) })
     end
 
     def self.register_script_parser(parser)
     end
 
-    def self.parse_cli(args)
+    def self.parse_cli_all(args)
+      opts = CliParser.filter_opts_front(args)
+      raise Envy::Error.new "list-add: missing name. Use 'la <name> <val>'" if args.empty?
+      parse_cli_ags(args[0], args[1..], opts)
+    end
+
+    def self.parse_cli_ags(name, args, opts)
+      opts += CliParser.filter_opts(args)
+      pos = nil
+      opts.filter! do |opt|
+        case opt
+        when '--front', '--top'
+          pos = :front
+          false
+        when '--back', '--bottom'
+          pos = :back
+          false
+        else
+          true
+        end
+      end
+
+      ParsedCmd.new(CmdListAdd.new(name, args, pos), opts)
     end
 
     def initialize(name, values, pos)
@@ -19,7 +43,7 @@ module Envy
       @pos = pos
     end
 
-    attr_reader :names, :values
+    attr_reader :name, :values, :pos
 
     def execute(ctx)
       ename = ctx.expand_name(@name)

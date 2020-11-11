@@ -3,12 +3,18 @@ module Envy
     def self.opt?(opt)
       opt =~ /^-/
     end
-    def self.filter_opts(args)
+    def self.filter_opts_front(args)
       front_opts = args.take_while { |a| opt?(a) }
       args.shift(front_opts.size)
+      front_opts
+    end
+    def self.filter_opts_back(args)
       back_opts = args.reverse.take_while { |a| opt?(a) }.reverse
       args.pop(back_opts.size)
-      front_opts + back_opts
+      back_opts
+    end
+    def self.filter_opts(args)
+      filter_opts_front(args) + filter_opts_back(args)
     end
     def initialize(opts)
       @known_cmds = {}
