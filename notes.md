@@ -32,9 +32,11 @@
     * `--raw` - val is string
     * `--front` - adds val to front
     * `--back` - adds val to back
+* `la` - shortcut to list add
 * `list <name> del <val|index>` - removes val from list, or element at index
     * `--force` - no error if name isn't a list or if val or index is not of list
     * `--raw` - val is string
+* `ld` - shortcut to list del
 * `list <name> shift <val|index>`
     * `--up` - always ignore if already first
     * `--down` - always ignore if already last
@@ -47,12 +49,14 @@
     * `--only[-dedup][-nexist]` - only does these things
 * `swap <name> <other>` - swap values of two vars. does nothing if any doesn't exist
     * `--force` - no error any of them doesn't exist
-* `cp <name> <other>` - copy value of name to other
+* `copy <name> <other>` - copy value of name to other
     * `--force` - overwrite
     * `--no-force` - error if other exists
-* `mv <name> <other>` - move value of name to other
+* `cp` - shortcut to copy
+* `move <name> <other>` - move value of name to other
     * `--force` - overwrite
     * `--no-force` - error if other exists
+* `mv` - shortcut to move
 * `path add <val>` - `list @path add <val>`
 * `path del <val>` - `list @path del <val>`
 * `path shift <val>` - `list @path shift <val>`
