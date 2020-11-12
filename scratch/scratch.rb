@@ -3,7 +3,7 @@ require_relative '../lib/envy'
 include Envy
 
 @host = Host.new(HostShell)
-@logger = Logger.new(Logger.INFO)
+@logger = Logger.new(Logger::INFO)
 
 Commands = [
   CmdShow,
@@ -31,4 +31,10 @@ parsed = parser.parse(ARGV)
 
 ctx = Context.new(@host, @logger)
 
-p parsed
+ctx.execute(parsed)
+
+puts '======================='
+
+patch = ctx.state.diff
+
+p patch

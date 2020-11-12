@@ -17,12 +17,13 @@ module Envy
   autoload :CmdSwap, "envy/cmd_swap"
   autoload :State, "envy/state"
   autoload :ValBuilder, "envy/val/val_builder"
-  # autoload :Context, "envy/context"
+  autoload :Context, "envy/context"
   autoload :ParsedCmd, "envy/parsed_cmd"
   autoload :CliParser, "envy/cli_parser"
   autoload :HostShell, "envy/host_shell"
   autoload :Host, "envy/host"
   autoload :ParseResult, "envy/parse_result"
+  autoload :Logger, "envy/logger"
 
   module Shell
     autoload :Bash,   'envy/shell/bash'
