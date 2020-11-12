@@ -30,5 +30,8 @@ module Envy
       return if !inv
       ctx.warn "Warning: #{inv}"
     end
+    def to_env_s
+      @value
+    end
   end
 end

@@ -26,7 +26,12 @@ module Envy
     end
 
     def smart_set(name, value)
-      raw_set(name, value.to_env_s)
+      if value.list?
+        rv = @host.shell.ar_to_list(value.ar)
+        raw_set(name, rv)
+      else
+        raw_set(name, value.to_env_s)
+      end
     end
     def raw_set(name, value)
       @state.set(name, value)

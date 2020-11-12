@@ -26,5 +26,8 @@ module Envy
     def pretty_print(ctx)
       ctx.puts '<empty>'
     end
+    def to_env_s
+      nil
+    end
   end
 end
