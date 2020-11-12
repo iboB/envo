@@ -33,5 +33,7 @@ module Envy
   module Cli
     autoload :Runner, 'envy/cli/runner'
     autoload :Help, 'envy/cli/help'
+    autoload :InstallerWinCmd, 'envy/cli/installer_win_cmd'
+    autoload :InstallerBash, 'envy/cli/installer_bash'
   end
 end

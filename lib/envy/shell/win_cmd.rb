@@ -3,6 +3,10 @@ module Envy
     module WinCmd
       extend self
 
+      def installer
+        Cli::InstallerWinCmd
+      end
+
       def likely_abs_path?(val)
         val =~ /^[a-zA-Z]\:\\/
       end

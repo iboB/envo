@@ -3,6 +3,10 @@ module Envy
     module Bash
       extend self
 
+      def installer
+        Cli::InstallerBash
+      end
+
       def likely_abs_path?(val)
         !val.empty? && val[0] == '/'
       end
