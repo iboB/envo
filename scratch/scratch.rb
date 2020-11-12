@@ -1,29 +1,34 @@
 require_relative '../lib/envy'
 
-puts Envy::VERSION
-puts Envy::VERSION_TYPE
-
 include Envy
 
-COMMANDS = [CmdUnset]
+@host = Host.new(HostShell)
+@logger = Logger.new(Logger.INFO)
 
-parser = CliParser.new
-COMMANDS.each { |cmd| cmd.register_cli_parser(parser) }
+Commands = [
+  CmdShow,
+  CmdUnset,
+  CmdSet,
+]
 
-parsed = parser.parse(ARGV)
-
-class Context
-  def initialize
-    @state = State.new({'foo' => '123', 'del' => 'xxx', 'del2' => 'yyy', 'path' => 'something'})
-  end
-  attr :state
-  def expand_name(str)
-    str
+module Opts
+  extend self
+  def parse_cli(opt)
+    case opt
+    when '--force', '-f' then return {interact: :force}
+    when '--no-force', '-nf' then return {interact: :noforce}
+    when '--interactive' then return {interact: :interact}
+    when '--raw', '-r' then return {raw: true}
+    else raise Envy::Error.new "unknown command line option: #{opt}"
+    end
   end
 end
 
-ctx = Context.new
+parser = CliParser.new(Opts)
+Commands.each { |cmd| cmd.register_cli_parser(parser) }
 
-parsed.cmd.execute(ctx)
+parsed = parser.parse(ARGV)
 
-p ctx.state.diff
+ctx = Context.new(@host, @logger)
+
+p parsed

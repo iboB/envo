@@ -1,5 +1,10 @@
 module Envy
   class Context
+    def initialize(host, logger)
+      @host = host
+      @logger = logger
+    end
+
     def expand_name(name)
       name
     end
