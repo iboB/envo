@@ -1,8 +1,11 @@
 module Envy
   class Context
-    def initialize(host, log)
+    def initialize(host, log, opts)
       @host = host
       @log = log
+      @default_opts = opts
+      @opts = opts
+      reflect_opts_change
 
       @state = State.new(host.env)
     end
@@ -37,20 +40,33 @@ module Envy
       @state.set(name, value)
     end
 
-    # opt queries
-    def raw?
-      false
-    end
-    def force?
-      false
-    end
-
     def unset(name)
       @state.unset(name)
     end
 
+    # opt queries
+    def raw?
+      @opts[:raw]
+    end
+    def force?
+      @opts[:interact] == :force
+    end
+    def no_force?
+      @opts[:interact] == :no_force
+    end
+    def interact?
+      @opts[:interact] == :interact
+    end
+
+    def reflect_opts_change
+      @log.max_level = @opts[:log_level]
+    end
+
     # io
     def ask(question)
+      return true if force?
+      return false if no_force?
+
       print "#{question} (y/n): "
       answer = STDIN.gets.chomp
       answer.downcase!
@@ -65,7 +81,10 @@ module Envy
 
     # execution
     def execute(pack)
+      pack_opts = pack.opts
       pack.cmds.each do |cmd|
+        @opts = @default_opts.merge(cmd.opts, pack_opts)
+        reflect_opts_change
         cmd.cmd.execute(self)
       end
     end

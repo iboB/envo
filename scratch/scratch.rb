@@ -3,7 +3,7 @@ require_relative '../lib/envy'
 include Envy
 
 @host = Host.new(HostShell)
-@logger = Logger.new(Logger::INFO)
+@logger = Logger.new
 
 Commands = [
   CmdShow,
@@ -23,6 +23,10 @@ module Opts
     else raise Envy::Error.new "unknown command line option: #{opt}"
     end
   end
+  Defaults = {
+    interact: :interact,
+    log_level: Logger::INFO
+  }
 end
 
 parser = CliParser.new(Opts)
@@ -30,7 +34,7 @@ Commands.each { |cmd| cmd.register_cli_parser(parser) }
 
 parsed = parser.parse(ARGV)
 
-ctx = Context.new(@host, @logger)
+ctx = Context.new(@host, @logger, Opts::Defaults)
 
 ctx.execute(parsed)
 

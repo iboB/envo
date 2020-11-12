@@ -4,8 +4,8 @@ module Envy
     WARN = 1
     INFO = 2
     DEBUG = 3
-    def initialize(max_level)
-      @max_level = max_level
+    def initialize()
+      @max_level = DEBUG
     end
     attr_accessor :max_level
     def log(level, text)

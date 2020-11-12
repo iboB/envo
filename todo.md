@@ -1,7 +1,6 @@
 ## TODO
 
 * context vars
-* context taking opts into account
 * test context
 * help
 * cmd list-shift
