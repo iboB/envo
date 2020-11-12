@@ -9,6 +9,7 @@ Commands = [
   CmdShow,
   CmdUnset,
   CmdSet,
+  CmdListAdd,
 ]
 
 module Opts
