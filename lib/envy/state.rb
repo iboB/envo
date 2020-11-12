@@ -1,7 +1,7 @@
 module Envy
   class State
     def initialize(env)
-      @real_env = env
+      @real_env = env.to_h
       @work_env = nil
     end
 

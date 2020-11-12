@@ -18,6 +18,7 @@
 
 ## After release
 
+* bash on Windows (it basically the same as envy as it prints BASH-style paths and lists, but launches apps with Windows-CMD-style :) )
 * colors
 * script commands
     * find
