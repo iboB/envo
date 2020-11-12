@@ -35,6 +35,8 @@ existing_temp_dirs do |dir|
 
   begin
     File.open(path, 'w') {}
+    # on windows fix path in order for 'del' to work
+    path.gsub!(File::SEPARATOR, File::ALT_SEPARATOR) if File::ALT_SEPARATOR
     puts path
     exit 0
   rescue
