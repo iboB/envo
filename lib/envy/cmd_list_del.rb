@@ -1,7 +1,7 @@
 module Envy
   class CmdListDel
     def self.register_help(help)
-      help.add_cmd(Name, "adas")
+      help.add_cmd 'ld <name> <val|index>', "shorthand for 'list <name> del <val|index>'"
     end
 
     def self.register_cli_parser(parser)

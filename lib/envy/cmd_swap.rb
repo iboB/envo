@@ -1,8 +1,8 @@
 module Envy
   class CmdSwap
     Name = 'swap'
-    def self.register_help(ctx)
-      ctx.help.add_cmd(Name, "swap one or more vars")
+    def self.register_help(help)
+      help.add_cmd 'swap <name1> <name2>', "swap values of two environment variables"
     end
 
     def self.register_cli_parser(parser)

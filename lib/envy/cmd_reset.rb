@@ -1,8 +1,11 @@
 module Envy
   class CmdReset
     Name = 'reset'
-    def self.register_help(ctx)
-      ctx.help.add_cmd(Name, "reset stuff")
+    def self.register_help(help)
+      help.add_cmd 'reset <name>[=[<val>]]', <<~EOF
+        set or unset value of an existing environment variable
+        produce an error if the variable doesn't exist
+      EOF
     end
 
     def self.register_cli_parser(parser)

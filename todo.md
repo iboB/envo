@@ -2,7 +2,6 @@
 
 * context vars
 * test context
-* help
 * cmd list-shift
 * cmd list (dispatcher to specific command)
 * cmd clean

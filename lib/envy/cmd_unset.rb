@@ -1,8 +1,8 @@
 module Envy
   class CmdUnset
     Name = 'unset'
-    def self.register_help(ctx)
-      ctx.help.add_cmd(Name, "unset one or more vars")
+    def self.register_help(help)
+      help.add_cmd 'unset <name> ...', "unset values of one or more environment variables"
     end
 
     def self.register_cli_parser(parser)

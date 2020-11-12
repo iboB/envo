@@ -32,5 +32,6 @@ module Envy
 
   module Cli
     autoload :Runner, 'envy/cli/runner'
+    autoload :Help, 'envy/cli/help'
   end
 end

@@ -7,6 +7,11 @@ module Envy
       end
       attr_reader :host, :payload
 
+      VERSION_TEXT = "envy v#{Envy::VERSION}"
+      USAGE = <<~EOF
+        usage: envy [--version] [--help] <command> [<args>]
+      EOF
+
       module Opts
         extend self
         def parse_cli(opt)
@@ -18,6 +23,15 @@ module Envy
           else raise Envy::Error.new "unknown command line option: #{opt}"
           end
         end
+        def print_arg(log, arg, text)
+          log.puts "    #{arg.ljust(15)} - #{text}"
+        end
+        def print_help(log)
+          print_arg log, '--force, -f', 'force the execution of the command disregarding checks'
+          print_arg log, '--interactive', '(default) ask a question when a check fails'
+          print_arg log, '--no-force, -nf', 'produce an error instead of asking questions for checks'
+          print_arg log, '--raw, -r', 'don\'t infer types and treat each value as a raw string'
+        end
         Defaults = {
           interact: :interact,
           log_level: Logger::INFO
@@ -26,17 +40,55 @@ module Envy
 
       Commands = [
         CmdShow,
-        CmdUnset,
         CmdSet,
+        CmdReset,
+        CmdUnset,
         CmdListAdd,
+        CmdListDel,
+        CmdSwap,
       ]
 
+      def print_version
+        @log.puts VERSION_TEXT
+      end
+
+      def print_help
+        print_version
+        @log.puts USAGE
+        @log.puts ''
+        @log.puts 'Commands:'
+        help = Help.new
+        Commands.each do |cmd|
+          cmd.register_help(help)
+        end
+        help.print(@log)
+        @log.puts ''
+        @log.puts 'Common options:'
+        Opts.print_help(@log)
+      end
+
+      def parse_basic_opts(argv)
+        raise Error.new USAGE if argv.empty?
+        case argv[0]
+        when '--help', '-h', '-?'
+          print_help
+          true
+        when '--version'
+          print_version
+          true
+        else
+          false
+        end
+      end
+
       def do_run(argv)
+        return if parse_basic_opts(argv)
+
         parser = CliParser.new(Opts)
         Commands.each { |cmd| cmd.register_cli_parser(parser) }
         parsed = parser.parse(ARGV)
 
-        ctx = Context.new(@host, @logger, Opts::Defaults)
+        ctx = Context.new(@host, @log, Opts::Defaults)
         ctx.execute(parsed)
 
         patch = ctx.state.diff
@@ -55,12 +107,12 @@ module Envy
       end
 
       def run(argv)
-        @logger = Logger.new
+        @log = Logger.new
         begin
           do_run(argv)
           return 0
         rescue Error => e
-          @logger.error e.message
+          @log.error e.message
           return 1
         end
       end

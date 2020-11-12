@@ -1,7 +1,7 @@
 module Envy
   class CmdListAdd
     def self.register_help(help)
-      help.add_cmd(Name, "adas")
+      help.add_cmd 'la <name> <val>', "shorthand for 'list <name> add <val>'"
     end
 
     def self.register_cli_parser(parser)

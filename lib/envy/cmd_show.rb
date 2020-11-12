@@ -1,8 +1,17 @@
 module Envy
   class CmdShow
     Name = 'show'
-    def self.register_help(ctx)
-      ctx.help.add_cmd(Name, "unset one or more vars")
+    def self.register_help(help)
+      help.add_cmd "show <name> ...", <<~EOF
+        show values of environment variables
+          --name - display the name of the variable along with the value
+          shorhand: 's'
+      EOF
+
+      help.add_cmd 'rshow <name> ...', <<~EOF
+        show the *raw* value of environment variables with no pretty prints
+        a shortcut to 'show --raw <name> ...'
+      EOF
     end
 
     def self.register_cli_parser(parser)
