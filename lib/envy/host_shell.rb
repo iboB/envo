@@ -6,6 +6,6 @@ module Envy
       raise Error.new "bash on Windows (msys) is not supported yet" if env_shell =~ /^[a-zA-Z]\:/
       break Shell::Bash
     end
-    raise Error.new "Unknown shell! Please report on https://github.com/iboB/envy/issues" if !shell
+    raise Error.new "Unknown shell! Please report on https://github.com/iboB/envy/issues"
   }.()
 end

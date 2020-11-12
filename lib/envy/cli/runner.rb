@@ -7,7 +7,7 @@ module Envy
       end
       attr_reader :host, :payload
 
-      VERSION_TEXT = "envy v#{Envy::VERSION}"
+      VERSION_TEXT = "envy v#{Envy::VERSION} #{Envy::VERSION_TYPE}"
       USAGE = <<~EOF
         usage: envy [--version] [--help] <command> [<args>]
       EOF
@@ -86,7 +86,7 @@ module Envy
 
         parser = CliParser.new(Opts)
         Commands.each { |cmd| cmd.register_cli_parser(parser) }
-        parsed = parser.parse(ARGV)
+        parsed = parser.parse(argv)
 
         ctx = Context.new(@host, @log, Opts::Defaults)
         ctx.execute(parsed)

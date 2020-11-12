@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.expand_path("../lib", __dir__) # For use/testing when no
 require 'envy'
 
 if ARGV.size == 1 && ARGV[0] == '--version'
-  puts "installer for envy v#{Envy::VERSION}"
+  puts "installer for envy v#{Envy::VERSION} #{Envy::VERSION_TYPE}"
   exit 0
 end
 

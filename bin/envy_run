@@ -1,6 +1,20 @@
 #!/usr/bin/env ruby
 
+if ARGV.size == 1 && ARGV[0] == 'g'
+  require_relative 'envy_gen_tmp_helper'
+end
+
 argv = ARGV.dup
+
+if argv.size < 2 || argv.shift != 'pld'
+  STDERR.puts <<~ERR
+    envy_run needs to be called from envy
+    if you don't have the command 'envy', run 'envy-install'
+  ERR
+  exit 1
+end
+
+payload_path = argv.shift
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__) # For use/testing when no gem is installed
 require "envy"
