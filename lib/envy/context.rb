@@ -47,8 +47,8 @@ module Envy
     # io
     def ask(question)
       print "#{question} (y/n): "
-      answer = STDOUT.gets.chomp
-      answer.downacase!
+      answer = STDIN.gets.chomp
+      answer.downcase!
       return answer == 'y' || answer == 'yes'
     end
 

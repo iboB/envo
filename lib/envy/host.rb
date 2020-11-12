@@ -12,5 +12,9 @@ module Envy
     def pwd
       Dir.pwd
     end
+
+    def path_exists?(path)
+      File.exist?(path)
+    end
   end
 end

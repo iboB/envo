@@ -28,7 +28,7 @@ class MockCtx
 
   class MockHost
     def self.path_exists?(path)
-      false
+      path == '/this/path/exists'
     end
   end
   def host

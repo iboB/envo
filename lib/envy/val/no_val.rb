@@ -23,5 +23,8 @@ module Envy
     def to_s
       ''
     end
+    def pretty_print(ctx)
+      ctx.puts '<empty>'
+    end
   end
 end

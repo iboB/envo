@@ -9,6 +9,8 @@ class TestStringVal < Test::Unit::TestCase
 
     assert_equal s.type, :string
     assert !s.list?
+    assert_equal s.value, 'xyz'
+    assert_same s.to_s, s.value
 
     assert s.accept_assign?(5)
 

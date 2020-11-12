@@ -25,5 +25,11 @@ module Envy
     def to_s
       @path
     end
+    def pretty_print(ctx)
+      ctx.puts @path
+      inv = invalid_description
+      return if !inv
+      ctx.warn "Warning: #{inv}"
+    end
   end
 end

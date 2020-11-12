@@ -17,5 +17,7 @@ class TestNoVal < Test::Unit::TestCase
     l = n.to_list
     assert_equal l.type, :list
     assert_empty l.ar
+
+    assert_empty n.to_s
   end
 end

@@ -67,22 +67,19 @@ module Envy
       end
     end
 
-    # def attribs(elem)
-    #   @ar.count(elem) > 1 ? 'D' : ' '
-    # end
-    # def pretty_print(io)
-    #   io.puts "#{name}=["
-    #   @ar.each_with_index do |v, i|
-    #     str = attribs(v) + ' '
-    #     str += "#{i}:".ljust(4)
-    #     str += v
-    #     io.puts(str)
-    #   end
-    #   io.puts ']'
-    # end
-    # def interactive_to_list(io)
-    #   return self
-    # end
+    def pp_attribs(elem)
+      @ar.count(elem) > 1 ? 'D' : ' '
+    end
+    def pretty_print(ctx)
+      ctx.puts "["
+      @ar.each_with_index do |v, i|
+        str = pp_attribs(v) + ' '
+        str += "#{i}:".ljust(4)
+        str += v
+        ctx.puts str
+      end
+      ctx.puts ']'
+    end
 
     # casts
     def type

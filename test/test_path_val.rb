@@ -15,6 +15,8 @@ class TestPathVal < Test::Unit::TestCase
 
     assert_equal pv.type, :path
     assert !pv.list?
+    assert_equal pv.path, '/foo/bar'
+    assert_same pv.path, pv.to_s
 
     assert_nil pv.invalid_description
 
