@@ -73,8 +73,8 @@ class MockCtx
   def force?
     @interactivity == :force
   end
-  def no_force?
-    @interactivity == :no_force
+  def noforce?
+    @interactivity == :noforce
   end
   def interactive?
     @interactivity == :interactive

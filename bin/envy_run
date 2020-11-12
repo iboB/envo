@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+argv = ARGV.dup
+
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__) # For use/testing when no gem is installed
+require "envy"
+
+begin
+  host = Envy::Host.new(Envy::HostShell)
+  r = Envy::Cli::Runner.new(host, STDOUT)
+  exit r.run(argv)
+rescue Envy::Error => e
+  STDERR.puts e.message
+  exit 1
+end

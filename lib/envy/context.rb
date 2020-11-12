@@ -17,7 +17,19 @@ module Envy
       name
     end
     def expand_value(val)
-      ValBuilder.from_user_text(val, @host)
+      if raw?
+        if val.class == Array
+          if val.size == 1
+            StringVal.new(val[0])
+          else
+            ListVal.new(val)
+          end
+        else
+          StringVal.new(val)
+        end
+      else
+        ValBuilder.from_user_text(val, @host)
+      end
     end
 
     # env access
@@ -52,7 +64,7 @@ module Envy
       @opts[:interact] == :force
     end
     def no_force?
-      @opts[:interact] == :no_force
+      @opts[:interact] == :noforce
     end
     def interact?
       @opts[:interact] == :interact

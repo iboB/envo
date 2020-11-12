@@ -29,4 +29,8 @@ module Envy
     autoload :Bash,   'envy/shell/bash'
     autoload :WinCmd, 'envy/shell/win_cmd'
   end
+
+  module Cli
+    autoload :Runner, 'envy/cli/runner'
+  end
 end
