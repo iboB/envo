@@ -97,12 +97,15 @@ module Envy
 
         patch.removed.each { |name|
           @payload.puts @host.shell.cmd_unset_env_var(name)
+          puts @host.shell.cmd_unset_env_var(name)
         }
         patch.changed.each { |name, val|
           @payload.puts @host.shell.cmd_set_env_var(name, val)
+          puts @host.shell.cmd_set_env_var(name, val)
         }
         patch.added.each { |name, val|
           @payload.puts @host.shell.cmd_set_env_var(name, val)
+          puts @host.shell.cmd_set_env_var(name, val)
         }
       end
 

@@ -15,13 +15,14 @@ if argv.size < 2 || argv.shift != 'pld'
 end
 
 payload_path = argv.shift
+payload = File.open(payload_path, 'w')
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__) # For use/testing when no gem is installed
 require "envy"
 
 begin
   host = Envy::Host.new(Envy::HostShell)
-  r = Envy::Cli::Runner.new(host, STDOUT)
+  r = Envy::Cli::Runner.new(host, payload)
   exit r.run(argv)
 rescue Envy::Error => e
   STDERR.puts e.message
