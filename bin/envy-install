@@ -11,10 +11,6 @@ end
 begin
   shell = Envy::HostShell
   installer = shell.installer.new
-  if installer.detect_installed_envy?
-    puts "It seems that you already have envy installed"
-    puts "Do you want to reinstall it? (y/n)"
-  end
   exit installer.run(ARGV.dup)
 rescue Envy::Error => e
   STDERR.puts e.message

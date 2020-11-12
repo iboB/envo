@@ -10,8 +10,6 @@
 * basic scripts (cmd run)
 * script finder
 * installers (`shell.installer`)
-* temp shell script generation
-* cli - basically combine scratch/cli and scratch.rb
 * docs - at least readme. gifs for some example usage
 * ci with github actions (can we source stuff on gh's shell?)
 * release
