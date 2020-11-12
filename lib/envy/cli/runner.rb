@@ -67,7 +67,7 @@ module Envy
         Opts.print_help(@log)
       end
 
-      def parse_basic_opts(argv)
+      def check_help_ver(argv)
         raise Error.new USAGE if argv.empty?
         case argv[0]
         when '--help', '-h', '-?'
@@ -82,7 +82,7 @@ module Envy
       end
 
       def do_run(argv)
-        return if parse_basic_opts(argv)
+        return if check_help_ver(argv)
 
         parser = CliParser.new(Opts)
         Commands.each { |cmd| cmd.register_cli_parser(parser) }

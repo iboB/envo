@@ -63,7 +63,7 @@ module Envy
     def force?
       @opts[:interact] == :force
     end
-    def no_force?
+    def noforce?
       @opts[:interact] == :noforce
     end
     def interact?
@@ -77,7 +77,7 @@ module Envy
     # io
     def ask(question)
       return true if force?
-      return false if no_force?
+      return false if noforce?
 
       print "#{question} (y/n): "
       answer = STDIN.gets.chomp
