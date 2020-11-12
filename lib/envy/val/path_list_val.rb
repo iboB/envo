@@ -1,6 +1,6 @@
 module Envy
   class PathListVal < ListVal
-    def initialize(sys, ar)
+    def initialize(host, ar)
       super(ar)
     end
     def type
