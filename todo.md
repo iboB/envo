@@ -2,10 +2,8 @@
 
 * context vars
 * test context
-* cmd list (dispatcher to specific command)
 * cmd clean
 * cmd copy and move (they are small ones and can be done on one go)
-* cmd path (dispatch)
 * basic scripts (cmd run)
 * script finder
 * installers (`shell.installer`)
