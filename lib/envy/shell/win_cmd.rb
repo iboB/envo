@@ -7,6 +7,13 @@ module Envy
         Cli::InstallerWinCmd
       end
 
+      def path_var_name
+        'Path'
+      end
+      def home_var_name
+        'HOME'
+      end
+
       def likely_abs_path?(val)
         val =~ /^[a-zA-Z]\:\\/
       end

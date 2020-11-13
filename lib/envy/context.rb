@@ -8,13 +8,15 @@ module Envy
       reflect_opts_change
 
       @state = State.new(host.env)
+
+      create_common_locals
     end
 
     attr_reader :host, :state
 
     # parse access
     def expand_name(name)
-      name
+      @locals[name] || name
     end
     def expand_value(val)
       if raw?
@@ -30,6 +32,19 @@ module Envy
       else
         ValBuilder.from_user_text(val, @host)
       end
+    end
+    # local vars
+    def local_var_name?(name)
+      name =~ /^@[a-zA-Z]/
+    end
+    def set_local_var(name, value)
+      @locals[name] = value
+    end
+    def create_common_locals
+      @locals = {
+        '@path' => host.shell.path_var_name,
+        '@home' => host.shell.home_var_name,
+      }
     end
 
     # env access

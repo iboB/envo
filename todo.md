@@ -2,7 +2,6 @@
 
 * context vars
 * test context
-* cmd list-shift
 * cmd list (dispatcher to specific command)
 * cmd clean
 * cmd copy and move (they are small ones and can be done on one go)
@@ -16,6 +15,7 @@
 
 ## After release
 
+* cmd list-shift
 * bash on Windows (it basically the same as envy as it prints BASH-style paths and lists, but launches apps with Windows-CMD-style :) )
 * colors
 * script commands

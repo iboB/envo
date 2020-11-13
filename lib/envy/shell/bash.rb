@@ -7,6 +7,13 @@ module Envy
         Cli::InstallerBash
       end
 
+      def path_var_name
+        'PATH'
+      end
+      def home_var_name
+        'HOME'
+      end
+
       def likely_abs_path?(val)
         !val.empty? && val[0] == '/'
       end
