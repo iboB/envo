@@ -9,4 +9,13 @@ module MockOpts
     else raise Envy::Error.new opt
     end
   end
+  def parse_script(opt)
+    case opt
+    when 'foo' then return {foo: true}
+    when 'bar' then return {bar: true}
+    when 'baz' then return {baz: true}
+    when 'raw' then return {raw: true}
+    else raise Envy::Error.new opt
+    end
+  end
 end

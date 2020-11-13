@@ -50,6 +50,7 @@ module Envy
         CmdCopy,
         CmdSwap,
         CmdPath,
+        CmdRun,
       ]
 
       def print_version

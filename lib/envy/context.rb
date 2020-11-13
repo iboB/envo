@@ -1,18 +1,25 @@
 module Envy
   class Context
-    def initialize(host, log, opts)
+    def initialize(host, log, opts, state = nil)
       @host = host
       @log = log
       @default_opts = opts
       @opts = opts
       reflect_opts_change
 
-      @state = State.new(host.env)
+      @state = state || State.new(host.env)
 
       create_common_locals
     end
 
     attr_reader :host, :state
+
+    # create another context based on this one (same state, log, and host)
+    # which provides different opts an locals
+    # thus scripts can be executed which don't leak values in the scope above
+    def new_scope
+      Context.new(@host, @log, @opts.dup, @state)
+    end
 
     # parse access
     def expand_name(name)
