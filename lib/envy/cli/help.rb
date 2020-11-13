@@ -9,7 +9,7 @@ module Envy
       end
       def print(stream)
         @commands.each do |cmd|
-          stream.puts "    #{cmd[0]}"
+          stream.puts "  * #{cmd[0]}"
           cmd[1].each_line do |line|
             stream.puts "        #{line}"
           end
