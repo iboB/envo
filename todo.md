@@ -2,7 +2,6 @@
 
 * context vars
 * test context
-* cmd clean
 * cmd copy and move (they are small ones and can be done on one go)
 * basic scripts (cmd run)
 * script finder
@@ -14,6 +13,7 @@
 ## After release
 
 * cmd list-shift
+* clean-specific args (`--only[-dedup][-nexist]` - only does these things)
 * bash on Windows (it basically the same as envy as it prints BASH-style paths and lists, but launches apps with Windows-CMD-style :) )
 * colors
 * script commands
