@@ -17,6 +17,24 @@ module Envy
       parse_cli_args(args[0], args[1..], opts)
     end
 
+    def self.parse_script(name, tokens, opts)
+      pos = nil
+      opts.filter! do |opt|
+        case opt
+        when 'front', 'top'
+          pos = :front
+          false
+        when 'back', 'bottom'
+          pos = :back
+          false
+        else
+          true
+        end
+      end
+
+      ParsedCmd.new(CmdListAdd.new(name, tokens, pos), opts)
+    end
+
     def self.parse_cli_args(name, args, opts)
       opts += CliParser.filter_opts(args)
       pos = nil

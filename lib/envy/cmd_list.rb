@@ -18,10 +18,6 @@ module Envy
       parser.add_cmd(Name, ->(cmd, args) { parse_cli(args) })
     end
 
-    def self.register_script_parser(parser)
-      parser.add_cmd(Name, ->(cmd, args) { parse_script(args) })
-    end
-
     def self.parse_cli(args)
       opts = CliParser.filter_opts_front(args)
       raise Envy::Error.new "list: missing name. Use 'list <name> <cmd> <args>'" if args.empty?
@@ -31,6 +27,22 @@ module Envy
       cmd = args.shift
       return CmdListAdd.parse_cli_args(name, args, opts) if cmd == 'add'
       return CmdListDel.parse_cli_args(name, args, opts) if cmd == 'del'
+
+      raise Envy::Error.new "list: unkonwn subcommand #{cmd}"
+    end
+
+    def self.register_script_parser(parser)
+      parser.add_cmd(Name, ->(cmd, tokens, opts) { parse_script(tokens, opts) })
+    end
+
+    def self.parse_script(tokens, opts)
+      raise Envy::Error.new "list: missing name. Use 'list <name> <cmd> <args>'" if tokens.empty?
+      name = tokens.shift
+      return ParsedCmd.new(CmdShow.new([name], true), opts) if tokens.empty? # just list <name>
+
+      cmd = tokens.shift
+      return CmdListAdd.parse_script(name, tokens, opts) if cmd == 'add'
+      return CmdListDel.parse_tokens(name, tokens, opts) if cmd == 'del'
 
       raise Envy::Error.new "list: unkonwn subcommand #{cmd}"
     end

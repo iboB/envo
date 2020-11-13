@@ -10,16 +10,20 @@ module Envy
     end
 
     def self.register_cli_parser(parser)
-      parser.add_cmd('clean', ->(cmd, args) { parse_cli(args) })
+      parser.add_cmd(Name, ->(cmd, args) { parse_cli(args) })
     end
 
     def self.register_script_parser(parser)
-      parser.add_cmd(Name, ->(cmd, args) { parse_script(args) })
+      parser.add_cmd(Name, ->(cmd, tokens, opts) { parse_tokens(tokens, opts) })
     end
 
     def self.parse_cli(args)
       opts = CliParser.filter_opts(args)
-      ParsedCmd.new(CmdClean.new(args), opts)
+      parse_tokens(args, opts)
+    end
+
+    def self.parse_tokens(tokens, opts)
+      ParsedCmd.new(CmdClean.new(tokens), opts)
     end
 
     def initialize(names)

@@ -28,6 +28,13 @@ class TestCmdListAdd < Test::Unit::TestCase
     assert_equal parsed.cmd.values, ['bar']
     assert_equal parsed.cmd.pos, :front
 
+    parsed = CmdListAdd.parse_script 'foo', ['bar'], ['bottom', 'front']
+    assert_equal parsed.opts, []
+    assert_instance_of CmdListAdd, parsed.cmd
+    assert_equal parsed.cmd.name, 'foo'
+    assert_equal parsed.cmd.values, ['bar']
+    assert_equal parsed.cmd.pos, :front
+
     assert_raise(Envy::Error.new "list-add: missing name. Use 'la <name> <val>'") do
       CmdListAdd.parse_cli_all ['--x']
     end

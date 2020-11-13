@@ -13,12 +13,15 @@ module Envy
     end
 
     def self.register_script_parser(parser)
-      parser.add_cmd(Name, ->(cmd, args) { parse_script(args) })
+      parser.add_cmd(Name, ->(cmd, tokens, opts) { parse_tokens(tokens, opts) })
     end
 
     def self.parse_cli(args)
       opts = CliParser.filter_opts(args)
+      parse_tokens(args, opts)
+    end
 
+    def self.parse_tokens(args, opts)
       raise Envy::Error.new "reset: missing name. Use 'reset <name> [= [<val>]]'" if args.empty? || args[0][0] == '='
       if args.size == 1
         arg = args[0]

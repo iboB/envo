@@ -14,7 +14,7 @@ module Envy
     end
 
     def self.register_script_parser(parser)
-      parser.add_cmd(Name, ->(cmd, args) { parse_script(args) })
+      parser.add_cmd(Name, ->(cmd, tokens, opts) { parse_tokens(tokens, opts) })
     end
 
     def self.parse_cli(args)

@@ -19,8 +19,12 @@ module Envy
 
     def self.parse_cli_args(name, args, opts)
       opts += CliParser.filter_opts(args)
-      raise Envy::Error.new "list-del: provide one value or index to delete. Use 'list <name> del <val|index>'" if args.size != 1
-      ParsedCmd.new(CmdListDel.new(name, args[0]), opts)
+      parse_tokens(name, args, opts)
+    end
+
+    def self.parse_tokens(name, tokens, opts)
+      raise Envy::Error.new "list-del: provide one value or index to delete. Use 'list <name> del <val|index>'" if tokens.size != 1
+      ParsedCmd.new(CmdListDel.new(name, tokens[0]), opts)
     end
 
     def initialize(name, value)

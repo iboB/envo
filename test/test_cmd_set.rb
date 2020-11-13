@@ -74,6 +74,18 @@ class TestCmdSet < Test::Unit::TestCase
     assert_equal parsed.cmds[0].opts, {bar: true, baz: true}
   end
 
+  def test_script_parser
+    parser = ScriptParser.new(MockOpts)
+    CmdSet.register_script_parser(parser)
+    parsed = parser.parse(['set foo=bar'])
+    assert_empty parsed.opts
+    assert_equal parsed.cmds.size, 1
+    assert_instance_of CmdSet, parsed.cmds[0].cmd
+    assert_equal parsed.cmds[0].cmd.name, 'foo'
+    assert_equal parsed.cmds[0].cmd.value, ['bar']
+    assert_equal parsed.cmds[0].opts, {}
+  end
+
   def test_execute
     ctx = MockCtx.new
     cmd = CmdSet.new('str', StringVal.new('asdf'))

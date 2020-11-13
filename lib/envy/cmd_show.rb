@@ -21,7 +21,7 @@ module Envy
     end
 
     def self.register_script_parser(parser)
-      parser.add_cmd(Name, ->(cmd, args) { parse_script(args) })
+      parser.add_cmd(Name, ->(cmd, tokens, opts) { parse_script(tokens, opts) })
     end
 
     def self.parse_cli(args)
@@ -36,6 +36,19 @@ module Envy
         end
       end
       ParsedCmd.new(CmdShow.new(args, show_names), opts)
+    end
+
+    def self.parse_script(tokens, opts)
+      show_names = false
+      opts.filter! do |opt|
+        if opt == 'name'
+          show_names = true
+          false
+        else
+          true
+        end
+      end
+      ParsedCmd.new(CmdShow.new(tokens, show_names), opts)
     end
 
     def initialize(names, show_names)

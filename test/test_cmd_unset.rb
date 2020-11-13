@@ -32,6 +32,17 @@ class TestCmdUnset < Test::Unit::TestCase
     assert_equal parsed.cmds[0].opts, {bar: true, baz: true}
   end
 
+  def test_script_parser
+    parser = ScriptParser.new(MockOpts)
+    CmdUnset.register_script_parser(parser)
+    parsed = parser.parse(['unset a b c'])
+    assert_empty parsed.opts
+    assert_equal parsed.cmds.size, 1
+    assert_instance_of CmdUnset, parsed.cmds[0].cmd
+    assert_equal parsed.cmds[0].cmd.names, ['a', 'b', 'c']
+    assert_empty parsed.cmds[0].opts
+  end
+
   def test_execute
     ctx = MockCtx.new
     ctx.interactivity = :force

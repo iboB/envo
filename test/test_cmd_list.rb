@@ -46,4 +46,24 @@ class TestCmdList < Test::Unit::TestCase
     assert_equal parsed.cmds[0].cmd.pos, :front
     assert_equal parsed.cmds[0].opts, {bar: true}
   end
+
+  def test_script_parser
+    parser = ScriptParser.new(MockOpts)
+    CmdList.register_script_parser(parser)
+    parsed = parser.parse [
+      '{bar,top} list name add v1 "v2 2"',
+      'list name2 del 2'
+    ]
+    assert_empty parsed.opts
+    assert_equal parsed.cmds.size, 2
+    assert_instance_of CmdListAdd, parsed.cmds[0].cmd
+    assert_equal parsed.cmds[0].cmd.name, 'name'
+    assert_equal parsed.cmds[0].cmd.values, ['v1', 'v2 2']
+    assert_equal parsed.cmds[0].cmd.pos, :front
+    assert_equal parsed.cmds[0].opts, {bar: true}
+    assert_instance_of CmdListDel, parsed.cmds[1].cmd
+    assert_equal parsed.cmds[1].cmd.name, 'name2'
+    assert_equal parsed.cmds[1].cmd.value, '2'
+    assert_equal parsed.cmds[1].opts, {}
+  end
 end

@@ -14,13 +14,17 @@ module Envy
     end
 
     def self.register_script_parser(parser)
-      parser.add_cmd(Name, ->(cmd, args) { parse_script(args) })
+      parser.add_cmd(Name, ->(cmd, tokens, opts) { parse_tokens(tokens, opts) })
     end
 
     def self.parse_cli(args)
       opts = CliParser.filter_opts(args)
-      raise Envy::Error.new "copy: provide two names to copy. Use 'copy <source-name> <target-name>'" if args.size != 2
-      ParsedCmd.new(CmdCopy.new(args[0], args[1]), opts)
+      parse_tokens(args, opts)
+    end
+
+    def self.parse_tokens(tokens, opts)
+      raise Envy::Error.new "copy: provide two names to copy. Use 'copy <source-name> <target-name>'" if tokens.size != 2
+      ParsedCmd.new(CmdCopy.new(tokens[0], tokens[1]), opts)
     end
 
     def initialize(source, target)
