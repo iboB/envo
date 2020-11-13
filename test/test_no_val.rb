@@ -10,6 +10,7 @@ class TestNoVal < Test::Unit::TestCase
     assert_equal n.type, :empty
     assert !n.list?
     assert_nil n.to_env_s
+    n.clean! # shouldn't do anything
 
     assert n.accept_assign?(5)
 

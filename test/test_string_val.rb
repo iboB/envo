@@ -10,6 +10,8 @@ class TestStringVal < Test::Unit::TestCase
     assert_equal s.type, :string
     assert !s.list?
     assert_equal s.value, 'xyz'
+    s.clean!
+    assert_equal s.value, 'xyz'
     assert_same s.to_s, s.value
 
     assert s.accept_assign?(5)
@@ -22,5 +24,8 @@ class TestStringVal < Test::Unit::TestCase
 
     s.value = ''
     assert_equal s.invalid_description, 'empty string'
+
+    s.clean!
+    assert_nil s.value
   end
 end

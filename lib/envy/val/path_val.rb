@@ -34,5 +34,8 @@ module Envy
     def to_env_s
       @path
     end
+    def clean!
+      @path = nil if @path && !@path.empty? && !@host.path_exists?(@path)
+    end
   end
 end

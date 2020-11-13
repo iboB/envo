@@ -17,6 +17,9 @@ class TestPathListVal < Test::Unit::TestCase
     assert pl.list?
     assert_equal pl.ar, ['/foo/bar']
 
+    pl.clean!
+    assert_equal pl.ar, ['/foo/bar']
+
     assert_nil pl.invalid_description
 
     other = ListVal.new(['xx'])
@@ -33,5 +36,9 @@ class TestPathListVal < Test::Unit::TestCase
 
     item = PathVal.new(MockHost, '/xx')
     assert pl.accept_item?(item)
+
+    toclear = PathListVal.new(MockHost, ['/foo/bar', '/bar/baz', '/something', '/foo/bar'])
+    toclear.clean!
+    assert_equal toclear.ar, ['/foo/bar']
   end
 end

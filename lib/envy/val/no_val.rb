@@ -29,5 +29,7 @@ module Envy
     def to_env_s
       nil
     end
+    def clean!
+    end
   end
 end

@@ -32,7 +32,7 @@ class TestListVal < Test::Unit::TestCase
     l = ListVal.new([1, 5, 2, 3, 3, 2])
 
     assert_equal l.ar, [1, 5, 2, 3, 3, 2]
-    l.uniq!
+    l.clean!
     assert_equal l.ar, [1, 5, 2, 3]
     l.insert(8)
     assert_equal l.ar, [1, 5, 2, 3, 8]

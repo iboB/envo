@@ -33,5 +33,8 @@ module Envy
     def to_env_s
       @value
     end
+    def clean!
+      @value = nil if @value && @value.empty?
+    end
   end
 end
