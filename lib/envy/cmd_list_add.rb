@@ -14,10 +14,10 @@ module Envy
     def self.parse_cli_all(args)
       opts = CliParser.filter_opts_front(args)
       raise Envy::Error.new "list-add: missing name. Use 'la <name> <val>'" if args.empty?
-      parse_cli_ags(args[0], args[1..], opts)
+      parse_cli_args(args[0], args[1..], opts)
     end
 
-    def self.parse_cli_ags(name, args, opts)
+    def self.parse_cli_args(name, args, opts)
       opts += CliParser.filter_opts(args)
       pos = nil
       opts.filter! do |opt|

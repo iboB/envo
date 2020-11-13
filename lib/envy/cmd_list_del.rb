@@ -14,10 +14,10 @@ module Envy
     def self.parse_cli_all(args)
       opts = CliParser.filter_opts_front(args)
       raise Envy::Error.new "list-del: missing name. Use 'ld <name> <val|index>'" if args.empty?
-      parse_cli_ags(args[0], args[1..], opts)
+      parse_cli_args(args[0], args[1..], opts)
     end
 
-    def self.parse_cli_ags(name, args, opts)
+    def self.parse_cli_args(name, args, opts)
       opts += CliParser.filter_opts(args)
       raise Envy::Error.new "list-del: provide one value or index to delete. Use 'list <name> del <val|index>'" if args.size != 1
       ParsedCmd.new(CmdListDel.new(name, args[0]), opts)

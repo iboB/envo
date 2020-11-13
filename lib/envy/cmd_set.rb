@@ -2,7 +2,7 @@ module Envy
   class CmdSet
     Name = 'set'
     def self.register_help(help)
-      help.add_cmd"set <name>=<val>", <<~EOF
+      help.add_cmd "set <name>=<val>", <<~EOF
         set a value to an environment variable
         'set name=' unsets the value
       EOF

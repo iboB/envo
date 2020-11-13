@@ -43,6 +43,7 @@ module Envy
         CmdSet,
         CmdReset,
         CmdUnset,
+        CmdList,
         CmdListAdd,
         CmdListDel,
         CmdSwap,
