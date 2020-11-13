@@ -2,10 +2,8 @@
 
 * context vars
 * test context
-* cmd copy and move (they are small ones and can be done on one go)
 * basic scripts (cmd run)
 * script finder
-* installers (`shell.installer`)
 * docs - at least readme. gifs for some example usage
 * ci with github actions (can we source stuff on gh's shell?)
 * release

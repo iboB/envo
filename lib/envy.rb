@@ -18,6 +18,7 @@ module Envy
   autoload :CmdList, "envy/cmd_list"
   autoload :CmdPath, "envy/cmd_path"
   autoload :CmdClean, "envy/cmd_clean"
+  autoload :CmdCopy, "envy/cmd_copy"
   autoload :State, "envy/state"
   autoload :ValBuilder, "envy/val/val_builder"
   autoload :Context, "envy/context"

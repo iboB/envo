@@ -47,6 +47,7 @@ module Envy
         CmdListAdd,
         CmdListDel,
         CmdClean,
+        CmdCopy,
         CmdSwap,
         CmdPath,
       ]

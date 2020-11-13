@@ -53,10 +53,6 @@
     * `--force` - overwrite
     * `--no-force` - error if other exists
 * `cp` - shortcut to copy
-* `move <name> <other>` - move value of name to other
-    * `--force` - overwrite
-    * `--no-force` - error if other exists
-* `mv` - shortcut to move
 * `path add <val>` - `list @path add <val>`
 * `path del <val>` - `list @path del <val>`
 * `path shift <val>` - `list @path shift <val>`
