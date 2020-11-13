@@ -14,6 +14,6 @@ View, set, unset and manage environment variables (strings, lists, paths) on
 all platforms.
   DESC
 
-  s.files = Dir['lib/**/*.rb'] + Dir['bin/*']
+  s.files = Dir['lib/**/*'] + Dir['bin/*']
   s.executables = ['envy-install', 'envy_run']
 end

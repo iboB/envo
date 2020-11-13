@@ -5,20 +5,19 @@ module Envy
         ENV["Path"].split(';').each { |p| yield p }
       end
 
-      ENVY_RUN_CMD = "envy_run.cmd"
+      ENVY_RUN_CMD = "envy_run"
       INSTALL_FILE = "envy.bat"
       SOURCE_FILE = "envy.bat"
 
       def try_install(path)
         if !path
           each_path_dir do |dir|
-            envy_run_file = File.join(dir, ENVY_RUN_CMD)
-            if File.file?(envy_run_file)
+            if File.file?(File.join(dir, ENVY_RUN_CMD))
               path = dir
               break
             end
           end
-          raise Error.new("Couldn't find a good place to install envy. Please use '--path <path>' to provide one")
+          raise Error.new("Couldn't find a good place to install envy. Please use '--path <path>' to provide one") if !path
         end
         raise Error.new("'#{path}' is not an existing directory") if !File.directory?(path)
 
