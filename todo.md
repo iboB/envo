@@ -1,19 +1,17 @@
 ## TODO
 
-* context vars
 * test context
-* basic scripts (cmd run)
-* script finder
 * docs - at least readme. gifs for some example usage
 * ci with github actions (can we source stuff on gh's shell?)
 * release
 
 ## After release
 
+* bash on Windows (it basically the same as envy as it prints BASH-style paths and lists, but launches apps with Windows-CMD-style :) )
 * cmd list-shift
 * clean-specific args (`--only[-dedup][-nexist]` - only does these things)
-* bash on Windows (it basically the same as envy as it prints BASH-style paths and lists, but launches apps with Windows-CMD-style :) )
 * colors
+* script local vars
 * script commands
     * find
     * rel path
