@@ -13,6 +13,10 @@ module Envy
       Dir.pwd
     end
 
+    def home
+      Dir.home
+    end
+
     def path_exists?(path)
       File.exist?(path)
     end

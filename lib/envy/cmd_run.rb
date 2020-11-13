@@ -4,8 +4,8 @@ module Envy
     def self.register_help(help)
       help.add_cmd 'run <script>', <<~EOF
         run a script of envy commands
-        auto appends a .envy to script unless it's a relative path (begins with '.')
-        searches for scripts in .envy/ subdirs of current tree and in <home>/.envy/
+        if script is a relative or an absolute path, it tries to load the exact filename
+        otherwise it searches for '<script>.envyscript' in .envy/ subdirs of current tree and in <home>/.envy/
       EOF
     end
 
@@ -28,9 +28,41 @@ module Envy
 
     attr_reader :script
 
+    module Opts
+      extend self
+      def parse_script(opt)
+        case opt
+        when 'force' then return {interact: :force}
+        when 'no-force' then return {interact: :noforce}
+        when 'interactive' then return {interact: :interact}
+        when 'raw' then return {raw: true}
+        else raise Envy::Error.new "script option: #{opt}"
+        end
+      end
+    end
+
     def execute(ctx)
-      # script = ctx.load_script(@script)
-      # script.run
+      file = ctx.find_script(@script)
+      lines = ctx.load_script(file)
+      parser = ScriptParser.new(Opts)
+
+      [
+        CmdShow,
+        CmdSet,
+        CmdReset,
+        CmdUnset,
+        CmdList,
+        CmdClean,
+        CmdCopy,
+        CmdSwap,
+        CmdPath,
+        CmdRun,
+      ].each { |cmd| cmd.register_script_parser(parser) }
+
+      res = parser.parse(lines)
+
+      scope = ctx.new_scope({interact: :force})
+      scope.execute(res)
     end
   end
 end

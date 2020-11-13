@@ -17,8 +17,38 @@ module Envy
     # create another context based on this one (same state, log, and host)
     # which provides different opts an locals
     # thus scripts can be executed which don't leak values in the scope above
-    def new_scope
-      Context.new(@host, @log, @opts.dup, @state)
+    def new_scope(defaults = {})
+      Context.new(@host, @log, @opts.merge(defaults), @state)
+    end
+
+    def find_script(script)
+      if @host.shell.likely_rel_path?(script) || @host.shell.likely_abs_path?(script)
+        return script if @host.path_exists?(script)
+        raise Envy::Error.new "'#{script}' doesn't exist"
+      end
+
+      # look for '.envy/<file>.envyscript'
+      script = script + '.envyscript'
+      dir = @host.pwd
+      found = while true
+        check = File.join(dir, '.envy', script)
+        break check if @host.path_exists?(check)
+        new_dir = File.dirname(dir)
+        break nil if new_dir == dir
+        dir = new_dir
+      end
+
+      if !found
+        check = File.join(@host.home, '.envy', script)
+        found = check if @host.path_exists?(check)
+      end
+
+      raise Envy::Error.new "Can't find '#{script}' in .envy/ parent dirs or in <home>/.envy/" if !found
+      found
+    end
+
+    def load_script(path)
+      File.readlines(path)
     end
 
     # parse access
