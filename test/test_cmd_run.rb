@@ -1,9 +1,9 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdRun < Test::Unit::TestCase
   def test_cli_parse
@@ -13,11 +13,11 @@ class TestCmdRun < Test::Unit::TestCase
     assert_equal parsed.cmd.script, 'foo'
 
     error = "run: provide a single script name. Use 'run <script>'"
-    assert_raise(Envy::Error.new error) do
+    assert_raise(Envo::Error.new error) do
       CmdRun.parse_cli []
     end
 
-    assert_raise(Envy::Error.new error) do
+    assert_raise(Envo::Error.new error) do
       CmdRun.parse_cli ['--a', 'b', 'c']
     end
   end

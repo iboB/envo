@@ -1,9 +1,9 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdListAdd < Test::Unit::TestCase
   def test_cli_parse
@@ -35,11 +35,11 @@ class TestCmdListAdd < Test::Unit::TestCase
     assert_equal parsed.cmd.values, ['bar']
     assert_equal parsed.cmd.pos, :front
 
-    assert_raise(Envy::Error.new "list-add: missing name. Use 'la <name> <val>'") do
+    assert_raise(Envo::Error.new "list-add: missing name. Use 'la <name> <val>'") do
       CmdListAdd.parse_cli_all ['--x']
     end
 
-    assert_raise(Envy::Error.new "list-add: no values to add provided") do
+    assert_raise(Envo::Error.new "list-add: no values to add provided") do
       CmdListAdd.parse_cli_all ['foo', '--a', '--b']
     end
   end
@@ -75,7 +75,7 @@ class TestCmdListAdd < Test::Unit::TestCase
 
     ctx.reset
     ctx.answers = [false]
-    assert_raise(Envy::Error.new "list-add: adding list item to a non-list") do
+    assert_raise(Envo::Error.new "list-add: adding list item to a non-list") do
       cmd.execute(ctx)
     end
 
@@ -89,7 +89,7 @@ class TestCmdListAdd < Test::Unit::TestCase
 
     ctx.reset
     ctx.answers = [true, false]
-    assert_raise(Envy::Error.new "list-add: adding empty string to str123") do
+    assert_raise(Envo::Error.new "list-add: adding empty string to str123") do
       cmd.execute(ctx)
     end
 
@@ -105,7 +105,7 @@ class TestCmdListAdd < Test::Unit::TestCase
 
     ctx.reset
     ctx.answers = [true, false]
-    assert_raise(Envy::Error.new "list-add: adding string to path list") do
+    assert_raise(Envo::Error.new "list-add: adding string to path list") do
       cmd.execute(ctx)
     end
   end

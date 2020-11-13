@@ -1,8 +1,8 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestPrettyPrints < Test::Unit::TestCase
   def test_no_val

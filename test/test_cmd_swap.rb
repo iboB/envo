@@ -1,9 +1,9 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdSwap < Test::Unit::TestCase
   def test_cli_parse
@@ -14,15 +14,15 @@ class TestCmdSwap < Test::Unit::TestCase
     assert_equal parsed.cmd.name_b, 'bar'
 
     error = "swap: provide two names to swap. Use 'swap <name1> <name2>'"
-    assert_raise(Envy::Error.new error) do
+    assert_raise(Envo::Error.new error) do
       CmdSwap.parse_cli []
     end
 
-    assert_raise(Envy::Error.new error) do
+    assert_raise(Envo::Error.new error) do
       CmdSwap.parse_cli ['--a', 'b']
     end
 
-    assert_raise(Envy::Error.new error) do
+    assert_raise(Envo::Error.new error) do
       CmdSwap.parse_cli ['a', 'b', 'c']
     end
   end
@@ -60,7 +60,7 @@ class TestCmdSwap < Test::Unit::TestCase
 
     ctx.reset
     cmd.name_a = 'foo'
-    assert_raise(Envy::Error.new "swap: no such var 'foo'") do
+    assert_raise(Envo::Error.new "swap: no such var 'foo'") do
       cmd.execute(ctx)
     end
 
@@ -74,7 +74,7 @@ class TestCmdSwap < Test::Unit::TestCase
     ctx.reset
     cmd.name_a = 'str34'
     cmd.name_b = 'foo'
-    assert_raise(Envy::Error.new "swap: no such var 'foo'") do
+    assert_raise(Envo::Error.new "swap: no such var 'foo'") do
       cmd.execute(ctx)
     end
   end

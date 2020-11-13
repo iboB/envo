@@ -1,8 +1,8 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestScriptParser < Test::Unit::TestCase
   def test_basic
@@ -35,16 +35,16 @@ class TestScriptParser < Test::Unit::TestCase
     assert_equal res.cmds[1].cmd, 567
     assert_equal res.cmds[1].opts, {bar: true}
 
-    assert_raise(Envy::Error.new '1: missing command') do
+    assert_raise(Envo::Error.new '1: missing command') do
       parser.parse(['{foo,bar}'])
     end
-    assert_raise(Envy::Error.new '1: missing command') do
+    assert_raise(Envo::Error.new '1: missing command') do
       parser.parse(['{foo,bar}   '])
     end
-    assert_raise(Envy::Error.new '1: unknown command \'xxx\'') do
+    assert_raise(Envo::Error.new '1: unknown command \'xxx\'') do
       parser.parse(['{foo,bar}  xxx '])
     end
-    assert_raise(Envy::Error.new '1: malformed options pack') do
+    assert_raise(Envo::Error.new '1: malformed options pack') do
       parser.parse(['{foo,bar  xxx '])
     end
   end

@@ -1,7 +1,7 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestPathVal < Test::Unit::TestCase
   class MockHost

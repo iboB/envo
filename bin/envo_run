@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+if ARGV.size == 1 && ARGV[0] == 'g'
+  require_relative 'envo_gen_tmp_helper'
+end
+
+argv = ARGV.dup
+
+if argv.size < 2 || argv.shift != 'pld'
+  STDERR.puts <<~ERR
+    envo_run needs to be called from envo
+    if you don't have the command 'envo', run 'envo-install'
+  ERR
+  exit 1
+end
+
+payload_path = argv.shift
+payload = File.open(payload_path, 'w')
+
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__) # For use/testing when no gem is installed
+require "envo"
+
+begin
+  host = Envo::Host.new(Envo::HostShell)
+  r = Envo::Cli::Runner.new(host, payload)
+  exit r.run(argv)
+rescue Envo::Error => e
+  STDERR.puts e.message
+  exit 1
+end

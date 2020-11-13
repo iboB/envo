@@ -1,3 +1,3 @@
-# Envy Commands
+# Envo Commands
 
 *tbd*

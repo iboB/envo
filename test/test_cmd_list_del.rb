@@ -1,9 +1,9 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdListDel < Test::Unit::TestCase
   def test_cli_parse
@@ -13,11 +13,11 @@ class TestCmdListDel < Test::Unit::TestCase
     assert_equal parsed.cmd.name, 'foo'
     assert_equal parsed.cmd.value, 'bar'
 
-    assert_raise(Envy::Error.new "list-del: missing name. Use 'ld <name> <val|index>'") do
+    assert_raise(Envo::Error.new "list-del: missing name. Use 'ld <name> <val|index>'") do
       CmdListDel.parse_cli_all ['--x']
     end
 
-    assert_raise(Envy::Error.new "list-del: provide one value or index to delete. Use 'list <name> del <val|index>'") do
+    assert_raise(Envo::Error.new "list-del: provide one value or index to delete. Use 'list <name> del <val|index>'") do
       CmdListDel.parse_cli_all ['foo', '--a', '--b']
     end
   end
@@ -43,7 +43,7 @@ class TestCmdListDel < Test::Unit::TestCase
 
     ctx.reset
     cmd.name = 'foo'
-    assert_raise(Envy::Error.new "list-del: deleting an item from a non-exiting value") do
+    assert_raise(Envo::Error.new "list-del: deleting an item from a non-exiting value") do
       cmd.execute(ctx)
     end
 
@@ -55,14 +55,14 @@ class TestCmdListDel < Test::Unit::TestCase
     ctx.reset
     cmd.name = 'str5'
     ctx.answers = [false]
-    assert_raise(Envy::Error.new "list-del: deleting an item from a non-list") do
+    assert_raise(Envo::Error.new "list-del: deleting an item from a non-list") do
       cmd.execute(ctx)
     end
     assert_equal ctx.questions, ["str5 is not a list, but a string. Convert?"]
 
     ctx.reset
     ctx.answers = [true]
-    assert_raise(Envy::Error.new "list-del: no item 'val' in str5") do
+    assert_raise(Envo::Error.new "list-del: no item 'val' in str5") do
       cmd.execute(ctx)
     end
 
@@ -82,7 +82,7 @@ class TestCmdListDel < Test::Unit::TestCase
 
     ctx.reset
     cmd.value = StringVal.new('10')
-    assert_raise(Envy::Error.new "list-del: no index 10 in list44") do
+    assert_raise(Envo::Error.new "list-del: no index 10 in list44") do
       cmd.execute(ctx)
     end
   end

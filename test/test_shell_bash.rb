@@ -1,8 +1,8 @@
-require_relative '../lib/envy/shell/bash'
+require_relative '../lib/envo/shell/bash'
 require 'test/unit'
 
 class TestPlatformUnixLike < Test::Unit::TestCase
-  S = Envy::Shell::Bash
+  S = Envo::Shell::Bash
 
   def test_lists
     assert_equal S.ar_to_list(['x', 'y', 'z']), 'x:y:z'

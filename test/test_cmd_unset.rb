@@ -1,9 +1,9 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdUnset < Test::Unit::TestCase
   def test_cli_parse
@@ -12,11 +12,11 @@ class TestCmdUnset < Test::Unit::TestCase
     assert_instance_of CmdUnset, parsed.cmd
     assert_equal parsed.cmd.names, ['foo', 'bar']
 
-    assert_raise(Envy::Error.new 'unset: no names provided') do
+    assert_raise(Envo::Error.new 'unset: no names provided') do
       CmdUnset.parse_cli []
     end
 
-    assert_raise(Envy::Error.new 'unset: no names provided') do
+    assert_raise(Envo::Error.new 'unset: no names provided') do
       CmdUnset.parse_cli ['--a', '-b']
     end
   end
@@ -53,7 +53,7 @@ class TestCmdUnset < Test::Unit::TestCase
     assert_equal ctx.unsets, ['str']
 
     ctx.reset
-    assert_raise(Envy::Error.new "unset: no such var 'foo'") do
+    assert_raise(Envo::Error.new "unset: no such var 'foo'") do
       cmd.execute(ctx)
     end
   end

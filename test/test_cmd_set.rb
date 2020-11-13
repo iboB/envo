@@ -1,9 +1,9 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdSet < Test::Unit::TestCase
   def test_cli_parse
@@ -41,23 +41,23 @@ class TestCmdSet < Test::Unit::TestCase
     assert_instance_of CmdUnset, parsed.cmd
     assert_equal parsed.cmd.names, ['foo']
 
-    assert_raise(Envy::Error.new "set: missing '='. Use 'set <name> = <val>'") do
+    assert_raise(Envo::Error.new "set: missing '='. Use 'set <name> = <val>'") do
       CmdSet.parse_cli []
     end
 
-    assert_raise(Envy::Error.new "set: missing '='. Use 'set <name> = <val>'") do
+    assert_raise(Envo::Error.new "set: missing '='. Use 'set <name> = <val>'") do
       CmdSet.parse_cli ['a', 'b', 'c', '--foo']
     end
 
-    assert_raise(Envy::Error.new "set: bad name ''. Use 'set <name> = <val>'") do
+    assert_raise(Envo::Error.new "set: bad name ''. Use 'set <name> = <val>'") do
       CmdSet.parse_cli ['=']
     end
 
-    assert_raise(Envy::Error.new "set: bad name ''. Use 'set <name> = <val>'") do
+    assert_raise(Envo::Error.new "set: bad name ''. Use 'set <name> = <val>'") do
       CmdSet.parse_cli ['=b']
     end
 
-    assert_raise(Envy::Error.new "set: bad name 'a b'. Use 'set <name> = <val>'") do
+    assert_raise(Envo::Error.new "set: bad name 'a b'. Use 'set <name> = <val>'") do
       CmdSet.parse_cli ['a', 'b', '=']
     end
   end
@@ -112,7 +112,7 @@ class TestCmdSet < Test::Unit::TestCase
 
     ctx.reset
     ctx.answers = [false]
-    assert_raise(Envy::Error.new 'set: assignment of string to list') do
+    assert_raise(Envo::Error.new 'set: assignment of string to list') do
       cmd.execute(ctx)
     end
 
@@ -127,7 +127,7 @@ class TestCmdSet < Test::Unit::TestCase
 
     ctx.reset
     ctx.answers = [false]
-    assert_raise(Envy::Error.new 'set: assignment of non-existing path to path32') do
+    assert_raise(Envo::Error.new 'set: assignment of non-existing path to path32') do
       cmd.execute(ctx)
     end
   end

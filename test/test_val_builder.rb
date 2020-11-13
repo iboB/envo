@@ -1,7 +1,7 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestValBuilder < Test::Unit::TestCase
   module W
@@ -10,7 +10,7 @@ class TestValBuilder < Test::Unit::TestCase
       Shell::WinCmd
     end
     def pwd
-      'C:\programs\envy'
+      'C:\programs\envo'
     end
   end
 
@@ -20,7 +20,7 @@ class TestValBuilder < Test::Unit::TestCase
       Shell::Bash
     end
     def pwd
-      '/home/alice/envy'
+      '/home/alice/envo'
     end
   end
 
@@ -114,7 +114,7 @@ class TestValBuilder < Test::Unit::TestCase
   def test_user_path_list_b
     plv = ValBuilder.from_user_text(['/usr/lib/foo', './xx'], B)
     assert_instance_of PathListVal, plv
-    assert_equal plv.ar, ['/usr/lib/foo', '/home/alice/envy/xx']
+    assert_equal plv.ar, ['/usr/lib/foo', '/home/alice/envo/xx']
   end
 
   def test_user_path_list_w

@@ -1,7 +1,7 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestNoVal < Test::Unit::TestCase
   def test_casts

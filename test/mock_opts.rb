@@ -6,7 +6,7 @@ module MockOpts
     when '--bar', '-b' then return {bar: true}
     when '--baz', '-z' then return {baz: true}
     when '--raw' then return {raw: true}
-    else raise Envy::Error.new opt
+    else raise Envo::Error.new opt
     end
   end
   def parse_script(opt)
@@ -15,7 +15,7 @@ module MockOpts
     when 'bar' then return {bar: true}
     when 'baz' then return {baz: true}
     when 'raw' then return {raw: true}
-    else raise Envy::Error.new opt
+    else raise Envo::Error.new opt
     end
   end
 end

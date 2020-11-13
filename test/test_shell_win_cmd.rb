@@ -1,8 +1,8 @@
-require_relative '../lib/envy/shell/win_cmd'
+require_relative '../lib/envo/shell/win_cmd'
 require 'test/unit'
 
 class TestPlatformWinCmd < Test::Unit::TestCase
-  S = Envy::Shell::WinCmd
+  S = Envo::Shell::WinCmd
 
   def test_lists
     assert_equal S.ar_to_list([1, 2, 3]), '1;2;3'

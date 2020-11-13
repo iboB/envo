@@ -1,6 +1,6 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 
-include Envy
+include Envo
 
 @host = Host.new(HostShell)
 @logger = Logger.new
@@ -20,7 +20,7 @@ module Opts
     when '--no-force', '-nf' then return {interact: :noforce}
     when '--interactive' then return {interact: :interact}
     when '--raw', '-r' then return {raw: true}
-    else raise Envy::Error.new "unknown command line option: #{opt}"
+    else raise Envo::Error.new "unknown command line option: #{opt}"
     end
   end
   Defaults = {

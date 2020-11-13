@@ -1,8 +1,8 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCliParser < Test::Unit::TestCase
   def test_utils
@@ -53,15 +53,15 @@ class TestCliParser < Test::Unit::TestCase
     assert_equal res.cmds[0].cmd, 567
     assert_equal res.cmds[0].opts, {bar: true}
 
-    assert_raise(Envy::Error.new '--opt1') do
+    assert_raise(Envo::Error.new '--opt1') do
       parser.parse(['--opt1', '-opt2'])
     end
 
-    assert_raise(Envy::Error.new 'missing command') do
+    assert_raise(Envo::Error.new 'missing command') do
       parser.parse(['--foo', '-b'])
     end
 
-    assert_raise(Envy::Error.new "unknown command 'baz'") do
+    assert_raise(Envo::Error.new "unknown command 'baz'") do
       parser.parse(['-f', 'baz', '-z'])
     end
   end

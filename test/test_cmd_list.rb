@@ -1,8 +1,8 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdList < Test::Unit::TestCase
   def test_cli_parse
@@ -25,11 +25,11 @@ class TestCmdList < Test::Unit::TestCase
     assert_equal parsed.cmd.name, 'foo'
     assert_equal parsed.cmd.value, 'bar'
 
-    assert_raise(Envy::Error.new "list: missing name. Use 'list <name> <cmd> <args>'") do
+    assert_raise(Envo::Error.new "list: missing name. Use 'list <name> <cmd> <args>'") do
       CmdList.parse_cli ['--x']
     end
 
-    assert_raise(Envy::Error.new "list: unkonwn subcommand zzz") do
+    assert_raise(Envo::Error.new "list: unkonwn subcommand zzz") do
       CmdList.parse_cli ['foo', 'zzz', '--a', '--b']
     end
   end

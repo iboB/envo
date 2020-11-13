@@ -1,9 +1,9 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdClean < Test::Unit::TestCase
   def test_cli_parse
@@ -12,11 +12,11 @@ class TestCmdClean < Test::Unit::TestCase
     assert_instance_of CmdClean, parsed.cmd
     assert_equal parsed.cmd.names, ['foo', 'bar']
 
-    assert_raise(Envy::Error.new 'clean: no names provided') do
+    assert_raise(Envo::Error.new 'clean: no names provided') do
       CmdClean.parse_cli []
     end
 
-    assert_raise(Envy::Error.new 'clean: no names provided') do
+    assert_raise(Envo::Error.new 'clean: no names provided') do
       CmdClean.parse_cli ['--a', '-b']
     end
   end

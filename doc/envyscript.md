@@ -1,3 +1,0 @@
-# Envy Script
-
-*tbd*

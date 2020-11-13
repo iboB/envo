@@ -1,10 +1,10 @@
-# Envy Roadmap
+# Envo Roadmap
 
 These are some ideas for features that can be added to the project
 
 ## General
 
-* Suport bash on Windows. The problem here is that bash on Windows does basically the same as envy. It prints BASH-style paths and lists, but launches apps with Windows-CMD-style ones.
+* Suport bash on Windows. The problem here is that bash on Windows does basically the same as envo. It prints BASH-style paths and lists, but launches apps with Windows-CMD-style ones.
 * `list shift` command. `list <name> shift <val|index>`
     * `--up` - move up. Always ignore if already first
     * `--down` - move down. Always ignore if already last
@@ -13,12 +13,12 @@ These are some ideas for features that can be added to the project
     * `+<i>` - move down by i positions
     * `-<i>` - move up by i positions
 * clean-specific args (`--only[-dedup][-nexist]` - only does these things)
-* auto-detect extensions for custom types. Search for ruby code in designated places and extend envy with custom user commands and value-types
+* auto-detect extensions for custom types. Search for ruby code in designated places and extend envo with custom user commands and value-types
 
 ## CLI
 
 * colors and general terminal niceness
-* `envy-install relative`. Assuming there's a sourced alias for envy, we can change the envy scope just for the current session. Would probably be useful when running with bundler
+* `envo-install relative`. Assuming there's a sourced alias for envo, we can change the envo scope just for the current session. Would probably be useful when running with bundler
 
 
 ## Scripts

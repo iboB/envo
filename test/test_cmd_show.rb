@@ -1,9 +1,9 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdShow < Test::Unit::TestCase
   def test_cli_parse
@@ -19,11 +19,11 @@ class TestCmdShow < Test::Unit::TestCase
     assert_equal parsed.cmd.names, ['foo', 'bar']
     assert parsed.cmd.show_names
 
-    assert_raise(Envy::Error.new 'show: no names provided') do
+    assert_raise(Envo::Error.new 'show: no names provided') do
       CmdShow.parse_cli []
     end
 
-    assert_raise(Envy::Error.new 'show: no names provided') do
+    assert_raise(Envo::Error.new 'show: no names provided') do
       CmdShow.parse_cli ['--a', '-b']
     end
   end

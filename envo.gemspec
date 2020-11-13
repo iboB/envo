@@ -1,0 +1,22 @@
+require_relative "lib/envo/version"
+
+Gem::Specification.new do |s|
+  s.name = 'envo'
+  s.version = Envo::VERSION
+  s.date = '2020-11-14'
+  s.license = 'MIT'
+  s.authors = ['Borislav Stanimirov']
+  s.email = 'b.stanimirov@abv.bg'
+  s.homepage = 'https://github.com/iboB/envo'
+  s.summary = "An CLI environment variable manager"
+  s.description = "View, set, unset and manage environment variables (strings, lists, paths) on all platforms."
+
+  s.files = Dir['lib/**/*'] + Dir['bin/*']
+  s.executables = ['envo-install', 'envo_run']
+
+  s.post_install_message = <<~MSG
+    Thanks for installing envo!
+    For this tool to work, you must also run the installation program: 'envo-install'.
+    Running it will complete the setup and 'envo' should be available as a command.
+  MSG
+end

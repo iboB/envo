@@ -1,9 +1,9 @@
-require_relative '../lib/envy'
+require_relative '../lib/envo'
 require_relative 'mock_opts'
 require_relative 'mock_ctx'
 require 'test/unit'
 
-include Envy
+include Envo
 
 class TestCmdReset < Test::Unit::TestCase
   def test_cli_parse
@@ -37,10 +37,10 @@ class TestCmdReset < Test::Unit::TestCase
     assert_equal parsed.cmd.name, 'foo'
     assert_nil parsed.cmd.helper
 
-    assert_raise(Envy::Error.new "reset: missing name. Use 'reset <name> [= [<val>]]'") do
+    assert_raise(Envo::Error.new "reset: missing name. Use 'reset <name> [= [<val>]]'") do
       CmdReset.parse_cli []
     end
-    assert_raise(Envy::Error.new "reset: missing name. Use 'reset <name> [= [<val>]]'") do
+    assert_raise(Envo::Error.new "reset: missing name. Use 'reset <name> [= [<val>]]'") do
       CmdReset.parse_cli ['=zz']
     end
   end
@@ -79,13 +79,13 @@ class TestCmdReset < Test::Unit::TestCase
 
     ctx.reset
     cmd.name = 'foo'
-    assert_raise(Envy::Error.new "reset: no such var 'foo'") do
+    assert_raise(Envo::Error.new "reset: no such var 'foo'") do
       cmd.execute(ctx)
     end
 
     ctx.reset
     cmd.helper = CmdSet.new(nil, StringVal.new('bar'))
-    assert_raise(Envy::Error.new "reset: no such var 'foo'") do
+    assert_raise(Envo::Error.new "reset: no such var 'foo'") do
       cmd.execute(ctx)
     end
 
