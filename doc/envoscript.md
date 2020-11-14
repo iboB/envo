@@ -1,6 +1,6 @@
 # Envo Script
 
-Envoscript allows the batching of several envy commands at once. The main difference between envoscript and the CLI syntax is options. In the CLI options are added with `--option`. In envoscript options are added at the beginning of the line in brackets (`{}`).
+Envoscript allows the batching of several envo commands at once. The main difference between envoscript and the CLI syntax is options. In the CLI options are added with `--option`. In envoscript options are added at the beginning of the line in brackets (`{}`).
 
 * `Comments` are lines which start with the hash `#` symbol. Comments which are not an entire line of code are not supported.
 * `Empty lines` are ignored

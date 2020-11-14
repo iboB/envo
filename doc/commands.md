@@ -62,5 +62,5 @@ This command will run a **envoscript** script. Check out the [envoscript referen
 
 If `<script>` is a relative path or an absolute path (say `./subdir/somefile` or `D:\myscript.txt`), the command will try to load the exact filename (appending a relative path to the current working directory). If the file doesn't exist, an error will be produced.
 
-If `<script>` is name, say `myscript`, the command will look for a file called `myscript.envoscript` in a subdirectory `.envy/` in the current working directory and, if it's not there, in each parent directory of the current one up to the root. If the file still isn't found, it will try `.envy/myscript.envocript` in the home directory. If the file is not in any of these places, an error will be produced.
+If `<script>` is name, say `myscript`, the command will look for a file called `myscript.envoscript` in a subdirectory `.envo/` in the current working directory and, if it's not there, in each parent directory of the current one up to the root. If the file still isn't found, it will try `.envo/myscript.envocript` in the home directory. If the file is not in any of these places, an error will be produced.
 
