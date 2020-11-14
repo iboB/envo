@@ -12,6 +12,7 @@ module Envo
         remove a value from a list
         if the provided value is an integer, it's interpreted as an index in the list
       EOF
+      help.add_cmd "list <name> clean", "the same as 'clean <name>' (convenience command)"
     end
 
     def self.register_cli_parser(parser)
@@ -27,6 +28,11 @@ module Envo
       cmd = args.shift
       return CmdListAdd.parse_cli_args(name, args, opts) if cmd == 'add'
       return CmdListDel.parse_cli_args(name, args, opts) if cmd == 'del'
+      if cmd == 'clean'
+        opts += CliParser.filter_opts_back(args)
+        raise Envo::Error.new "list-clean: no args needed. Use 'list <name> clean'" if !args.empty?
+        return CmdClean.parse_tokens([name], opts)
+      end
 
       raise Envo::Error.new "list: unkonwn subcommand #{cmd}"
     end
@@ -43,6 +49,7 @@ module Envo
       cmd = tokens.shift
       return CmdListAdd.parse_script(name, tokens, opts) if cmd == 'add'
       return CmdListDel.parse_tokens(name, tokens, opts) if cmd == 'del'
+      return CmdClean.parse_tokens([name], opts) if cmd == 'clean'
 
       raise Envo::Error.new "list: unkonwn subcommand #{cmd}"
     end

@@ -31,7 +31,7 @@ module Envo
       @names = names
     end
 
-    attr_reader :names, :show_names
+    attr_reader :names
 
     def execute(ctx)
       @names.each do |name|

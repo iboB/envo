@@ -25,12 +25,21 @@ class TestCmdList < Test::Unit::TestCase
     assert_equal parsed.cmd.name, 'foo'
     assert_equal parsed.cmd.value, 'bar'
 
+    parsed = CmdList.parse_cli ['--x', 'foo', 'clean', '--y']
+    assert_equal parsed.opts, ['--x', '--y']
+    assert_instance_of CmdClean, parsed.cmd
+    assert_equal parsed.cmd.names, ['foo']
+
     assert_raise(Envo::Error.new "list: missing name. Use 'list <name> <cmd> <args>'") do
       CmdList.parse_cli ['--x']
     end
 
     assert_raise(Envo::Error.new "list: unkonwn subcommand zzz") do
       CmdList.parse_cli ['foo', 'zzz', '--a', '--b']
+    end
+
+    assert_raise(Envo::Error.new "list-clean: no args needed. Use 'list <name> clean'") do
+      CmdList.parse_cli ['foo', 'clean', 'x', '--a', '--b']
     end
   end
 
@@ -52,10 +61,11 @@ class TestCmdList < Test::Unit::TestCase
     CmdList.register_script_parser(parser)
     parsed = parser.parse [
       '{bar,top} list name add v1 "v2 2"',
-      'list name2 del 2'
+      'list name2 del 2',
+      'list name3 clean',
     ]
     assert_empty parsed.opts
-    assert_equal parsed.cmds.size, 2
+    assert_equal parsed.cmds.size, 3
     assert_instance_of CmdListAdd, parsed.cmds[0].cmd
     assert_equal parsed.cmds[0].cmd.name, 'name'
     assert_equal parsed.cmds[0].cmd.values, ['v1', 'v2 2']
@@ -65,5 +75,8 @@ class TestCmdList < Test::Unit::TestCase
     assert_equal parsed.cmds[1].cmd.name, 'name2'
     assert_equal parsed.cmds[1].cmd.value, '2'
     assert_equal parsed.cmds[1].opts, {}
+    assert_instance_of CmdClean, parsed.cmds[2].cmd
+    assert_equal parsed.cmds[2].cmd.names, ['name3']
+    assert_equal parsed.cmds[2].opts, {}
   end
 end
