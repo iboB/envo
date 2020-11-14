@@ -1,5 +1,7 @@
 # Envo
 
+[![Gem Version](https://badge.fury.io/rb/envo.svg)](https://badge.fury.io/rb/envo)
+
 A command-line environment variable manager for the current shell session. It works with bash and Windows cmd.
 
 Envo offers several commands to view and change environment variables and also to execute simple scripts composed of those commands, thus allowing the same script for a particular env-var configuration on all supported platforms.
