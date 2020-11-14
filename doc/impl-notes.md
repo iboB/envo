@@ -16,6 +16,14 @@ The way the batch file and the bash alias work is the following:
 
 I did consider an alternative approach which would've been a bit faster: output shell-script directly from envo and eval the output from the batch/bash caller. This means that even the text meant for the user would pass through the caller script: printing with `echo`, interacting with `set /p` or `read -p`, and so on. This would only require a single call to `envo_run`, but would have been a real hassle to implement. Especially for batch files. So, I decided against it.
 
-## Code
-
 *more to come*
+
+## Parsers
+
+## Commands
+
+## Context
+
+## Scripts
+
+
