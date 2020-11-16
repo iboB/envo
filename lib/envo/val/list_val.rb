@@ -67,13 +67,10 @@ module Envo
       end
     end
 
-    def pp_attribs(elem)
-      @ar.count(elem) > 1 ? 'D' : ' '
-    end
     def pretty_print(ctx)
       ctx.puts "["
       @ar.each_with_index do |v, i|
-        str = pp_attribs(v) + ' '
+        str = @ar.count(elem) > 1 ? 'D ' : '  '
         str += "#{i}:".ljust(4)
         str += v
         ctx.puts str
