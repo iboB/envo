@@ -14,15 +14,19 @@ module Envo
       item.type == :path
     end
 
-    def pretty_print(ctx)
-      dd = @ar.map { |p|
+    def make_helper_map
+      @ar.map { |p|
         id = @host.path_id(p)
         { str: p, id: id }
       }
+    end
+
+    def pretty_print(ctx)
+      helper = make_helper_map
 
       ctx.puts "["
-      dd.each_with_index do |v, i|
-        dupes = dd.count { |e|
+      helper.each_with_index do |v, i|
+        dupes = helper.count { |e|
           if e[:str] == v[:str] then true
           elsif e[:id] == -1 then false
           else e[:id] == v[:id]
@@ -39,8 +43,10 @@ module Envo
     end
 
     def clean!
-      super
-      @ar.select! { |s| @host.path_exists?(s) }
+      helper = make_helper_map
+      helper.select! { |e| e[:id] != -1 }
+      helper.uniq! { |e| e[:id] }
+      @ar = helper.map { |e| e[:str] }
     end
   end
 end
