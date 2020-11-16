@@ -4,6 +4,10 @@ These are some ideas for features that can be added to the project
 
 ## General
 
+* Some ideas about case-sensitivity
+    * For lists mark entries whose only difference is case
+    * Find env vars which differ only in case
+    * Allow case-insensitive searches
 * Suport bash on Windows. The problem here is that bash on Windows does basically the same as envo. It prints BASH-style paths and lists, but launches apps with Windows-CMD-style ones.
 * `list shift` command. `list <name> shift <val|index>`
     * `--up` - move up. Always ignore if already first
