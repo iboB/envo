@@ -70,7 +70,7 @@ module Envo
     def pretty_print(ctx)
       ctx.puts "["
       @ar.each_with_index do |v, i|
-        str = @ar.count(elem) > 1 ? 'D ' : '  '
+        str = @ar.count(v) > 1 ? 'D ' : '  '
         str += "#{i}:".ljust(4)
         str += v
         ctx.puts str

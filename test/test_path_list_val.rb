@@ -8,6 +8,9 @@ class TestPathListVal < Test::Unit::TestCase
     def self.path_exists?(path)
       path == '/foo/bar'
     end
+    def self.path_id(path)
+      path_exists?(path) ? path.hash : -1
+    end
   end
 
   def test_casts
