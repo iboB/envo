@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ['Borislav Stanimirov']
   s.email = 'b.stanimirov@abv.bg'
   s.homepage = 'https://github.com/iboB/envo'
-  s.summary = "An CLI environment variable manager"
+  s.summary = "A CLI environment variable manager"
   s.description = <<~DESC
     A CLI environment variable manager.
     View, set, unset and manage environment variables (strings, lists, paths) on bash and on cmd.
