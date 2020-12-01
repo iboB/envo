@@ -6,6 +6,6 @@
 :: so... just choose the a very unlikely duplicate var name
 for /f "delims=" %%A in ('envo_run g') do set _ENVO_PLD=%%A
 
-envo_run pld "%_ENVO_PLD%" %*
+call envo_run pld "%_ENVO_PLD%" %*
 call "%_ENVO_PLD%"
 del "%_ENVO_PLD%"
