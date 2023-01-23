@@ -13,7 +13,6 @@ fname = "envo-" + Time.now.to_i.to_s(16) + '-' + rand(1_000_000).to_s(16) + ".ba
 # find the os, and use OS-specific ways, but we're trying to be fast here
 
 def temp_dirs(&block)
-  yield 'C:/windows/system32'
   yield '/tmp' # most unixes
   yield ENV['TMP'] # good guess for windows
   yield '/var/tmp'
