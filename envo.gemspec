@@ -3,7 +3,7 @@ require_relative "lib/envo/version"
 Gem::Specification.new do |s|
   s.name = 'envo'
   s.version = Envo::VERSION
-  s.date = '2020-11-14'
+  s.date = '2023-01-24'
   s.license = 'MIT'
   s.authors = ['Borislav Stanimirov']
   s.email = 'b.stanimirov@abv.bg'

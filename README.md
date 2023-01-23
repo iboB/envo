@@ -65,4 +65,4 @@ Please take a look at [the implementation notes](doc/impl-notes.md) and [the roa
 
 This software is distributed under the MIT Software License. See accompanying LICENSE file or copy [here](https://opensource.org/licenses/MIT).
 
-Copyright &copy; 2020 [Borislav Stanimirov](http://github.com/iboB)
+Copyright &copy; 2020-2023 [Borislav Stanimirov](http://github.com/iboB)

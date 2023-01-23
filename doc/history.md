@@ -1,3 +1,9 @@
+## 0.1.2 alpha
+
+Released: 2023 Jan 24
+
+* Removed a joke entry in the temp directory search which was needlessly slowing things down (and also was making envo look like malware to some overly aggressive anti-malware checkers)
+
 ## 0.1.1 alpha
 
 Released: 2020 Nov 14
